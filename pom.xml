@@ -20,7 +20,7 @@ limitations under the License.
     <parent>
         <groupId>org.apache.nifi</groupId>
         <artifactId>nifi-nar-bundles</artifactId>
-        <version>0.3.1-SNAPSHOT</version>
+        <version>0.3.0</version>
     </parent>
     
     <groupId>org.socraticgrid.hl7</groupId>
@@ -42,7 +42,7 @@ limitations under the License.
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <ucs.version>0.1.0-SNAPSHOT</ucs.version>
-        <nifi.version>0.3.1-SNAPSHOT</nifi.version>
+        <nifi.version>0.3.0</nifi.version>
         <smack.version>3.1.0</smack.version>
     </properties>
 
