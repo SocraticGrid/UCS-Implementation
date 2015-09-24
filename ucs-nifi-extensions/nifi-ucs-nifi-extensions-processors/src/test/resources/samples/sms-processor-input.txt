@@ -1,0 +1,67 @@
+Standard FlowFile Attributes
+Key: 'entryDate'
+	Value: 'Mon Mar 09 14:13:32 CET 2015'
+Key: 'lineageStartDate'
+	Value: 'Mon Mar 09 14:13:32 CET 2015'
+Key: 'fileSize'
+	Value: '1640'
+FlowFile Attribute Map Content
+Key: 'UCSRouteMessageByServiceId.Route'
+	Value: 'SMS'
+Key: 'UCSRouteMessageByServiceId.ServiceId'
+	Value: 'SMS'
+Key: 'filename'
+	Value: '23249074618856'
+Key: 'path'
+	Value: './'
+Key: 'restlistener.remote.user.dn'
+	Value: 'none'
+Key: 'sms.phone'
+	Value: '491623342171'
+Key: 'sms.text'
+	Value: 'This is the content of the test message'
+Key: 'ucs.valid'
+	Value: 'true'
+Key: 'uuid'
+	Value: '4a39e18b-97ec-4e02-88ce-8ac2fb2430a5'
+--------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<messageWrapper xmlns:exceptions="http://org.socraticgrid.hl7.services.uc.exceptions" xmlns:model="http://org.socraticgrid.hl7.services.uc.model">
+   <message xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="model:simpleMessage">
+      <model:parts>
+         <model:content>This is the content of the test message</model:content>
+         <model:type>text/plain</model:type>
+      </model:parts>
+      <model:simpleMessageHeader>
+         <model:messageId>ff26b0af-0b7d-47ee-89f9-06ed13cf7fee</model:messageId>
+         <model:sender>
+            <model:physicaladdress>
+               <model:address>eafry</model:address>
+               <model:serviceId>SMS</model:serviceId>
+            </model:physicaladdress>
+         </model:sender>
+         <model:recipientsList>
+            <model:recipientId>370d86cc-231d-466b-9a00-27583e489467</model:recipientId>
+            <model:deliveryAddress>
+               <model:physicaladdress>
+                  <model:address>491623342171</model:address>
+                  <model:serviceId>SMS</model:serviceId>
+               </model:physicaladdress>
+            </model:deliveryAddress>
+            <model:deliveryReceipt>false</model:deliveryReceipt>
+            <model:readReceipt>false</model:readReceipt>
+            <model:role />
+            <model:visibility>Public</model:visibility>
+         </model:recipientsList>
+         <model:subject>Test Message</model:subject>
+         <model:created>2015-02-26T14:54:19.740+01:00</model:created>
+         <model:lastModified>2015-02-26T14:54:19.739+01:00</model:lastModified>
+         <model:deliveryGuarantee>BestEffort</model:deliveryGuarantee>
+         <model:dynamics>Asynchronous</model:dynamics>
+         <model:priority>0</model:priority>
+         <model:receiptNotification>false</model:receiptNotification>
+         <model:retainFullyInLog>false</model:retainFullyInLog>
+         <model:timeout>30000</model:timeout>
+      </model:simpleMessageHeader>
+   </message>
+</messageWrapper>

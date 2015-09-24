@@ -1,0 +1,1359 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+Copyright 2015 Cognitive Medical Systems, Inc (http://www.cognitivemedciine.com).
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<template>
+    <description>Send Chat messages to Permanent Groups </description>
+    <name>UCS v11</name>
+    <snippet>
+        <connections>
+            <id>1953c9c7-c674-43d2-961e-bd6e4a39f3d5</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>4985e513-36e3-494d-9197-0cb1b9e0a281</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>SMS</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>2e8d33ca-3dbd-3b41-a404-3c8f692b36df</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>1ff139a5-d423-47cd-9b95-a782737d0d1e</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>d8b1eb9f-9b3d-3f14-9b0a-2f2d85f119a0</id>
+                <type>FUNNEL</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>failure</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>3c57516d-294b-413f-a746-bc352a77f38a</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>cc273933-2c50-314d-90e5-00a67e323165</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>ca874aba-f1fd-3398-b040-06159c341283</id>
+                <type>OUTPUT_PORT</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>c3014337-f3c0-3ffa-a6ec-f7dd627986b1</id>
+                <type>FUNNEL</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>3578641f-033e-49da-b5f5-3887737fa294</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>d5dce45a-f399-3254-8fac-5c58a2a12ef9</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>failure</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>4985e513-36e3-494d-9197-0cb1b9e0a281</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>16077c9f-d0cb-4f04-8944-564dc2b45d12</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>868dae14-003b-3c53-847f-a26b8f872b54</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>direct message</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>27151405-0b6f-4844-bfe1-15e073db63e8</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>3bc2d3d7-c5ac-4195-aabd-e02476010916</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>5402a3d0-9166-4011-b62d-897fcc475893</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>permanent group</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>27151405-0b6f-4844-bfe1-15e073db63e8</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>878ead12-78e8-3940-add4-3db5e941f371</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>2e8d33ca-3dbd-3b41-a404-3c8f692b36df</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>4db710e4-8523-3ac5-a2fd-d0983f331f1e</id>
+                <type>INPUT_PORT</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>07e102c3-e6d4-3925-b4bc-1b58a8fa440a</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>cb665e2f-d236-3147-b2fa-61d9bba9bc62</id>
+                <type>OUTPUT_PORT</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>4f66a0f8-2b8f-3e85-b8e9-62abf2ca0bf0</id>
+                <type>FUNNEL</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>9e65a107-3599-48e6-b702-938b896cc4f5</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>f8643342-860e-472b-82a1-bf625482ccaa</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>success</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>4985e513-36e3-494d-9197-0cb1b9e0a281</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>0f524781-9fdd-47cf-b46f-bacefd9dd804</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>d8b1eb9f-9b3d-3f14-9b0a-2f2d85f119a0</id>
+                <type>FUNNEL</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>failure</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>f8643342-860e-472b-82a1-bf625482ccaa</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>35213016-17e4-4b4a-8672-82652f3e2c18</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>c3014337-f3c0-3ffa-a6ec-f7dd627986b1</id>
+                <type>FUNNEL</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>smssend</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>f8643342-860e-472b-82a1-bf625482ccaa</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>96d46133-50a8-4fed-85e9-b628ce1ae8d0</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>f18cf1ab-c99c-3b61-ad42-266838778a99</id>
+                <type>OUTPUT_PORT</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>failure</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>5402a3d0-9166-4011-b62d-897fcc475893</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>19bdc87a-5a6c-4ed1-9970-ec9d91b1487c</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>27151405-0b6f-4844-bfe1-15e073db63e8</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>CHAT</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>2e8d33ca-3dbd-3b41-a404-3c8f692b36df</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>87cf88d5-2020-47ac-b368-e3ec903774aa</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>3c57516d-294b-413f-a746-bc352a77f38a</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>success</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>ce84790e-605c-4b0a-919a-35246d066df0</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>b3904d75-b2c1-3658-8b45-b331c88ee77e</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>f18cf1ab-c99c-3b61-ad42-266838778a99</id>
+                <type>OUTPUT_PORT</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>d8b1eb9f-9b3d-3f14-9b0a-2f2d85f119a0</id>
+                <type>FUNNEL</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>5d97e47f-1459-451e-8a9a-1d22b822b692</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>214ebc91-38d9-3a28-af60-f2df62b3df86</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>dynamic group</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>27151405-0b6f-4844-bfe1-15e073db63e8</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>2f56d3bb-f0b9-44b6-bb5c-f89ca93e2533</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>ca874aba-f1fd-3398-b040-06159c341283</id>
+                <type>OUTPUT_PORT</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>success</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>5402a3d0-9166-4011-b62d-897fcc475893</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>182017ed-7b51-4fd7-a818-79e2d122c2f3</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>f18cf1ab-c99c-3b61-ad42-266838778a99</id>
+                <type>OUTPUT_PORT</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>failure</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>27151405-0b6f-4844-bfe1-15e073db63e8</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>3cf7e0d9-3f4c-3fec-bc7d-a2b12346be94</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>d5dce45a-f399-3254-8fac-5c58a2a12ef9</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>failure</selectedRelationships>
+            <selectedRelationships>original</selectedRelationships>
+            <selectedRelationships>unmatched</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>2e8d33ca-3dbd-3b41-a404-3c8f692b36df</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>d9a3e7f6-ab18-4ac7-8b66-53461cac090e</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>c3014337-f3c0-3ffa-a6ec-f7dd627986b1</id>
+                <type>FUNNEL</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>success</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>3c57516d-294b-413f-a746-bc352a77f38a</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>91ce2819-88f2-4267-875c-1c89c64e2e6e</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>ce84790e-605c-4b0a-919a-35246d066df0</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>TEXT-TO-VOICE</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>2e8d33ca-3dbd-3b41-a404-3c8f692b36df</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <connections>
+            <id>c3411670-ea3b-4f3a-8743-4b5885cc9b8f</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <backPressureDataSizeThreshold>0 MB</backPressureDataSizeThreshold>
+            <backPressureObjectThreshold>0</backPressureObjectThreshold>
+            <destination>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>d5dce45a-f399-3254-8fac-5c58a2a12ef9</id>
+                <type>PROCESSOR</type>
+            </destination>
+            <flowFileExpiration>0 sec</flowFileExpiration>
+            <labelIndex>1</labelIndex>
+            <name></name>
+            <selectedRelationships>failure</selectedRelationships>
+            <source>
+                <groupId>cc09634b-922d-3d61-939a-d5723304a819</groupId>
+                <id>ce84790e-605c-4b0a-919a-35246d066df0</id>
+                <type>PROCESSOR</type>
+            </source>
+            <zIndex>0</zIndex>
+        </connections>
+        <funnels>
+            <id>d8b1eb9f-9b3d-3f14-9b0a-2f2d85f119a0</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1750.0829549440195</x>
+                <y>285.4017940037687</y>
+            </position>
+        </funnels>
+        <funnels>
+            <id>4f66a0f8-2b8f-3e85-b8e9-62abf2ca0bf0</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1751.2223069634235</x>
+                <y>427.7828055368343</y>
+            </position>
+        </funnels>
+        <funnels>
+            <id>c3014337-f3c0-3ffa-a6ec-f7dd627986b1</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1492.4666848350948</x>
+                <y>176.39773667641532</y>
+            </position>
+        </funnels>
+        <inputPorts>
+            <id>4db710e4-8523-3ac5-a2fd-d0983f331f1e</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>-280.0</x>
+                <y>344.0</y>
+            </position>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <name>deliver</name>
+            <state>RUNNING</state>
+            <type>INPUT_PORT</type>
+        </inputPorts>
+        <outputPorts>
+            <id>f18cf1ab-c99c-3b61-ad42-266838778a99</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1992.5382949399275</x>
+                <y>295.5145379724637</y>
+            </position>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <name>failure</name>
+            <state>RUNNING</state>
+            <type>OUTPUT_PORT</type>
+        </outputPorts>
+        <outputPorts>
+            <id>ca874aba-f1fd-3398-b040-06159c341283</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1999.3565482210718</x>
+                <y>188.07692355133497</y>
+            </position>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <name>success</name>
+            <state>RUNNING</state>
+            <type>OUTPUT_PORT</type>
+        </outputPorts>
+        <outputPorts>
+            <id>cb665e2f-d236-3147-b2fa-61d9bba9bc62</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1999.3763564203825</x>
+                <y>435.67367080903387</y>
+            </position>
+            <comments></comments>
+            <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+            <name>timeout</name>
+            <state>RUNNING</state>
+            <type>OUTPUT_PORT</type>
+        </outputPorts>
+        <processors>
+            <id>d5dce45a-f399-3254-8fac-5c58a2a12ef9</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>995.9115295410156</x>
+                <y>320.0376739501953</y>
+            </position>
+            <config>
+                <bulletinLevel>DEBUG</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Log Level</key>
+                        <value>info</value>
+                    </entry>
+                    <entry>
+                        <key>Log Payload</key>
+                        <value>true</value>
+                    </entry>
+                    <entry>
+                        <key>Attributes to Log</key>
+                    </entry>
+                    <entry>
+                        <key>Attributes to Ignore</key>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>LogAttribute</name>
+            <relationships>
+                <autoTerminate>true</autoTerminate>
+                <description>All FlowFiles are routed to this relationship</description>
+                <name>success</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>true</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.apache.nifi.processors.standard.LogAttribute</type>
+        </processors>
+        <processors>
+            <id>27151405-0b6f-4844-bfe1-15e073db63e8</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>582.0425616789998</x>
+                <y>743.0261154623606</y>
+            </position>
+            <config>
+                <bulletinLevel>WARN</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>UCS Controller Service</key>
+                        <value>ucs-controller</value>
+                    </entry>
+                    <entry>
+                        <key>Service Id Name</key>
+                        <value>CHAT</value>
+                    </entry>
+                    <entry>
+                        <key>Sender Attribute Name</key>
+                        <value>chat.sender.username</value>
+                    </entry>
+                    <entry>
+                        <key>Group Attribute Name</key>
+                        <value>chat.group.name</value>
+                    </entry>
+                    <entry>
+                        <key>Participants Attribute Name</key>
+                        <value>chat.group.participants</value>
+                    </entry>
+                    <entry>
+                        <key>Message Attribute Name</key>
+                        <value>chat.message</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>UCSPrepareChat</name>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>direct message</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>dynamic group</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>permanent group</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>true</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.socraticgrid.hl7.ucs.nifi.processor.UCSPrepareChat</type>
+        </processors>
+        <processors>
+            <id>5402a3d0-9166-4011-b62d-897fcc475893</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1221.491708080744</x>
+                <y>721.5921840089584</y>
+            </position>
+            <config>
+                <bulletinLevel>WARN</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Server URL</key>
+                        <value>192.168.1.183</value>
+                    </entry>
+                    <entry>
+                        <key>Username</key>
+                        <value>nifi@socraticgrid.org</value>
+                    </entry>
+                    <entry>
+                        <key>Password</key>
+                        <value>changeme</value>
+                    </entry>
+                    <entry>
+                        <key>Group Name</key>
+                        <value>${chat.group.name}</value>
+                    </entry>
+                    <entry>
+                        <key>Sender</key>
+                        <value>${chat.sender.username}</value>
+                    </entry>
+                    <entry>
+                        <key>Message</key>
+                        <value>${chat.message}</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>SendGroupChatMessage</name>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>Chat message failed to deliver to the group</description>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>The Chat message has benn sent to group </description>
+                <name>success</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>false</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.socraticgrid.hl7.ucs.nifi.processor.SendGroupChatMessage</type>
+        </processors>
+        <processors>
+            <id>4985e513-36e3-494d-9197-0cb1b9e0a281</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>673.3546397607652</x>
+                <y>154.11982067985707</y>
+            </position>
+            <config>
+                <bulletinLevel>DEBUG</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>UCS Controller Service</key>
+                        <value>ucs-controller</value>
+                    </entry>
+                    <entry>
+                        <key>SMS Service Id Name</key>
+                        <value>SMS</value>
+                    </entry>
+                    <entry>
+                        <key>Phone Attribute Name</key>
+                        <value>sms.phone</value>
+                    </entry>
+                    <entry>
+                        <key>Text Attribute Name</key>
+                        <value>sms.text</value>
+                    </entry>
+                    <entry>
+                        <key>Reference Attribute Name</key>
+                        <value>sms.reference</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>UCSPrepareSMS</name>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>success</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>true</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.socraticgrid.hl7.ucs.nifi.processor.UCSPrepareSMS</type>
+        </processors>
+        <processors>
+            <id>868dae14-003b-3c53-847f-a26b8f872b54</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1291.2058410644531</x>
+                <y>1051.1578826904297</y>
+            </position>
+            <config>
+                <bulletinLevel>DEBUG</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Log Level</key>
+                        <value>info</value>
+                    </entry>
+                    <entry>
+                        <key>Log Payload</key>
+                        <value>true</value>
+                    </entry>
+                    <entry>
+                        <key>Attributes to Log</key>
+                    </entry>
+                    <entry>
+                        <key>Attributes to Ignore</key>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>LogAttribute</name>
+            <relationships>
+                <autoTerminate>true</autoTerminate>
+                <description>All FlowFiles are routed to this relationship</description>
+                <name>success</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>true</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.apache.nifi.processors.standard.LogAttribute</type>
+        </processors>
+        <processors>
+            <id>214ebc91-38d9-3a28-af60-f2df62b3df86</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1288.8307189941406</x>
+                <y>897.5535125732422</y>
+            </position>
+            <config>
+                <bulletinLevel>DEBUG</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Log Level</key>
+                        <value>info</value>
+                    </entry>
+                    <entry>
+                        <key>Log Payload</key>
+                        <value>true</value>
+                    </entry>
+                    <entry>
+                        <key>Attributes to Log</key>
+                    </entry>
+                    <entry>
+                        <key>Attributes to Ignore</key>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>LogAttribute</name>
+            <relationships>
+                <autoTerminate>true</autoTerminate>
+                <description>All FlowFiles are routed to this relationship</description>
+                <name>success</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>true</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.apache.nifi.processors.standard.LogAttribute</type>
+        </processors>
+        <processors>
+            <id>3c57516d-294b-413f-a746-bc352a77f38a</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1163.2262844419345</x>
+                <y>475.7591232363027</y>
+            </position>
+            <config>
+                <bulletinLevel>DEBUG</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Voip message text attribute</key>
+                        <value>voice.text</value>
+                    </entry>
+                    <entry>
+                        <key>Voip message number attribute</key>
+                        <value>voice.phone</value>
+                    </entry>
+                    <entry>
+                        <key>Voip message server url value</key>
+                        <value>https://api.tropo.com/1.0/sessions</value>
+                    </entry>
+                    <entry>
+                        <key>Voip server token value</key>
+                        <value>06c722edc8ace142aa61a147ee6d79237c59dfea4da548b6095063640cde76a36b1001c0887ef52f1b7e6464</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>SendVOIPMessage</name>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>If sms can not send due to some reason, the original message will be routed to this destination</description>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>The orginal text message send to recipient phone number.</description>
+                <name>success</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>false</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.socraticgrid.hl7.ucs.nifi.processor.SendVOIPMessage</type>
+        </processors>
+        <processors>
+            <id>2e8d33ca-3dbd-3b41-a404-3c8f692b36df</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>226.0</x>
+                <y>315.0</y>
+            </position>
+            <config>
+                <bulletinLevel>WARN</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>UCS Controller Service</key>
+                        <value>ucs-controller</value>
+                    </entry>
+                    <entry>
+                        <key>CHAT</key>
+                        <value></value>
+                    </entry>
+                    <entry>
+                        <key>SMS</key>
+                        <value></value>
+                    </entry>
+                    <entry>
+                        <key>TEXT-TO-VOICE</key>
+                        <value></value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>UCSRouteMessageByServiceId</name>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>CHAT</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>The original FlowFile will be sent through this relationships.</description>
+                <name>original</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>SMS</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>TEXT-TO-VOICE</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>FlowFiles that do not match any of the user-supplied named relationships</description>
+                <name>unmatched</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>true</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.socraticgrid.hl7.ucs.nifi.processor.UCSRouteMessageByServiceId</type>
+        </processors>
+        <processors>
+            <id>f8643342-860e-472b-82a1-bf625482ccaa</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>1122.5323384602864</x>
+                <y>151.88918085948956</y>
+            </position>
+            <config>
+                <bulletinLevel>DEBUG</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>SMS text attribute</key>
+                        <value>sms.text</value>
+                    </entry>
+                    <entry>
+                        <key>SMS number attribute</key>
+                        <value>sms.phone</value>
+                    </entry>
+                    <entry>
+                        <key>SMS server url value</key>
+                        <value>http://smsgateway.ca/services/message.svc/</value>
+                    </entry>
+                    <entry>
+                        <key>SMS server account key value</key>
+                        <value>XAO706fy87</value>
+                    </entry>
+                    <entry>
+                        <key>SMS message reference attribute</key>
+                        <value>sms.reference</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>SendSMS</name>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>If sms can not send for some reason, the original message will be routed to this destination</description>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description>The orginal text message send to recipient cell phone number.</description>
+                <name>smssend</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>false</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.socraticgrid.hl7.ucs.nifi.processor.SendSMS</type>
+        </processors>
+        <processors>
+            <id>ce84790e-605c-4b0a-919a-35246d066df0</id>
+            <parentGroupId>cc09634b-922d-3d61-939a-d5723304a819</parentGroupId>
+            <position>
+                <x>551.1648775094936</x>
+                <y>492.4301033275748</y>
+            </position>
+            <config>
+                <bulletinLevel>WARN</bulletinLevel>
+                <comments></comments>
+                <concurrentlySchedulableTaskCount>1</concurrentlySchedulableTaskCount>
+                <defaultConcurrentTasks>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                    <entry>
+                        <key>EVENT_DRIVEN</key>
+                        <value>0</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>1</value>
+                    </entry>
+                </defaultConcurrentTasks>
+                <defaultSchedulingPeriod>
+                    <entry>
+                        <key>TIMER_DRIVEN</key>
+                        <value>0 sec</value>
+                    </entry>
+                    <entry>
+                        <key>CRON_DRIVEN</key>
+                        <value>* * * * * ?</value>
+                    </entry>
+                </defaultSchedulingPeriod>
+                <lossTolerant>false</lossTolerant>
+                <penaltyDuration>30 sec</penaltyDuration>
+                <properties>
+                    <entry>
+                        <key>Service Id Name</key>
+                        <value>TEXT-TO-VOICE</value>
+                    </entry>
+                    <entry>
+                        <key>Phone Attribute Name</key>
+                        <value>voice.phone</value>
+                    </entry>
+                    <entry>
+                        <key>Text Attribute Name</key>
+                        <value>voice.text</value>
+                    </entry>
+                </properties>
+                <runDurationMillis>0</runDurationMillis>
+                <schedulingPeriod>0 sec</schedulingPeriod>
+                <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+                <yieldDuration>1 sec</yieldDuration>
+            </config>
+            <name>UCSPrepareTextToVoice</name>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>failure</name>
+            </relationships>
+            <relationships>
+                <autoTerminate>false</autoTerminate>
+                <description></description>
+                <name>success</name>
+            </relationships>
+            <state>RUNNING</state>
+            <style/>
+            <supportsEventDriven>true</supportsEventDriven>
+            <supportsParallelProcessing>true</supportsParallelProcessing>
+            <type>org.socraticgrid.hl7.ucs.nifi.processor.UCSPrepareTextToVoice</type>
+        </processors>
+    </snippet>
+    <timestamp>03/18/2015 15:01:58 CET</timestamp>
+</template>

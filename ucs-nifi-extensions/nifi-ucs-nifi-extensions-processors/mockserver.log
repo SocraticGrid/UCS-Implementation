@@ -1,0 +1,61 @@
+2015-09-22 14:40:37,800 ERROR [pool-5-thread-1] o.s.h.u.n.processor.UCSPrepareSMS [MockProcessorLog.java:218] UCSPrepareSMS[id=464772e4-7ead-466c-af9e-57c639a26872] The message didn't contain any Address with ServiceId 'SMS'.
+2015-09-22 14:40:38,469 ERROR [pool-19-thread-1] o.s.h.u.n.p.c.UCSCancelMessage [MockProcessorLog.java:218] UCSCancelMessage[id=8df6d902-161e-462e-a064-3dd8a903b9c8] No Message with id i-do-not-exist found in UCSControllerService. Routing FlowFile FlowFile[0,19530353349448.mockFlowFile,0B] to failure.
+2015-09-22 14:40:38,494 ERROR [pool-20-thread-1] o.s.h.u.n.p.c.UCSCancelMessage [MockProcessorLog.java:218] UCSCancelMessage[id=acec6c30-0534-47ff-8982-b0840cc80753] The referenced Message with id b4f7050b-8035-4be0-9b17-16bb43525e5f is not an AlertMessage. Expected class org.socraticgrid.hl7.services.uc.model.AlertMessage found class org.socraticgrid.hl7.services.uc.model.SimpleMessage. Routing FlowFile FlowFile[0,19530378174852.mockFlowFile,0B] to failure.
+2015-09-22 14:40:38,671 ERROR [pool-25-thread-1] o.s.h.u.n.p.c.UCSCancelMessage [MockProcessorLog.java:218] UCSCancelMessage[id=786c87b1-fd5e-4c32-98e3-1ab64781fce5] Missing arg #1: Message Id. Routing FlowFile FlowFile[0,19530555816237.mockFlowFile,0B] to failure.
+2015-09-22 14:40:38,840 ERROR [pool-29-thread-1] o.s.h.u.n.p.c.UCSRegisterUCSAlertingCallback [MockProcessorLog.java:235] UCSRegisterUCSAlertingCallback[id=b2f71fd4-1780-4b8a-92d6-1879ed1612d0] arg #1 (callback URL) is not a valid URL. Routing FlowFile FlowFile[0,19530724226790.mockFlowFile,0B] to failure.: java.net.MalformedURLException: unknown protocol: htt
+2015-09-22 14:40:38,842 ERROR [pool-30-thread-1] o.s.h.u.n.p.c.UCSRegisterUCSAlertingCallback [MockProcessorLog.java:218] UCSRegisterUCSAlertingCallback[id=63be638d-1f8a-4235-817c-5d05e0b1dd02] Missing arg #1: callback URL. Routing FlowFile FlowFile[0,19530726793284.mockFlowFile,0B] to failure.
+2015-09-22 14:40:38,907 ERROR [pool-33-thread-1] o.s.h.u.n.p.c.UCSCreateConversation [MockProcessorLog.java:218] UCSCreateConversation[id=52f2dabe-7393-4313-a6a9-7286a98b41e1] Duplicated Conversation id 4d3d6e70-a1eb-4368-b3a4-f731017ecfe0. Routing FlowFile FlowFile[0,19530785295451.mockFlowFile,0B] to failure.
+2015-09-22 14:40:39,002 ERROR [pool-36-thread-1] o.s.h.u.n.p.c.UCSRetrieveConversation [MockProcessorLog.java:218] UCSRetrieveConversation[id=2667996c-4a53-4684-b0e5-99d17ac878a2] Conversation with Id 451c2dca-66f1-4759-97ec-49c6bea9443a not found. Routing FlowFile FlowFile[0,19530886487579.mockFlowFile,0B] to failure.
+2015-09-22 14:40:39,008 ERROR [pool-38-thread-1] o.s.h.u.n.p.c.UCSRegisterUCSClientCallback [MockProcessorLog.java:235] UCSRegisterUCSClientCallback[id=c503144c-b6f2-48f4-b386-302e5c31fb68] arg #1 (callback URL) is not a valid URL. Routing FlowFile FlowFile[0,19530892503209.mockFlowFile,0B] to failure.: java.net.MalformedURLException: unknown protocol: htt
+2015-09-22 14:40:39,011 ERROR [pool-39-thread-1] o.s.h.u.n.p.c.UCSRegisterUCSClientCallback [MockProcessorLog.java:218] UCSRegisterUCSClientCallback[id=d71c8a7d-3e76-4060-bb44-39d0ab4bbd28] Missing arg #1: callback URL. Routing FlowFile FlowFile[0,19530895358522.mockFlowFile,0B] to failure.
+2015-09-22 14:40:39,086 ERROR [pool-43-thread-1] o.s.h.u.n.p.c.UCSAlertingUpdateAlertMessage [MockProcessorLog.java:218] UCSAlertingUpdateAlertMessage[id=54065bad-8cc4-4386-b874-fb5d805c2629] The status of af AlertMessage can only be updated to Acknowledged. Expected Acknowledged found Expired. Routing FlowFile FlowFile[0,19530966804539.mockFlowFile,0B] to mismatch.
+2015-09-22 14:40:39,110 ERROR [pool-45-thread-1] o.s.h.u.n.p.c.UCSAlertingUpdateAlertMessage [MockProcessorLog.java:218] UCSAlertingUpdateAlertMessage[id=4bd6877b-54c7-4dd8-9ab1-68a25f466abf] Missing arguments: messageId and newStatus arguments are both mandatory. Routing FlowFile FlowFile[0,19530994916764.mockFlowFile,0B] to failure.
+2015-09-22 14:40:39,111 ERROR [pool-46-thread-1] o.s.h.u.n.p.c.UCSAlertingUpdateAlertMessage [MockProcessorLog.java:218] UCSAlertingUpdateAlertMessage[id=4bd6877b-54c7-4dd8-9ab1-68a25f466abf] Missing arguments: messageId and newStatus arguments are both mandatory. Routing FlowFile FlowFile[1,19530996160298.mockFlowFile,0B] to failure.
+2015-09-22 14:40:39,113 ERROR [pool-47-thread-1] o.s.h.u.n.p.c.UCSAlertingUpdateAlertMessage [MockProcessorLog.java:218] UCSAlertingUpdateAlertMessage[id=4bd6877b-54c7-4dd8-9ab1-68a25f466abf] Missing arguments: messageId and newStatus arguments are both mandatory. Routing FlowFile FlowFile[2,19530997642464.mockFlowFile,0B] to failure.
+2015-09-22 14:40:39,134 ERROR [pool-48-thread-1] o.s.h.u.n.p.c.UCSAlertingUpdateAlertMessage [MockProcessorLog.java:218] UCSAlertingUpdateAlertMessage[id=bd552387-9978-4e6e-8c7a-5b3a30ab7266] The referenced Message with id 2e23981d-4ebe-4067-bd03-4acf91e69e0e is not an AlertMessage. Expected class org.socraticgrid.hl7.services.uc.model.AlertMessage found class org.socraticgrid.hl7.services.uc.model.SimpleMessage. Routing FlowFile FlowFile[0,19531018882281.mockFlowFile,0B] to failure.
+2015-09-22 14:40:39,523 ERROR [pool-55-thread-1] o.s.h.u.n.p.UCSRouteMessageOnContent [MockProcessorLog.java:205] [UCSRouteMessageOnContent[id=4d6dcf4f-d909-401c-9841-5f33c3b3e469]] Error deserializing FlowFile content into a MessageWrapper instance. Routing to FAILURE
+org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializationException: Exception in Message deserialization.
+	at org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializer.deserializeMessageWrapper(MessageSerializer.java:98) ~[ucs-nifi-common-0.4-SNAPSHOT.jar:0.4-SNAPSHOT]
+	at org.socraticgrid.hl7.ucs.nifi.processor.UCSRouteMessageOnContent.lambda$onTrigger$23(UCSRouteMessageOnContent.java:206) ~[classes/:na]
+	at org.socraticgrid.hl7.ucs.nifi.processor.UCSRouteMessageOnContent$$Lambda$80/1602537675.process(Unknown Source) ~[na:na]
+	at org.apache.nifi.util.MockProcessSession.read(MockProcessSession.java:415) ~[nifi-mock-0.3.1-SNAPSHOT.jar:0.3.1-SNAPSHOT]
+	at org.socraticgrid.hl7.ucs.nifi.processor.UCSRouteMessageOnContent.onTrigger(UCSRouteMessageOnContent.java:201) ~[classes/:na]
+	at org.apache.nifi.processor.AbstractProcessor.onTrigger(AbstractProcessor.java:27) [nifi-api-0.3.1-SNAPSHOT.jar:0.3.1-SNAPSHOT]
+	at org.apache.nifi.util.StandardProcessorTestRunner$RunProcessor.call(StandardProcessorTestRunner.java:277) [nifi-mock-0.3.1-SNAPSHOT.jar:0.3.1-SNAPSHOT]
+	at org.apache.nifi.util.StandardProcessorTestRunner$RunProcessor.call(StandardProcessorTestRunner.java:271) [nifi-mock-0.3.1-SNAPSHOT.jar:0.3.1-SNAPSHOT]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [na:1.8.0_25]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [na:1.8.0_25]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [na:1.8.0_25]
+	at java.lang.Thread.run(Thread.java:745) [na:1.8.0_25]
+Caused by: javax.xml.bind.UnmarshalException: null
+	at javax.xml.bind.helpers.AbstractUnmarshallerImpl.createUnmarshalException(AbstractUnmarshallerImpl.java:335) ~[na:1.8.0_25]
+	at com.sun.xml.internal.bind.v2.runtime.unmarshaller.UnmarshallerImpl.createUnmarshalException(UnmarshallerImpl.java:563) ~[na:1.8.0_25]
+	at com.sun.xml.internal.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal0(UnmarshallerImpl.java:249) ~[na:1.8.0_25]
+	at com.sun.xml.internal.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal(UnmarshallerImpl.java:214) ~[na:1.8.0_25]
+	at javax.xml.bind.helpers.AbstractUnmarshallerImpl.unmarshal(AbstractUnmarshallerImpl.java:157) ~[na:1.8.0_25]
+	at javax.xml.bind.helpers.AbstractUnmarshallerImpl.unmarshal(AbstractUnmarshallerImpl.java:204) ~[na:1.8.0_25]
+	at org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializer.deserializeMessageWrapper(MessageSerializer.java:96) ~[ucs-nifi-common-0.4-SNAPSHOT.jar:0.4-SNAPSHOT]
+	... 11 common frames omitted
+Caused by: org.xml.sax.SAXParseException: Content is not allowed in prolog.
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:203) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.fatalError(ErrorHandlerWrapper.java:177) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:441) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:368) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.impl.XMLScanner.reportFatalError(XMLScanner.java:1436) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl$PrologDriver.next(XMLDocumentScannerImpl.java:999) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:606) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:117) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:510) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:848) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:777) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:141) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1213) ~[na:1.8.0_25]
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:649) ~[na:1.8.0_25]
+	at com.sun.xml.internal.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal0(UnmarshallerImpl.java:243) ~[na:1.8.0_25]
+	... 15 common frames omitted
+2015-09-22 14:40:41,918 INFO [Thread-2] o.mockserver.mockserver.MockServer [MockServer.java:50] Starting MockServer on serverPort 8585
+2015-09-22 14:40:44,819 ERROR [pool-81-thread-1] o.s.h.u.n.processor.UCSPrepareEmail [MockProcessorLog.java:218] UCSPrepareEmail[id=d427e582-9021-4cf3-9fd4-8a5f151fd2c2] The message didn't contain any Address with ServiceId 'EMAIL'.
+2015-09-22 14:40:44,929 INFO [Thread-3] o.mockserver.mockserver.MockServer [MockServer.java:50] Starting MockServer on serverPort 8585
+2015-09-22 14:40:45,199 INFO [Thread-4] o.mockserver.mockserver.MockServer [MockServer.java:50] Starting MockServer on serverPort 8585
+2015-09-22 14:40:45,289 INFO [Thread-5] o.mockserver.mockserver.MockServer [MockServer.java:50] Starting MockServer on serverPort 8585
+2015-09-22 14:40:46,017 ERROR [pool-114-thread-1] o.s.h.u.n.p.UCSPrepareTextToVoice [MockProcessorLog.java:218] UCSPrepareTextToVoice[id=d13d41d1-a142-45bc-9b98-42fa5110dd9c] The message didn't contain any Address with ServiceId 'TEXT-TO-VOICE'.

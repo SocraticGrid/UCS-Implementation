@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UCS Test Workbench</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <link href="js/libs/jqueryui/css/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+        <link href="js/libs/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="js/libs/twitter-bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+        <link href="js/libs/twitter-bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+        <link href="js/libs/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+        <link href="css/bubbles.css" rel="stylesheet" type="text/css"/>
+
+
+
+        <script src="js/libs/jquery/jquery.js" type="text/javascript"></script>
+        <script src="js/libs/jqueryui/jquery-ui.js" type="text/javascript"></script>
+        <script src="js/libs/twitter-bootstrap/js/bootstrap.js" type="text/javascript"></script>
+        <script src="js/libs/bootstrap-switch/bootstrap-switch.min.js" type="text/javascript"></script>
+
+        <script src="js/ws.js" type="text/javascript"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <h1 id="title">UCS Test Workbench</h1>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h3>UCS Session</h3>
+                        </div>
+                        <div class="col-md-1 col-md-offset-9" style="margin-top: 22px">
+                            <a href='#' id="refreshUCSSessionStatus" title="refresh"><span class="glyphicon glyphicon-refresh"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <a id="btnConfigCollapse" data-toggle="collapse" href="#ucsConfigCollapse"><span class="glyphicon glyphicon-collapse-down"></span> Show Configuration</a>
+                    <div id="ucsConfigCollapse" class="panel-collapse collapse">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="ucsSession_nifiHost" class="col-sm-2 control-label">NiFi Host</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" id="ucsSession_nifiHost" value="localhost"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_nifiClientCommandPort" class="col-sm-2 control-label">NiFi Client Command Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_nifiClientCommandPort" value="8889"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_nifiAlertingCommandPort" class="col-sm-2 control-label">NiFi Alerting Command Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_nifiAlertingCommandPort" value="8890"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_nifiManagementCommandPort" class="col-sm-2 control-label">NiFi Management Command Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_nifiManagementCommandPort" value="8891"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_nifiConversationCommandPort" class="col-sm-2 control-label">NiFi Conversation Command Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_nifiConversationCommandPort" value="8892"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_nifiSendMessagePort" class="col-sm-2 control-label">NiFi SendMessage Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_nifiSendMessagePort" value="8888"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_clientsHost" class="col-sm-2 control-label">Clients Host</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" id="ucsSession_clientsHost" value="localhost"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_clientPort" class="col-sm-2 control-label">Client Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_clientPort" value="8500"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_alertingPort" class="col-sm-2 control-label">Alerting Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_alertingPort" value="8501"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_managementPort" class="col-sm-2 control-label">Management Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_managementPort" value="8502"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ucsSession_conversationPort" class="col-sm-2 control-label">Conversation Port</label>
+                                <div class="col-sm-1">
+                                    <input type="text" class="form-control" id="ucsSession_conversationPort" value="8503"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="text-align: center;">
+                        <input id="btnStartUCSSession" type="button" class="btn btn-success" value="Start Session"/>
+                    </div>
+                    <table id="ucsSessionTable" class="table table-condensed table-hover" style="padding-top: 25px">
+                        <thead>
+                            <tr>
+                                <th>Variable</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h3>Conversations</h3>
+                        </div>
+                        <div class="col-md-1 col-md-offset-9" style="margin-top: 22px">
+                            <a href='#' id="refreshConversations" title="refresh"><span class="glyphicon glyphicon-refresh"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select class="form-control" id="cboConversations">
+                                <option>&lt;ALL&gt;</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button id="btnCreateConversation" class="btn btn-default" type="button">Create New</button>
+                                </span>
+                                <input id="txtNewConversationId"  type="text" class="form-control" placeholder="conversation id">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h3>Messages</h3>
+                        </div>
+                        <div class="col-md-1 col-md-offset-9" style="margin-top: 22px">
+                            <a href='#' id="refreshMessages" title="refresh"><span class="glyphicon glyphicon-refresh"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input id="btnNewMessage" type="button" class="btn btn-success" value="Send New Message"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="chatContainer" class="chat-container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">New Message</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="sendMessageModal_from" class="col-sm-2 control-label">From</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="sendMessageModal_from">
+                                                <option value="eafry">Emory Fry</option>
+                                                <option value="ealiverti">Esteban Aliverti</option>
+                                                <option value="jhughes">Jonathan Hughes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sendMessageModal_conversation" class="col-sm-2 control-label">Conversation</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="sendMessageModal_conversation"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sendMessageModal_subject" class="col-sm-2 control-label">Subject</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="sendMessageModal_subject"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sendMessageModal_body" class="col-sm-2 control-label">Body</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" id="sendMessageModal_body"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <label for="sendMessageModal_recipient_to" class="control-label">New Recipient</label>
+                                        <select class="form-control" id="sendMessageModal_recipient_to">
+                                            <option value="eafry">Emory Fry</option>
+                                            <option value="ealiverti">Esteban Aliverti</option>
+                                            <option value="jhughes">Jonathan Hughes</option>
+                                            <option value="johndoe">John Doe (Unknown)</option>
+                                            <option value="GROUP:ucs@conference.socraticgrid.org">UCS (Chat Group)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <select class="form-control" id="sendMessageModal_recipient_type">
+                                            <option value="CHAT">Chat</option>
+                                            <option value="EMAIL">Email</option>
+                                            <option value="SMS">SMS</option>
+                                            <option value="TEXT-TO-VOICE">Text to Voice</option>
+                                            <option value="SMOKE-SIGNAL">Smoke Signal</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <input id="btnsendMessageModal_recipient_add" type="button" class="form-control btn btn-info" value="Add"/>
+                                    </div>
+                                    <table id="btnsendMessageModa_recipient_table" class="table table-condensed table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>To</th>
+                                                <th>Type</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <div style="text-align: center;">
+                                    <input id="btnsendMessageModal_send" type="button" class="btn btn-success" value="Send"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <audio id="newNotificationSound" src="audio/whistle.mp3" preload="auto"></audio>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                ucsWS.openConnection({
+                    onMessage: addMessageToChat,
+                    onResponse: addResponseToChat,
+                    onException: handleException
+                },
+                function () {
+                    refreshUCSSessionStatus();
+                });
+
+                $("#ucsConfigCollapse").on("hide.bs.collapse", function () {
+                    $("#btnConfigCollapse").html('<span class="glyphicon glyphicon-collapse-down"></span> Show Configuration');
+                });
+                $("#ucsConfigCollapse").on("show.bs.collapse", function () {
+                    $("#btnConfigCollapse").html('<span class="glyphicon glyphicon-collapse-up"></span> Hide Configuration');
+                });
+
+                $("#btnNewMessage").on('click', function () {
+                    $('#sendMessageModal').modal();
+                });
+
+                $("#refreshUCSSessionStatus").on('click', function () {
+                    refreshUCSSessionStatus();
+                });
+
+                $("#refreshMessages").on('click', function () {
+                    refreshMessages();
+                });
+                $("#refreshConversations").on('click', function () {
+                    refreshConversations();
+                });
+
+                $("#btnStartUCSSession").on('click', function () {
+                    var nifiHost = $("#ucsSession_nifiHost").val();
+                    var nifiClientCommandPort = $("#ucsSession_nifiClientCommandPort").val();
+                    var nifiAlertingCommandPort = $("#ucsSession_nifiAlertingCommandPort").val();
+                    var nifiManagementCommandPort = $("#ucsSession_nifiManagementCommandPort").val();
+                    var nifiConversationCommandPort = $("#ucsSession_nifiConversationCommandPort").val();
+                    var nifiSendMessagePort = $("#ucsSession_nifiSendMessagePort").val();
+
+                    var clientsHost = $("#ucsSession_clientsHost").val();
+                    var clientPort = $("#ucsSession_clientPort").val();
+                    var alertingPort = $("#ucsSession_alertingPort").val();
+                    var managementPort = $("#ucsSession_managementPort").val();
+                    var conversationPort = $("#ucsSession_conversationPort").val();
+
+                    createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort);
+                });
+
+                $("#btnsendMessageModal_recipient_add").on('click', function () {
+                    var to = $("#sendMessageModal_recipient_to").val();
+                    var type = $("#sendMessageModal_recipient_type").val();
+                    addNewRecipient(to, type);
+                });
+
+                $("#btnsendMessageModal_send").on('click', function () {
+                    var from = $("#sendMessageModal_from").val();
+                    var conversationId = $("#sendMessageModal_conversation").val();
+                    var subject = $("#sendMessageModal_subject").val();
+                    var body = $("#sendMessageModal_body").val();
+
+                    var recipients = [];
+
+                    $('#btnsendMessageModa_recipient_table > tbody:last > tr').each(function () {
+                        var r = {};
+                        r["to"] = $("td[name='to']", this).html();
+                        r["type"] = $("td[name='type']", this).html();
+
+                        recipients.push(r);
+                    });
+
+                    if ($.trim(body) === "") {
+                        alert("Message body is empty!");
+                        return;
+                    }
+
+                    if (recipients.length === 0) {
+                        alert("No recipient was specified!");
+                        return;
+                    }
+
+                    ucsWS.sendNewMessageCommand(from, conversationId, subject, body, recipients);
+
+                    $('#sendMessageModal').modal('toggle');
+                });
+                
+                $("#btnCreateConversation").on('click', function () {
+                    var conversationId = $("#txtNewConversationId").val();
+                    createNewConversation(conversationId);
+                });
+                
+                $("#cboConversations").on('change', function () {
+                    var conversationId = $("#cboConversations").val();
+                    
+                    if (!conversationId || conversationId === ""){
+                        filterMessages(undefined);
+                    } else {
+                        ucsWS.sendRetrieveConversationCommand(conversationId, function (r) {
+                            if (!r.success){
+                                alert(r.error);
+                                return;
+                            }
+                            filterMessages(r.result.conversationInfo.messages);
+                        });
+                    }
+                });
+            });
+
+            function createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort) {
+                ucsWS.sendCreateUCSSessionCommand(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort, function () {
+                    refreshUCSSessionStatus();
+                });
+            }
+
+            function refreshMessages() {
+                $("#chatContainer").empty();
+                getAllMessages();
+            }
+
+            function refreshConversations() {
+                $("#cboConversations").empty();
+                $("#sendMessageModal_conversation").empty();
+                getAllConversations();
+            }
+
+            function getAllMessages() {
+                ucsWS.sendGetAllMessagesCommand(function (r) {
+                    $.each(r.result.messages, function () {
+                        if (this.relatedMessageId) {
+                            addResponseToChat(this);
+                        } else {
+                            addMessageToChat(this);
+                        }
+                    });
+                });
+            }
+
+            function getAllConversations() {
+                ucsWS.sendQueryConversationsCommand(function (r) {
+                    $('#cboConversations').append($('<option>', {
+                        value: '',
+                        text: '<ALL>'
+                    }));
+                    $('#sendMessageModal_conversation').append($('<option>', {
+                        value: '',
+                        text: '<none>'
+                    }));
+                    $.each(r.result.conversations, function () {
+                        $('#cboConversations').append($('<option>', {
+                            value: this.id,
+                            text: this.id
+                        }));
+                        $('#sendMessageModal_conversation').append($('<option>', {
+                            value: this.id,
+                            text: this.id
+                        }));
+                    });
+                });
+            }
+            
+            function createNewConversation(conversationId){
+                ucsWS.sendCreateConversationCommand(conversationId, function (r) {
+                    if(!r.success){
+                        alert(r.error);
+                        return;
+                    }
+                    refreshConversations();
+                });
+            }
+            
+            function filterMessages(messagesIds){
+                var showAll=false;
+                if(!messagesIds){
+                    showAll = true;
+                }
+                
+                $.each($("#chatContainer > div[data-message]"), function(){
+                    if (showAll || $.inArray($(this).data("message"), messagesIds) > -1){
+                        $(this).animate({opacity: 1});
+                    } else {
+                        $(this).animate({opacity: 0.3});    
+                    }
+                });
+            }
+            
+            function filterMessagesByConversationId(conversationId){
+                var showAll=false;
+                if (!conversationId || conversationId === ""){
+                    showAll = true;
+                }
+                
+                $.each($("#chatContainer > div[data-conversation]"), function(){
+                    if (showAll || $(this).data("conversation") === conversationId){
+                        $(this).animate({opacity: 1});
+                    } else {
+                        $(this).animate({opacity: 0.3});    
+                    }
+                });
+            }
+
+            function refreshUCSSessionStatus() {
+                $('#ucsSessionTable > tbody:last').empty();
+                ucsWS.sendPingUCSSessionStatusCommand(function (r) {
+                    if (r.success) {
+                        $('#ucsSessionTable > tbody:last').append('<tr><td>Status</td><td>' + r.result.status + '</td></tr>');
+                    } else {
+                        $('#ucsSessionTable > tbody:last').append('<tr><td>Status</td><td>ERROR!</td></tr>');
+                        $('#ucsSessionTable > tbody:last').append('<tr><td>Error</td><td>' + r.error + '</td></tr>');
+                    }
+                });
+
+                ucsWS.sendDiscoverChannelsCommand(function (r) {
+                    if (r.success) {
+                        var channels = "";
+                        $.each(r.result.channels, function () {
+                            channels += this.name + ", ";
+                        });
+                        $('#ucsSessionTable > tbody:last').append('<tr><td>Supported Channels</td><td>' + channels + '</td></tr>');
+                    } else {
+                        $('#ucsSessionTable > tbody:last').append('<tr><td>Supported Channels</td><td>ERROR: ' + r.error + '</td></tr>');
+                    }
+                });
+
+                ucsWS.sendGetStatusCommand(function (r) {
+                    if (r.success) {
+                        var status = "";
+                        $.each(r.result.status, function () {
+                            status += this.capability + "[" + this.available + "], ";
+                        });
+                        $('#ucsSessionTable > tbody:last').append('<tr><td>Status</td><td>' + status + '</td></tr>');
+                    } else {
+                        $('#ucsSessionTable > tbody:last').append('<tr><td>Status</td><td>ERROR: ' + r.error + '</td></tr>');
+                    }
+                });
+            }
+
+            function addNewRecipient(to, type) {
+                $('#btnsendMessageModa_recipient_table > tbody:last').append('<tr><td name="to">' + to + '</td><td name="type">' + type + '</td><td><a href="javascript:deleteRecipient(\'' + to + '\', \'' + type + '\');"><span class="glyphicon glyphicon-remove" title="Remove Recipient"></span></a></td></tr>');
+            }
+
+            function deleteRecipient(to, type) {
+                $('#btnsendMessageModa_recipient_table > tbody:last > tr').each(function () {
+                    var currentTo = $("td[name='to']", this).html();
+                    var currentType = $("td[name='type']", this).html();
+
+                    if (to === currentTo && type === currentType) {
+                        this.remove();
+                    }
+                });
+            }
+
+            function handleException(e) {
+                alert(e.exception.fault);
+            }
+
+            function addMessageToChat(m) {
+                addChatBubble(m, "m", false);
+            }
+
+            function addResponseToChat(m) {
+                addChatBubble(m, "r", true);
+            }
+
+            function addChatBubble(m, type, playAudio) {
+                var bubble = '<div data-conversation="'+m.conversationId+'" data-message="'+m.messageId+'" class="bubble';
+
+                if (type === "m") {
+                    //nothing
+                } else if (type === "r") {
+                    bubble += ' bubble-alt yellow';
+                }
+                bubble += '">';
+
+                bubble += '<p>' + m.body + '</p>';
+                $.each(m.services, function () {
+                    bubble += '<span ';
+                    if (this == "SMS") {
+                        bubble += ' class="glyphicon glyphicon-phone" title="SMS"';
+                    } else if (this == "TEXT-TO-VOICE") {
+                        bubble += ' class="glyphicon glyphicon-phone-alt" title="Text to Voice"';
+                    } else if (this == "CHAT") {
+                        bubble += ' class="glyphicon glyphicon-comment" title="Chat"';
+                    } else if (this == "ALERT") {
+                        bubble += ' class="glyphicon glyphicon-inbox" title="Alert"';
+                    } else if (this == "EMAIL") {
+                        bubble += ' class="glyphicon glyphicon-envelope" title="Alert"';
+                    } else {
+                        bubble += ' class="glyphicon glyphicon-question-sign" title="' + this + '"';
+                    }
+                    bubble += '"></span>';
+
+
+                    $.each(m.recipients, function () {
+                        bubble += '<div class="chat-recipients">';
+                        bubble += this.who + '-&gt; ' + this.status;
+                        bubble += '</div>';
+                    });
+
+                });
+                bubble += '</div>';
+
+                $("#chatContainer").append(bubble);
+
+                if (playAudio) {
+                    document.getElementById("newNotificationSound").play();
+                }
+
+            }
+
+        </script>
+    </body>
+
+</html>
