@@ -57,6 +57,7 @@ public class CreateUCSSessionCommand implements Command {
     private int clientPort;
     private int alertingPort;
     private int managementPort;
+    private int conversationPort;
 
     @Override
     public void init(JsonObject config) {
@@ -72,6 +73,7 @@ public class CreateUCSSessionCommand implements Command {
         clientPort = config.get("clientPort").getAsInt();
         alertingPort = config.get("alertingPort").getAsInt();
         managementPort = config.get("managementPort").getAsInt();
+        conversationPort = config.get("conversationPort").getAsInt();
     }
 
     @Override
@@ -163,6 +165,8 @@ public class CreateUCSSessionCommand implements Command {
                         })
                         .withManagementHost(clientsHost)
                         .withManagementPort(managementPort)
+                        .withConversationHost(clientsHost)
+                        .withConversationPort(conversationPort)
                         .build();
                 
                 return new JsonObject();
