@@ -1,5 +1,5 @@
 /* 
- * Copyright 2015 Cognitive Medical Systems, Inc (http://www.cognitivemedciine.com).
+ * Copyright 2015 Cognitive Medical Systems, Inc (http://www.cognitivemedicine.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
