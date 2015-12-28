@@ -29,7 +29,7 @@ import org.socraticgrid.hl7.services.uc.interfaces.UCSClientIntf;
 import org.socraticgrid.hl7.ucs.nifi.core.NiFiHTTPBroker;
 
 /**
- *
+ * 
  * @author esteban
  */
 public class UCSNiFiSession {
@@ -158,11 +158,12 @@ public class UCSNiFiSession {
         }
 
         public UCSNiFiSession build() throws IOException, InterruptedException {
-            instance.init();
             return instance;
         }
 
     }
+    
+    private boolean initialized;
 
     private URL nifiSendMessageURL;
     
@@ -189,7 +190,20 @@ public class UCSNiFiSession {
     private UCSNiFiSession() {
     }
 
-    protected void init() throws IOException, InterruptedException{
+    private synchronized NiFiHTTPBroker getNiFiHTTPBroker() {
+        try{
+            if (!this.initialized){
+                this.init();
+                this.initialized = true;
+            }
+
+            return this.niFiHTTPBroker;
+        } catch (IOException | InterruptedException e){
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    protected synchronized void init() throws IOException, InterruptedException{
         LOG.debug("Starting UCSNifiSession instance: {}", this.toString());
         
         this.niFiHTTPBroker = new NiFiHTTPBroker(
@@ -202,24 +216,24 @@ public class UCSNiFiSession {
         this.niFiHTTPBroker.start();
     }
 
-    public void dispose() throws IOException{
-        this.niFiHTTPBroker.stop();
+    public synchronized void dispose() throws IOException{
+        this.getNiFiHTTPBroker().stop();
     }
     
-    public ClientIntf getNewClient() {
-        return new ClientImpl(this.niFiHTTPBroker);
+    public synchronized ClientIntf getNewClient() {
+        return new ClientImpl(this.getNiFiHTTPBroker());
     }
     
-    public AlertingIntf getNewAlerting() {
-        return new AlertingImpl(this.niFiHTTPBroker);
+    public synchronized AlertingIntf getNewAlerting() {
+        return new AlertingImpl(this.getNiFiHTTPBroker());
     }
     
-    public ManagementIntf getNewManagement() {
-        return new ManagementImpl(this.niFiHTTPBroker);
+    public synchronized ManagementIntf getNewManagement() {
+        return new ManagementImpl(this.getNiFiHTTPBroker());
     }
     
-    public ConversationIntf getNewConversation() {
-        return new ConversationImpl(this.niFiHTTPBroker);
+    public synchronized ConversationIntf getNewConversation() {
+        return new ConversationImpl(this.getNiFiHTTPBroker());
     }
 
     @Override
