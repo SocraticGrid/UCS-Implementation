@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+   
+    <logger name="org.socraticgrid.hl7.ucs.nifi.client.example">
+        <level value="TRACE"/>
+    </logger>
+    <logger name="org.socraticgrid.hl7.ucs.nifi.core.UCSClientExceptionHandler">
+        <level value="OFF"/>
+    </logger>
+    <logger name="org.socraticgrid.hl7.ucs.nifi.common.serialization">
+        <level value="OFF"/>
+    </logger>
+   
+ 
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

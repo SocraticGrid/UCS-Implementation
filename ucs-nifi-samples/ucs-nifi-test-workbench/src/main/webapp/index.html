@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Inbox</title>
+        <title>UCS Test Workbench</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <link href="js/libs/jqueryui/css/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
@@ -24,7 +24,7 @@
     </head>
     <body>
         <div class="container">
-            <h1 id="title">UCS Inbox</h1>
+            <h1 id="title">UCS Test Workbench</h1>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -43,7 +43,7 @@
                             <div class="form-group">
                                 <label for="ucsSession_nifiHost" class="col-sm-2 control-label">NiFi Host</label>
                                 <div class="col-lg-2">
-                                    <input type="text" class="form-control" id="ucsSession_nifiHost" value="localhost"/>
+                                    <input type="text" class="form-control" id="ucsSession_nifiHost" value="${nifi.host}"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -79,7 +79,7 @@
                             <div class="form-group">
                                 <label for="ucsSession_clientsHost" class="col-sm-2 control-label">Clients Host</label>
                                 <div class="col-lg-2">
-                                    <input type="text" class="form-control" id="ucsSession_clientsHost" value="localhost"/>
+                                    <input type="text" class="form-control" id="ucsSession_clientsHost" value="${ucs.clien.host}"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -155,17 +155,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-sm-2">
-                            <h3>Inbox of </h3>
+                        <div class="col-md-2">
+                            <h3>Messages</h3>
                         </div>
-                        <div class="col-sm-3" style="margin-top: 16px">
-                            <select class="form-control" id="inboxFor">
-                                <option value="eafry">Emory Fry</option>
-                                <option value="ealiverti">Esteban Aliverti</option>
-                                <option value="jhughes">Jonathan Hughes</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-1 col-sm-offset-6" style="margin-top: 22px">
+                        <div class="col-md-1 col-md-offset-9" style="margin-top: 22px">
                             <a href='#' id="refreshMessages" title="refresh"><span class="glyphicon glyphicon-refresh"></span></a>
                         </div>
                     </div>
@@ -173,21 +166,12 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-2">
-                            <input id="btnNewMessage" type="button" class="btn btn-success" value="Send New Alert"/>
+                            <input id="btnNewMessage" type="button" class="btn btn-success" value="Send New Message"/>
                         </div>
                     </div>
                     <div class="row">
-                        <table id="inboxTable" class="table table-condensed table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Status</th>
-                                    <th>Subject</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div id="chatContainer" class="chat-container">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,7 +182,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">New Alert</h4>
+                        <h4 class="modal-title">New Message</h4>
                     </div>
                     <div class="modal-body">
                         <div class="panel panel-default">
@@ -241,6 +225,17 @@
                                             <option value="ealiverti">Esteban Aliverti</option>
                                             <option value="jhughes">Jonathan Hughes</option>
                                             <option value="johndoe">John Doe (Unknown)</option>
+                                            <option value="GROUP:ucs@conference.socraticgrid.org">UCS (Chat Group)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <select class="form-control" id="sendMessageModal_recipient_type">
+                                            <option value="CHAT">Chat</option>
+                                            <option value="EMAIL">Email</option>
+                                            <option value="SMS">SMS</option>
+                                            <option value="TEXT-TO-VOICE">Text to Voice</option>
+                                            <option value="SMOKE-SIGNAL">Smoke Signal</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -251,6 +246,7 @@
                                         <thead>
                                             <tr>
                                                 <th>To</th>
+                                                <th>Type</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -273,19 +269,18 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 ucsWS.openConnection({
-                    onAlert: verifyUserAndAddMessageToInbox,
-                    onAlertUpdated: updateMessageOnInbox,
-                    onAlertCanceled: cancelMessageOnInbox,
+                    onMessage: addMessageToChat,
+                    onResponse: addResponseToChat,
                     onException: handleException
                 },
                 function () {
                     refreshUCSSessionStatus();
                 });
-                
-                $("#ucsConfigCollapse").on("hide.bs.collapse", function(){
+
+                $("#ucsConfigCollapse").on("hide.bs.collapse", function () {
                     $("#btnConfigCollapse").html('<span class="glyphicon glyphicon-collapse-down"></span> Show Configuration');
                 });
-                $("#ucsConfigCollapse").on("show.bs.collapse", function(){
+                $("#ucsConfigCollapse").on("show.bs.collapse", function () {
                     $("#btnConfigCollapse").html('<span class="glyphicon glyphicon-collapse-up"></span> Hide Configuration');
                 });
 
@@ -302,10 +297,6 @@
                 });
                 $("#refreshConversations").on('click', function () {
                     refreshConversations();
-                });
-                
-                $("#inboxFor").on('change', function () {
-                    refreshMessages();
                 });
 
                 $("#btnStartUCSSession").on('click', function () {
@@ -327,7 +318,8 @@
 
                 $("#btnsendMessageModal_recipient_add").on('click', function () {
                     var to = $("#sendMessageModal_recipient_to").val();
-                    addNewRecipient(to);
+                    var type = $("#sendMessageModal_recipient_type").val();
+                    addNewRecipient(to, type);
                 });
 
                 $("#btnsendMessageModal_send").on('click', function () {
@@ -341,6 +333,8 @@
                     $('#btnsendMessageModa_recipient_table > tbody:last > tr').each(function () {
                         var r = {};
                         r["to"] = $("td[name='to']", this).html();
+                        r["type"] = $("td[name='type']", this).html();
+
                         recipients.push(r);
                     });
 
@@ -354,7 +348,7 @@
                         return;
                     }
 
-                    ucsWS.sendNewAlertMessageCommand(from, conversationId, subject, body, recipients);
+                    ucsWS.sendNewMessageCommand(from, conversationId, subject, body, recipients);
 
                     $('#sendMessageModal').modal('toggle');
                 });
@@ -388,34 +382,28 @@
             }
 
             function refreshMessages() {
-                $("#inboxContainer").empty();
-                var userId = $("#inboxFor").val();
-                getAllAlertMessages(userId);
+                $("#chatContainer").empty();
+                getAllMessages();
             }
-            
+
             function refreshConversations() {
                 $("#cboConversations").empty();
                 $("#sendMessageModal_conversation").empty();
                 getAllConversations();
             }
 
-            function getAllAlertMessages(userId) {
-                ucsWS.sendGetAllAlertMessagesCommand(function (r) {
-
-                    $('#inboxTable > tbody:last').empty();
-
-                    var messages = $.grep(r.result.messages, function (element) {
-                        return $.grep(element.recipients, function (e) {
-                            return e.who === userId;
-                        }).length > 0;
-                    });
-
-                    $.each(messages, function () {
-                        addMessageToInbox(this);
+            function getAllMessages() {
+                ucsWS.sendGetAllMessagesCommand(function (r) {
+                    $.each(r.result.messages, function () {
+                        if (this.relatedMessageId) {
+                            addResponseToChat(this);
+                        } else {
+                            addMessageToChat(this);
+                        }
                     });
                 });
             }
-            
+
             function getAllConversations() {
                 ucsWS.sendQueryConversationsCommand(function (r) {
                     $('#cboConversations').append($('<option>', {
@@ -455,25 +443,28 @@
                     showAll = true;
                 }
                 
-                
-                $.each($("#inboxTable > tbody:last > tr"), function(){
-                    if (showAll || $.inArray($(this).data("message"), messagesIds) === -1){
-                        $(this).animate({backgroundColor: "#FFFFFF"});
+                $.each($("#chatContainer > div[data-message]"), function(){
+                    if (showAll || $.inArray($(this).data("message"), messagesIds) > -1){
+                        $(this).animate({opacity: 1});
                     } else {
-                        $(this).animate({backgroundColor: "yellow"});    
+                        $(this).animate({opacity: 0.3});    
                     }
                 });
-                
             }
-
-            function verifyUserAndAddMessageToInbox(m) {
-                var userId = $("#inboxFor").val();
-
-                if ($.grep(m.recipients, function (e) {
-                    return e.who === userId;
-                }).length > 0) {
-                    addMessageToInbox(m);
+            
+            function filterMessagesByConversationId(conversationId){
+                var showAll=false;
+                if (!conversationId || conversationId === ""){
+                    showAll = true;
                 }
+                
+                $.each($("#chatContainer > div[data-conversation]"), function(){
+                    if (showAll || $(this).data("conversation") === conversationId){
+                        $(this).animate({opacity: 1});
+                    } else {
+                        $(this).animate({opacity: 0.3});    
+                    }
+                });
             }
 
             function refreshUCSSessionStatus() {
@@ -512,15 +503,16 @@
                 });
             }
 
-            function addNewRecipient(to) {
-                $('#btnsendMessageModa_recipient_table > tbody:last').append('<tr><td name="to">' + to + '</td><td><a href="javascript:deleteRecipient(\'' + to + '\');"><span class="glyphicon glyphicon-remove" title="Remove Recipient"></span></a></td></tr>');
+            function addNewRecipient(to, type) {
+                $('#btnsendMessageModa_recipient_table > tbody:last').append('<tr><td name="to">' + to + '</td><td name="type">' + type + '</td><td><a href="javascript:deleteRecipient(\'' + to + '\', \'' + type + '\');"><span class="glyphicon glyphicon-remove" title="Remove Recipient"></span></a></td></tr>');
             }
 
-            function deleteRecipient(to) {
+            function deleteRecipient(to, type) {
                 $('#btnsendMessageModa_recipient_table > tbody:last > tr').each(function () {
                     var currentTo = $("td[name='to']", this).html();
+                    var currentType = $("td[name='type']", this).html();
 
-                    if (to === currentTo) {
+                    if (to === currentTo && type === currentType) {
                         this.remove();
                     }
                 });
@@ -530,35 +522,58 @@
                 alert(e.exception.fault);
             }
 
-            function addMessageToInbox(m) {
-                $('#inboxTable > tbody:last').append('<tr data-message="'+m.messageId+'" messageId="' + m.messageId + '">' + createInboxRow(m) + '</tr>');
+            function addMessageToChat(m) {
+                addChatBubble(m, "m", false);
             }
 
-            function updateMessageOnInbox(m) {
-                var tr = $('#inboxTable > tbody:last > tr[messageId="' + m.messageId + '"]');
-                if (!tr) {
-                    return;
+            function addResponseToChat(m) {
+                addChatBubble(m, "r", true);
+            }
+
+            function addChatBubble(m, type, playAudio) {
+                var bubble = '<div data-conversation="'+m.conversationId+'" data-message="'+m.messageId+'" class="bubble';
+
+                if (type === "m") {
+                    //nothing
+                } else if (type === "r") {
+                    bubble += ' bubble-alt yellow';
                 }
-                tr.empty();
-                tr.append(createInboxRow(m));
-                tr.animate({opacity: 0.3}).animate({opacity: 1});
+                bubble += '">';
 
-            }
+                bubble += '<p>' + m.body + '</p>';
+                $.each(m.services, function () {
+                    bubble += '<span ';
+                    if (this == "SMS") {
+                        bubble += ' class="glyphicon glyphicon-phone" title="SMS"';
+                    } else if (this == "TEXT-TO-VOICE") {
+                        bubble += ' class="glyphicon glyphicon-phone-alt" title="Text to Voice"';
+                    } else if (this == "CHAT") {
+                        bubble += ' class="glyphicon glyphicon-comment" title="Chat"';
+                    } else if (this == "ALERT") {
+                        bubble += ' class="glyphicon glyphicon-inbox" title="Alert"';
+                    } else if (this == "EMAIL") {
+                        bubble += ' class="glyphicon glyphicon-envelope" title="Alert"';
+                    } else {
+                        bubble += ' class="glyphicon glyphicon-question-sign" title="' + this + '"';
+                    }
+                    bubble += '"></span>';
 
-            function cancelMessageOnInbox(m) {
-                updateMessageOnInbox(m);
-            }
 
-            function ackAlert(messageId) {
-                ucsWS.sendUpdateMessageCommand(messageId, 'Acknowledged');
-            }
+                    $.each(m.recipients, function () {
+                        bubble += '<div class="chat-recipients">';
+                        bubble += this.who + '-&gt; ' + this.status;
+                        bubble += '</div>';
+                    });
 
-            function cancelAlert(messageId) {
-                ucsWS.sendCancelMessageCommand(messageId);
-            }
+                });
+                bubble += '</div>';
 
-            function createInboxRow(m) {
-                return '<td>' + m.status + '</td><td>' + m.subject + '</td><td><a href="javascript:ackAlert(\'' + m.messageId + '\');">ACK</a>&nbsp;<a href="javascript:cancelAlert(\'' + m.messageId + '\');">CANCEL</a></td>';
+                $("#chatContainer").append(bubble);
+
+                if (playAudio) {
+                    document.getElementById("newNotificationSound").play();
+                }
+
             }
 
         </script>
