@@ -29,7 +29,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Simple application that creates a UCS-Nifi session and listen to incoming
+ * Messages, Alerts and Exceptions. Whenever a new notification regarding a
+ * Message, Alert or Exception is received, it is printed to the console.
+ * 
+ * The purpose of this application is to serve as an example on how to create
+ * and configure UCS-Nifi client sessions.
  * @author esteban
  */
 public class App {
@@ -40,6 +45,12 @@ public class App {
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
     
     public static void main(String[] args) throws IOException, InterruptedException {
+        
+        // The application expects some configuration to be sent from the command
+        // line. This configuration can come as a JSON file (using the -cf argument)
+        // or in the form of a JSON String (using the -cs argument).
+        // Check the Configuration class to get a better understanding of what
+        // are the different configuration options and their meaning.
         
         Options options = new Options();
         options.addOption(CL_CONFIG_FILE, "config-file", true, "The configuration file used to run this application.");
@@ -76,6 +87,7 @@ public class App {
             System.exit(1);
         }
         
+        //Now that we have a valid configuration, we can start our app.
         new App().start(config);
         
     }
@@ -100,15 +112,23 @@ public class App {
         LOG.debug("\tManagement Port: {}", config.getManagementPort());
         LOG.debug("\tConversation Port: {}", config.getConversationPort());
         
+        //The communication between a client and UCS-Nifi is done thourgh HTTP.
+        //This requires the client to start an internal HTTP server that will be 
+        //asynchronously accessed by UCS-Nifi when required. The setup and
+        //execution of this HTTP server as well as the specific details about
+        //the format of the messages being used in this communication are 
+        //encapsulated in the org.socraticgrid.hl7.ucs.nifi.api.UCSNiFiSession
+        //class.
+        //We can get an instance of this class by using the Builder it provides.
+        //Note the 2 listeners we are using to deal with incoming messsages and
+        //alerts: UCSClientAdapter and UCSAlertingAdapter.
+        
         UCSNiFiSession session = null;
         try {
             LOG.debug("Creating Nifi Session");
             session = new UCSNiFiSession.UCSNiFiSessionBuilder()
                     .withAlertingCommandURL(alertingCommandURL)
                     .withClientCommandURL(clientCommandURL)
-                    //.withManagementCommandURL(managementCommandURL)
-                    //.withConversationCommandURL(conversationCommandURL)
-                    //.withNifiSendMessageURL(sendMessageURL)
                     .withUCSClientHost(config.getClientHost())
                     .withUCSClientPort(config.getClientPort())
                     .withUCSAlertingHost(config.getClientHost())
@@ -122,7 +142,18 @@ public class App {
             LOG.debug("Nifi Session Created");
             
             LOG.debug("Starting UCS Client");
+            
+            //At this point, the session is configured but not started. Currently, 
+            //there is not a public way to start the session. The only way we
+            //have (we may need to review this in the future) to start the session
+            //is to ask for some of the services it provides (i.e. client, alerting
+            //conversation or management). These services are used to communicate
+            //with UCS-Nifi. Because our application will only listen to notifications
+            //coming from UCS-Nifi and it will never initiate an interaction, we
+            //don't acutually need any of this services in this application.
             session.getNewClient();
+            
+            
             LOG.debug("Application is now running");
             Thread.currentThread().join();
         } catch (IOException | InterruptedException ex) {

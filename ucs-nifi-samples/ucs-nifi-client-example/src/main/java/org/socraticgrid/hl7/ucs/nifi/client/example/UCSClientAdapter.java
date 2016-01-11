@@ -16,9 +16,7 @@
 package org.socraticgrid.hl7.ucs.nifi.client.example;
 
 import com.google.gson.Gson;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.Writer;
 import org.slf4j.LoggerFactory;
 import org.socraticgrid.hl7.services.uc.exceptions.BadBodyException;
 import org.socraticgrid.hl7.services.uc.exceptions.FeatureNotSupportedException;
