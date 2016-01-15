@@ -279,6 +279,7 @@
                     onException: handleException
                 },
                 function () {
+                    loadInitialConfiguration();
                     refreshUCSSessionStatus();
                 });
                 
@@ -380,6 +381,29 @@
                     }
                 });
             });
+            
+            function loadInitialConfiguration(){
+                ucsWS.getInitialConfiguration(function(r){
+                    if(!r.success){
+                        alert("Error getting initial configuration: "+r.error);
+                        return;
+                    }
+                    
+                    $("#ucsSession_nifiHost").val(r.result.serverHost);
+                    $("#ucsSession_nifiClientCommandPort").val(r.result.serverClientPort);
+                    $("#ucsSession_nifiAlertingCommandPort").val(r.result.serverAlertingPort);
+                    $("#ucsSession_nifiManagementCommandPort").val(r.result.serverManagementPort);
+                    $("#ucsSession_nifiConversationCommandPort").val(r.result.serverConversationPort);
+                    $("#ucsSession_nifiSendMessagePort").val(r.result.serverSendMessagePort);
+
+                    $("#ucsSession_clientsHost").val(r.result.clientHost);
+                    $("#ucsSession_clientPort").val(r.result.clientClientPort);
+                    $("#ucsSession_alertingPort").val(r.result.clientAlertingPort);
+                    $("#ucsSession_managementPort").val(r.result.clientManagementPort);
+                    $("#ucsSession_conversationPort").val(r.result.clientConversationPort);
+                    
+                });
+            }
 
             function createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort) {
                 ucsWS.sendCreateUCSSessionCommand(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort, function () {

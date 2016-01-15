@@ -34,27 +34,6 @@ limitations under the License.
         <netbeans.hint.license>apache20</netbeans.hint.license>
     </properties>
     
-    <profiles>
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <nifi.host>localhost</nifi.host>
-                <ucs.clien.host>localhost</ucs.clien.host>
-            </properties>
-        </profile>
-        <profile>
-            <id>docker</id>
-            <properties>
-                <nifi.host>ucs-server</nifi.host>
-                <ucs.clien.host>ucs-wb</ucs.clien.host>
-            </properties>
-        </profile>
-    </profiles>
-    
-    
     <dependencies>
         <dependency>
             <groupId>org.socraticgrid.hl7</groupId>
@@ -79,6 +58,10 @@ limitations under the License.
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cognitivemedicine</groupId>
+            <artifactId>config-utils</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

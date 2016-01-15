@@ -86,6 +86,11 @@ var ucsWS = {
             alert('Error: WebSocket is not supported by this browser.');
         }
     },
+    "getInitialConfiguration": function(callback){
+        return this.sendCommand({
+            type: "getInitialConfiguration"
+        }, callback);
+    },
     "sendCreateUCSSessionCommand": function(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort, callback){
         return this.sendCommand({
             type: "createUCSSession",

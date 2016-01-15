@@ -35,6 +35,7 @@ import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.CreateConversationCo
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.CreateUCSSessionCommand;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.DiscoverChannelsCommand;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.GetAllMessagesCommand;
+import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.GetInitialConfigurationCommand;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.GetStatusCommand;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.NewAlertMessageCommand;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.NewMessageCommand;
@@ -93,6 +94,9 @@ public class UCSClientWS {
 
             Command command;
             switch(type){
+                case "getInitialConfiguration":
+                    command = new GetInitialConfigurationCommand();
+                    break;
                 case "createUCSSession":
                     command = new CreateUCSSessionCommand();
                     break;
