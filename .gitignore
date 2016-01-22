@@ -1,2 +1,11 @@
 target/
 nb-configuration.xml
+
+#Eclipse
+target/*
+/target
+lib/*
+.settings/
+.project
+.classpath
+*.log
