@@ -54,7 +54,7 @@ public class App {
         
         Options options = new Options();
         options.addOption(CL_CONFIG_FILE, "config-file", true, "The configuration file used to run this application.");
-        options.addOption(CL_CONFIG_STRING, "config-file", true, "The configuration, as a JSON String, used to run this application.");
+        options.addOption(CL_CONFIG_STRING, "config-string", true, "The configuration, as a JSON String, used to run this application.");
         
         
         Configuration config = null;
@@ -156,7 +156,7 @@ public class App {
             
             LOG.debug("Application is now running");
             Thread.currentThread().join();
-        } catch (IOException | InterruptedException ex) {
+        } catch (Exception ex) {
             LOG.error("Exception found.", ex);
         } finally {
             if (session != null){
