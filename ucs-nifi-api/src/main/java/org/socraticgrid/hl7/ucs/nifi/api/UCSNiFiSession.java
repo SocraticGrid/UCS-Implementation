@@ -163,7 +163,13 @@ public class UCSNiFiSession {
 
     }
     
-    private boolean initialized;
+    private static enum STATUS {
+        NOT_INITIALIZED,
+        INITIALIZED,
+        ERROR;
+    }
+    
+    private STATUS status = STATUS.NOT_INITIALIZED;
 
     private URL nifiSendMessageURL;
     
@@ -192,13 +198,18 @@ public class UCSNiFiSession {
 
     private synchronized NiFiHTTPBroker getNiFiHTTPBroker() {
         try{
-            if (!this.initialized){
+            if (this.status == STATUS.ERROR){
+                throw new IllegalStateException("This session is in ERROR status due to a previous error. Check the logs for more information.");
+            }
+            
+            if (this.status == STATUS.NOT_INITIALIZED){
                 this.init();
-                this.initialized = true;
+                this.status = STATUS.INITIALIZED;
             }
 
             return this.niFiHTTPBroker;
-        } catch (IOException | InterruptedException e){
+        } catch (Exception e){
+            this.status = STATUS.ERROR;
             throw new IllegalStateException(e);
         }
     }
