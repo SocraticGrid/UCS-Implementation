@@ -35,16 +35,18 @@ public class QueryConversationsCommand implements Command {
     @Override
     public JsonObject execute() {
         try {
-            final JsonArray results = new JsonArray();
-            
-            ConversationIntf conversation = CreateUCSSessionCommand.getLastSession().getNewConversation();
-            List<Conversation> conversations = conversation.queryConversions(null, null);
-            
-            conversations.stream()
-                    .map(c -> ToJSONConverter.toJsonObject(c))
-                    .forEach(results::add);
             
             JsonObject result = new JsonObject();
+            final JsonArray results = new JsonArray();
+            if (CreateUCSSessionCommand.getLastSession() != null){
+                ConversationIntf conversation = CreateUCSSessionCommand.getLastSession().getNewConversation();
+                List<Conversation> conversations = conversation.queryConversions(null, null);
+
+                conversations.stream()
+                        .map(c -> ToJSONConverter.toJsonObject(c))
+                        .forEach(results::add);
+            }
+            
             result.add("conversations", results);
             
             return result;

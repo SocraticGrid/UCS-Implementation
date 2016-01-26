@@ -68,18 +68,21 @@ public class GetAllMessagesCommand implements Command {
     public JsonObject execute() {
         try {
             final JsonArray results = new JsonArray();
-            
-            List<Message> messages = ((ClientImpl)CreateUCSSessionCommand.getLastSession().getNewClient()).listMessages();
-
-            //to make things easier for the client side, we will convert each 
-            //MessageSummary into a Message here.
-            //This is specifically taylored for the UI.
-            messages.stream()
-                    .filter(m -> typeMessageTypeFilter.isPresent() ? typeMessageTypeClass.isInstance(m) : true)
-                    .map(m -> ToJSONConverter.toJsonObject(m))
-                    .forEach(jo -> results.add(jo));
-            
             JsonObject result = new JsonObject();
+            
+            if (CreateUCSSessionCommand.getLastSession() != null){
+                List<Message> messages = ((ClientImpl)CreateUCSSessionCommand.getLastSession().getNewClient()).listMessages();
+
+                //to make things easier for the client side, we will convert each 
+                //MessageSummary into a Message here.
+                //This is specifically taylored for the UI.
+                messages.stream()
+                        .filter(m -> typeMessageTypeFilter.isPresent() ? typeMessageTypeClass.isInstance(m) : true)
+                        .map(m -> ToJSONConverter.toJsonObject(m))
+                        .forEach(jo -> results.add(jo));
+                
+            }
+            
             result.add("messages", results);
             
             return result;

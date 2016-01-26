@@ -35,16 +35,20 @@ public class DiscoverChannelsCommand implements Command {
     @Override
     public JsonObject execute() {
         try {
-            final JsonArray results = new JsonArray();
+            JsonObject result = new JsonObject();
+            
+            if (CreateUCSSessionCommand.getLastSession() == null){
+                throw new IllegalArgumentException("The Session is not yet started.");
+            }
             
             ManagementIntf management = CreateUCSSessionCommand.getLastSession().getNewManagement();
             List<ServiceInfo> discoverChannels = management.discoverChannels();
             
+            final JsonArray results = new JsonArray();
             discoverChannels.stream()
                     .map(si -> ToJSONConverter.toJsonObject(si))
                     .forEach(results::add);
             
-            JsonObject result = new JsonObject();
             result.add("channels", results);
             
             return result;

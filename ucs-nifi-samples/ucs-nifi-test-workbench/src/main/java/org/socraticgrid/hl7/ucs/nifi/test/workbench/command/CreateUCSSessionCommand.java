@@ -16,8 +16,9 @@
 package org.socraticgrid.hl7.ucs.nifi.test.workbench.command;
 
 import com.google.gson.JsonObject;
-import java.io.IOException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.socraticgrid.hl7.services.uc.exceptions.BadBodyException;
 import org.socraticgrid.hl7.services.uc.exceptions.FeatureNotSupportedException;
 import org.socraticgrid.hl7.services.uc.exceptions.InvalidContentException;
@@ -42,6 +43,8 @@ import org.socraticgrid.hl7.ucs.nifi.test.workbench.converter.ToJSONConverter;
  */
 public class CreateUCSSessionCommand implements Command {
 
+    private final static Logger LOG = LoggerFactory.getLogger(CreateUCSSessionCommand.class);
+    
     private static final Object lastUCSSessionLock = new Object();
     private static UCSNiFiSession lastSession;
 
@@ -83,8 +86,8 @@ public class CreateUCSSessionCommand implements Command {
             if (lastSession != null) {
                 try {
                     lastSession.dispose();
-                } catch (IOException ex) {
-                    throw new IllegalStateException("Exception terminating previous UCS Session", ex);
+                } catch (Exception ex) {
+                    LOG.warn("Error disposing previous UCS Session.");
                 }
             }
 

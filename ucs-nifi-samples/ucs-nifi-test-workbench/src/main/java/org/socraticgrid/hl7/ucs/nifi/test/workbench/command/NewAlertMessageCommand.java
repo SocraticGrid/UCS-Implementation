@@ -21,6 +21,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.socraticgrid.hl7.services.uc.model.MessageModel;
@@ -48,6 +49,20 @@ public class NewAlertMessageCommand implements Command {
         
     }
     
+    public static class Property {
+        public String key;
+        public String value;
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+    }
+    
     @Override
     public void init(JsonObject config) {
         try {
@@ -66,6 +81,16 @@ public class NewAlertMessageCommand implements Command {
                 finalRecipients.add(r);
             }
             
+            List<Property> finalProperties = new ArrayList<>();
+            JsonArray properties = config.get("properties").getAsJsonArray();
+            for (JsonElement property : properties) {
+                Property p = new Property();
+                p.key = property.getAsJsonObject().get("key").getAsString();
+                p.value = property.getAsJsonObject().get("value").getAsString();
+                
+                finalProperties.add(p);
+            }
+            
             String template = IOUtils.toString(NewAlertMessageCommand.class
                     .getResourceAsStream("/templates/alert-message-sample.tpl"));
             
@@ -77,6 +102,7 @@ public class NewAlertMessageCommand implements Command {
             st.add("body", body);
             st.add("status", status);
             st.add("recipients", finalRecipients);
+            st.add("properties", finalProperties);
             
             this.message = st.render();
             

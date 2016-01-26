@@ -182,6 +182,7 @@
                                 <tr>
                                     <th>Status</th>
                                     <th>Subject</th>
+                                    <th>Properties</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -202,66 +203,120 @@
                     </div>
                     <div class="modal-body">
                         <div class="panel panel-default">
-                            <div class="panel-body">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label for="sendMessageModal_from" class="col-sm-2 control-label">From</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" id="sendMessageModal_from">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <a data-toggle="collapse" href="#sendMessageModal_data_panel">Data</a>
+                                </h3>
+                            </div>
+                            <div id="sendMessageModal_data_panel" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="sendMessageModal_from" class="col-sm-2 control-label">From</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" id="sendMessageModal_from">
+                                                    <option value="eafry">Emory Fry</option>
+                                                    <option value="ealiverti">Esteban Aliverti</option>
+                                                    <option value="jhughes">Jonathan Hughes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sendMessageModal_conversation" class="col-sm-2 control-label">Conversation</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" id="sendMessageModal_conversation"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sendMessageModal_subject" class="col-sm-2 control-label">Subject</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="sendMessageModal_subject"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sendMessageModal_body" class="col-sm-2 control-label">Body</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control" id="sendMessageModal_body"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <a data-toggle="collapse" href="#sendMessageModal_properties_panel">Properties</a>
+                                </h3>
+                            </div>
+                            <div id="sendMessageModal_properties_panel" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group col-sm-5">
+                                            <label for="sendMessageModal_new_property_key" class="control-label">Key</label>
+                                            <input type="text" class="form-control" id="sendMessageModal_new_property_key"/>
+                                        </div>
+                                        <div class="form-group col-sm-5">
+                                            <label for="sendMessageModal_new_property_key" class="control-label">Value</label>
+                                            <input type="text" class="form-control" id="sendMessageModal_new_property_value"/>
+                                        </div>
+                                        <div class="form-group col-sm-2">
+                                            <label>&nbsp;</label>
+                                            <input id="btnsendMessageModal_new_property_add" type="button" class="form-control btn btn-info" value="Add"/>
+                                        </div>
+                                        <table id="btnsendMessageModa_properties_table" class="table table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Key</th>
+                                                    <th>Value</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <a data-toggle="collapse" href="#sendMessageModal_recipients_panel">Recipients</a>
+                                </h3>
+                            </div>
+                            <div id="sendMessageModal_recipients_panel" class="panel-collapse in">
+                                <div class="panel-body">
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group">
+                                            <label for="sendMessageModal_recipient_to" class="control-label">New Recipient</label>
+                                            <select class="form-control" id="sendMessageModal_recipient_to">
                                                 <option value="eafry">Emory Fry</option>
                                                 <option value="ealiverti">Esteban Aliverti</option>
                                                 <option value="jhughes">Jonathan Hughes</option>
+                                                <option value="johndoe">John Doe (Unknown)</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sendMessageModal_conversation" class="col-sm-2 control-label">Conversation</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" id="sendMessageModal_conversation"></select>
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <input id="btnsendMessageModal_recipient_add" type="button" class="form-control btn btn-info" value="Add"/>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sendMessageModal_subject" class="col-sm-2 control-label">Subject</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="sendMessageModal_subject"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sendMessageModal_body" class="col-sm-2 control-label">Body</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" id="sendMessageModal_body"></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                                <form class="form-inline" role="form">
-                                    <div class="form-group">
-                                        <label for="sendMessageModal_recipient_to" class="control-label">New Recipient</label>
-                                        <select class="form-control" id="sendMessageModal_recipient_to">
-                                            <option value="eafry">Emory Fry</option>
-                                            <option value="ealiverti">Esteban Aliverti</option>
-                                            <option value="jhughes">Jonathan Hughes</option>
-                                            <option value="johndoe">John Doe (Unknown)</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <input id="btnsendMessageModal_recipient_add" type="button" class="form-control btn btn-info" value="Add"/>
-                                    </div>
-                                    <table id="btnsendMessageModa_recipient_table" class="table table-condensed table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>To</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </form>
-                                <div style="text-align: center;">
-                                    <input id="btnsendMessageModal_send" type="button" class="btn btn-success" value="Send"/>
+                                        <table id="btnsendMessageModa_recipient_table" class="table table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>To</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </form>
                                 </div>
                             </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <input id="btnsendMessageModal_send" type="button" class="btn btn-success" value="Send"/>
                         </div>
                     </div>
                 </div>
@@ -278,15 +333,17 @@
                     onAlertCanceled: cancelMessageOnInbox,
                     onException: handleException
                 },
-                function () {
-                    loadInitialConfiguration();
-                    refreshUCSSessionStatus();
-                });
-                
-                $("#ucsConfigCollapse").on("hide.bs.collapse", function(){
+                        function () {
+                            loadInitialConfiguration();
+                            refreshUCSSessionStatus();
+                            refreshMessages();
+                            refreshConversations();
+                        });
+
+                $("#ucsConfigCollapse").on("hide.bs.collapse", function () {
                     $("#btnConfigCollapse").html('<span class="glyphicon glyphicon-collapse-down"></span> Show Configuration');
                 });
-                $("#ucsConfigCollapse").on("show.bs.collapse", function(){
+                $("#ucsConfigCollapse").on("show.bs.collapse", function () {
                     $("#btnConfigCollapse").html('<span class="glyphicon glyphicon-collapse-up"></span> Hide Configuration');
                 });
 
@@ -304,7 +361,7 @@
                 $("#refreshConversations").on('click', function () {
                     refreshConversations();
                 });
-                
+
                 $("#inboxFor").on('change', function () {
                     refreshMessages();
                 });
@@ -331,6 +388,12 @@
                     addNewRecipient(to);
                 });
 
+                $("#btnsendMessageModal_new_property_add").on('click', function () {
+                    var key = $("#sendMessageModal_new_property_key").val();
+                    var value = $("#sendMessageModal_new_property_value").val();
+                    addNewProperty(key, value);
+                });
+
                 $("#btnsendMessageModal_send").on('click', function () {
                     var from = $("#sendMessageModal_from").val();
                     var conversationId = $("#sendMessageModal_conversation").val();
@@ -338,11 +401,18 @@
                     var body = $("#sendMessageModal_body").val();
 
                     var recipients = [];
-
                     $('#btnsendMessageModa_recipient_table > tbody:last > tr').each(function () {
                         var r = {};
                         r["to"] = $("td[name='to']", this).html();
                         recipients.push(r);
+                    });
+                    
+                    var properties = [];
+                    $('#btnsendMessageModa_properties_table > tbody:last > tr').each(function () {
+                        var p = {};
+                        p["key"] = $("td[name='key']", this).html();
+                        p["value"] = $("td[name='value']", this).html();
+                        properties.push(p);
                     });
 
                     if ($.trim(body) === "") {
@@ -355,24 +425,24 @@
                         return;
                     }
 
-                    ucsWS.sendNewAlertMessageCommand(from, conversationId, subject, body, recipients);
+                    ucsWS.sendNewAlertMessageCommand(from, conversationId, subject, body, recipients, properties);
 
                     $('#sendMessageModal').modal('toggle');
                 });
-                
+
                 $("#btnCreateConversation").on('click', function () {
                     var conversationId = $("#txtNewConversationId").val();
                     createNewConversation(conversationId);
                 });
-                
+
                 $("#cboConversations").on('change', function () {
                     var conversationId = $("#cboConversations").val();
-                    
-                    if (!conversationId || conversationId === ""){
+
+                    if (!conversationId || conversationId === "") {
                         filterMessages(undefined);
                     } else {
                         ucsWS.sendRetrieveConversationCommand(conversationId, function (r) {
-                            if (!r.success){
+                            if (!r.success) {
                                 alert(r.error);
                                 return;
                             }
@@ -381,14 +451,14 @@
                     }
                 });
             });
-            
-            function loadInitialConfiguration(){
-                ucsWS.getInitialConfiguration(function(r){
-                    if(!r.success){
-                        alert("Error getting initial configuration: "+r.error);
+
+            function loadInitialConfiguration() {
+                ucsWS.getInitialConfiguration(function (r) {
+                    if (!r.success) {
+                        alert("Error getting initial configuration: " + r.error);
                         return;
                     }
-                    
+
                     $("#ucsSession_nifiHost").val(r.result.serverHost);
                     $("#ucsSession_nifiClientCommandPort").val(r.result.serverClientPort);
                     $("#ucsSession_nifiAlertingCommandPort").val(r.result.serverAlertingPort);
@@ -401,13 +471,15 @@
                     $("#ucsSession_alertingPort").val(r.result.clientAlertingPort);
                     $("#ucsSession_managementPort").val(r.result.clientManagementPort);
                     $("#ucsSession_conversationPort").val(r.result.clientConversationPort);
-                    
+
                 });
             }
 
             function createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort) {
                 ucsWS.sendCreateUCSSessionCommand(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort, function () {
                     refreshUCSSessionStatus();
+                    refreshMessages();
+                    refreshConversations();
                 });
             }
 
@@ -416,7 +488,7 @@
                 var userId = $("#inboxFor").val();
                 getAllAlertMessages(userId);
             }
-            
+
             function refreshConversations() {
                 $("#cboConversations").empty();
                 $("#sendMessageModal_conversation").empty();
@@ -439,7 +511,7 @@
                     });
                 });
             }
-            
+
             function getAllConversations() {
                 ucsWS.sendQueryConversationsCommand(function (r) {
                     $('#cboConversations').append($('<option>', {
@@ -462,32 +534,32 @@
                     });
                 });
             }
-            
-            function createNewConversation(conversationId){
+
+            function createNewConversation(conversationId) {
                 ucsWS.sendCreateConversationCommand(conversationId, function (r) {
-                    if(!r.success){
+                    if (!r.success) {
                         alert(r.error);
                         return;
                     }
                     refreshConversations();
                 });
             }
-            
-            function filterMessages(messagesIds){
-                var showAll=false;
-                if(!messagesIds){
+
+            function filterMessages(messagesIds) {
+                var showAll = false;
+                if (!messagesIds) {
                     showAll = true;
                 }
-                
-                
-                $.each($("#inboxTable > tbody:last > tr"), function(){
-                    if (showAll || $.inArray($(this).data("message"), messagesIds) === -1){
+
+
+                $.each($("#inboxTable > tbody:last > tr"), function () {
+                    if (showAll || $.inArray($(this).data("message"), messagesIds) === -1) {
                         $(this).animate({backgroundColor: "#FFFFFF"});
                     } else {
-                        $(this).animate({backgroundColor: "yellow"});    
+                        $(this).animate({backgroundColor: "yellow"});
                     }
                 });
-                
+
             }
 
             function verifyUserAndAddMessageToInbox(m) {
@@ -540,6 +612,10 @@
                 $('#btnsendMessageModa_recipient_table > tbody:last').append('<tr><td name="to">' + to + '</td><td><a href="javascript:deleteRecipient(\'' + to + '\');"><span class="glyphicon glyphicon-remove" title="Remove Recipient"></span></a></td></tr>');
             }
 
+            function addNewProperty(key, value) {
+                $('#btnsendMessageModa_properties_table > tbody:last').append('<tr><td name="key">' + key + '</td><td name="value">' + value + '</td><td><a href="javascript:deleteProperty(\'' + key + '\');"><span class="glyphicon glyphicon-remove" title="Remove Property"></span></a></td></tr>');
+            }
+
             function deleteRecipient(to) {
                 $('#btnsendMessageModa_recipient_table > tbody:last > tr').each(function () {
                     var currentTo = $("td[name='to']", this).html();
@@ -550,12 +626,22 @@
                 });
             }
 
+            function deleteProperty(key) {
+                $('#btnsendMessageModa_properties_table > tbody:last > tr').each(function () {
+                    var currentTo = $("td[name='key']", this).html();
+
+                    if (key === currentTo) {
+                        this.remove();
+                    }
+                });
+            }
+
             function handleException(e) {
                 alert(e.exception.fault);
             }
 
             function addMessageToInbox(m) {
-                $('#inboxTable > tbody:last').append('<tr data-message="'+m.messageId+'" messageId="' + m.messageId + '">' + createInboxRow(m) + '</tr>');
+                $('#inboxTable > tbody:last').append('<tr data-message="' + m.messageId + '" messageId="' + m.messageId + '">' + createInboxRow(m) + '</tr>');
             }
 
             function updateMessageOnInbox(m) {
@@ -582,7 +668,15 @@
             }
 
             function createInboxRow(m) {
-                return '<td>' + m.status + '</td><td>' + m.subject + '</td><td><a href="javascript:ackAlert(\'' + m.messageId + '\');">ACK</a>&nbsp;<a href="javascript:cancelAlert(\'' + m.messageId + '\');">CANCEL</a></td>';
+                var propertiesAsString = "";
+                
+                if (m.properties){
+                    $.each(m.properties, function(){
+                        propertiesAsString += this.key + " -> " + this.value + ", ";
+                    });
+                }
+                
+                return '<td>' + m.status + '</td><td>' + m.subject + '</td><td>' + propertiesAsString + '</td><td><a href="javascript:ackAlert(\'' + m.messageId + '\');">ACK</a>&nbsp;<a href="javascript:cancelAlert(\'' + m.messageId + '\');">CANCEL</a></td>';
             }
 
         </script>

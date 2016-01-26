@@ -81,6 +81,17 @@ public class ToJSONConverter {
         
         result.addProperty("status", message.getHeader().getAlertStatus().name());
         
+        JsonArray properties = new JsonArray();
+        if (message.getHeader().getProperties() != null){
+            for (Map.Entry<Object, Object> entry : message.getHeader().getProperties().entrySet()) {
+                JsonObject prop = new JsonObject();
+                prop.addProperty("key", (String)entry.getKey());
+                prop.addProperty("value", (String)entry.getValue());
+                properties.add(prop);
+            }
+        }
+        result.add("properties", properties);
+        
         return result;
     }
     

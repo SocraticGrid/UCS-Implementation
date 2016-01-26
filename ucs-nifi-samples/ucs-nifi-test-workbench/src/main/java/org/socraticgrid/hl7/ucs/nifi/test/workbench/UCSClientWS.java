@@ -29,6 +29,8 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.CancelMessagesCommand;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.Command;
 import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.CreateConversationCommand;
@@ -56,6 +58,8 @@ import org.socraticgrid.hl7.ucs.nifi.test.workbench.command.UpdateMessagesComman
  */
 @ServerEndpoint("/ucs")
 public class UCSClientWS {
+    
+    private final static Logger LOG = LoggerFactory.getLogger(UCSClientWS.class);
 
     public static enum MESSAGE_TYPE {
         MESSAGE,
@@ -146,7 +150,7 @@ public class UCSClientWS {
             response.addProperty("success", Boolean.TRUE);
             response.add("result", commandResult);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error processing command.", e);
             response.addProperty("success", Boolean.FALSE);
             response.addProperty("error", e.getMessage());
         }        
@@ -167,7 +171,7 @@ public class UCSClientWS {
                 try {
                     s.getBasicRemote().sendText(json);
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    LOG.warn("Error notifying WS client.", ex);
                 }
             }
         });

@@ -122,14 +122,15 @@ var ucsWS = {
             recipients: recipients
         });
     },
-    "sendNewAlertMessageCommand": function(from, conversationId, subject, body, recipients){
+    "sendNewAlertMessageCommand": function(from, conversationId, subject, body, recipients, properties){
         this.sendCommand({
             type: "newAlertMessage",
             from: from,
             conversationId: conversationId,
             subject: subject,
             body: body,
-            recipients: recipients
+            recipients: recipients,
+            properties: properties
         });
     },
     "sendGetAllMessagesCommand": function(callback){

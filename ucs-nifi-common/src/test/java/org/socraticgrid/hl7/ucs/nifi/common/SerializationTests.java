@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 import static org.junit.Assert.*;
@@ -321,6 +322,9 @@ public class SerializationTests {
         header.setSubject(subject);
         header.setRecipientsList(recipients);
         header.setReceiptNotification(true);
+        header.setProperties(new Properties());
+        header.getProperties().setProperty("Prop 1", "Val 1");
+        header.getProperties().setProperty("Prop 2", "Val 2");
         
         MessageBody body = new MessageBody();
         body.setContent(content);
@@ -338,6 +342,7 @@ public class SerializationTests {
         MessageWrapper deserializedMessage = MessageSerializer.deserializeMessageWrapper(serializedMessage);
 
         assertThat(deserializedMessage.getMessage().getHeader().getSubject(), is(subject));
+        assertThat(deserializedMessage.getMessage().getHeader().getProperties().entrySet().size(), is(2));
         assertThat(deserializedMessage.getMessage().getParts().length, is(1));
         assertThat(deserializedMessage.getMessage().getParts()[0].getContent(), is(content));
         assertThat(deserializedMessage.getMessage().getParts()[0].getType(), is(contentType));

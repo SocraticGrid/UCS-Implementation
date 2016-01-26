@@ -35,6 +35,11 @@ public class GetStatusCommand implements Command {
     @Override
     public JsonObject execute() {
         try {
+            
+            if (CreateUCSSessionCommand.getLastSession() == null){
+                throw new IllegalArgumentException("The Session is not yet started.");
+            }
+            
             final JsonArray results = new JsonArray();
             
             ManagementIntf management = CreateUCSSessionCommand.getLastSession().getNewManagement();
