@@ -18,6 +18,7 @@ package org.socraticgrid.hl7.ucs.nifi.common.util;
 import org.socraticgrid.hl7.ucs.nifi.common.util.AlertMessageBuilder;
 import org.socraticgrid.hl7.ucs.nifi.common.util.MessageBuilder;
 import java.io.IOException;
+import java.util.Properties;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -62,6 +63,35 @@ public class AlertMessageBuilderTest {
         
         assertThat(mw.getMessage(), is(instanceOf(AlertMessage.class)));
         assertThat(((AlertMessage)mw.getMessage()).getHeader().getAlertStatus(), is(AlertStatus.Acknowledged));
+        assertThat(((AlertMessage)mw.getMessage()).getHeader().getProperties().size(), is(0));
+    }
+    
+    @Test
+    public void testProperties() throws IOException, MessageSerializationException{
+        
+        String messageW = new AlertMessageBuilder()
+                .withStatus(AlertStatus.Acknowledged)
+                .addProperty("property-1", "value-1")
+                .addProperty("property-2", "value-2")
+                .withConversationId("testC")    
+                .withSender("eafry")
+                .withSubject("Some Subject")
+                .withBody("Some Body")
+                .addRecipient(new MessageBuilder.Recipient("ealivert", "EMAIL"))
+                .buildSerializedMessageWrapper();
+        
+        System.out.println("\nMessage:\n"+messageW+"\n");
+        
+        MessageWrapper mw = MessageSerializer.deserializeMessageWrapper(messageW);
+        
+        System.out.println("MessageW: "+mw);
+        
+        assertThat(mw.getMessage(), is(instanceOf(AlertMessage.class)));
+        
+        Properties properties = ((AlertMessage)mw.getMessage()).getHeader().getProperties();
+        assertThat(properties.size(), is(2));
+        assertThat(properties.getProperty("property-1"), is("value-1"));
+        assertThat(properties.getProperty("property-2"), is("value-2"));
         
     }
 }

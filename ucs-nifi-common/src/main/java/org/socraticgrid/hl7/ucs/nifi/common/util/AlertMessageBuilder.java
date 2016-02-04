@@ -16,6 +16,8 @@
 package org.socraticgrid.hl7.ucs.nifi.common.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.socraticgrid.hl7.services.uc.model.AlertMessage;
 import org.socraticgrid.hl7.services.uc.model.AlertStatus;
@@ -30,7 +32,27 @@ public class AlertMessageBuilder extends MessageBuilder{
     
     private final String embeddedAlertMessageTemplate;
     private String status = AlertStatus.New.name();
+    private List<Property> properties = new ArrayList<>();
 
+    public static class Property {
+        private String key;
+        private String value;
+
+        public Property(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+        
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+    }
+    
     public AlertMessageBuilder() throws IOException {
         embeddedAlertMessageTemplate = IOUtils.toString(MessageBuilder.class
                 .getResourceAsStream("/templates/embedded-alert-message-template.tpl"));
@@ -41,10 +63,16 @@ public class AlertMessageBuilder extends MessageBuilder{
         return this;
     }
     
+    public AlertMessageBuilder addProperty(String key, String value){
+        this.properties.add(new Property(key, value));
+        return this;
+    }
+    
     @Override
     protected ST prepareTemplate(String template){
         ST st = super.prepareTemplate(template);
         st.add("status", status);
+        st.add("properties", properties);
         
         return st;
     }
