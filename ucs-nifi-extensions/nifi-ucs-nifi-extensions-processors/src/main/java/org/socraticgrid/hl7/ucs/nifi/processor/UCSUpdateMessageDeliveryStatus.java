@@ -90,6 +90,14 @@ public class UCSUpdateMessageDeliveryStatus extends AbstractProcessor {
             .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
             .build();
 
+    public static final PropertyDescriptor ALLOW_EMPTY_REFERENCES = new PropertyDescriptor.Builder()
+            .name("Allow Empty References")
+            .description("If true, incoming flows wihtout a Reference don't generate any error.")
+            .required(true)
+            .defaultValue("true")
+            .allowableValues("true", "false")
+            .build();
+
     public static final PropertyDescriptor WRITE_RESULT_TO_CONTENT = new PropertyDescriptor.Builder()
             .name("Write to Content")
             .description("Specifies whether the updated Message needs to be serialized as the content of the outgoing FlowFile. If false, the original content will be forwarded.")
@@ -118,6 +126,7 @@ public class UCSUpdateMessageDeliveryStatus extends AbstractProcessor {
         properties.add(REFERENCE_ATTRIBUTE_NAME);
         properties.add(DELIVERY_STATUS_ACTION);
         properties.add(DELIVERY_STATUS);
+        properties.add(ALLOW_EMPTY_REFERENCES);
         properties.add(WRITE_RESULT_TO_CONTENT);
         this.properties = Collections.unmodifiableList(properties);
     }
@@ -143,16 +152,13 @@ public class UCSUpdateMessageDeliveryStatus extends AbstractProcessor {
         String referenceAttributeName = context.getProperty(REFERENCE_ATTRIBUTE_NAME).getValue();
         String action = context.getProperty(DELIVERY_STATUS_ACTION).getValue();
         String status = context.getProperty(DELIVERY_STATUS).getValue();
+        Boolean allowEmptyReferences = context.getProperty(ALLOW_EMPTY_REFERENCES).asBoolean();
         Boolean writeContent = context.getProperty(WRITE_RESULT_TO_CONTENT).asBoolean();
 
         final ProcessorLog logger = getLogger();
 
-        //TODO: there are some situations where a reference doesn't exist, like in the Alerts.
-        //There are 2 options: either we make the reference optional in this 
-        //processor, or we create a UCSPrepareAlertMessage processor that sets
-        //a reference for the message.
         String reference = flowFile.getAttribute(referenceAttributeName);
-        if (reference == null || reference.isEmpty()) {
+        if (!allowEmptyReferences && (reference == null || reference.isEmpty())) {
             logger.error("Reference ({}) not found in current FlowFile {}.", new Object[]{referenceAttributeName, flowFile});
             UCSCreateException.routeFlowFileToException(
                     context,
@@ -168,130 +174,137 @@ public class UCSUpdateMessageDeliveryStatus extends AbstractProcessor {
             return;
         }
 
-        String[] references = reference.split(",");
+        if (reference != null && !reference.isEmpty()) {
+            String[] references = reference.split(",");
 
-        //all the references should belong to a single message
-        Message message = null;
+            //all the references should belong to a single message
+            Message message = null;
 
-        for (int i = 0; i < references.length; i++) {
-            String ref = references[i];
+            for (int i = 0; i < references.length; i++) {
+                String ref = references[i];
 
-            Optional<Message> messageByReference = ucsService.getMessageByReference(ref);
-            Optional<String> recipientIdByReference = ucsService.getRecipientIdByReference(ref);
+                Optional<Message> messageByReference = ucsService.getMessageByReference(ref);
+                Optional<String> recipientIdByReference = ucsService.getRecipientIdByReference(ref);
 
-            if (!messageByReference.isPresent() || !recipientIdByReference.isPresent()) {
-                logger.debug("No message or recipient matching the reference id '{}'. Routing FlowFile {} to {}.", new Object[]{ref, flowFile, REL_NO_MATCH});
-                session.transfer(flowFile, REL_NO_MATCH);
-                session.getProvenanceReporter().route(flowFile, REL_NO_MATCH);
-                return;
-            }
-
-            if (message != null && !(message.getHeader().getMessageId().equals(messageByReference.get().getHeader().getMessageId()))) {
-                //all the references should belong to a single message
-                UCSCreateException.routeFlowFileToException(
-                        context,
-                        session,
-                        logger,
-                        flowFile,
-                        REL_FAILURE,
-                        null,
-                        "All reference must belong to the same message! " + message.getHeader().getMessageId() + " != " + messageByReference.get().getHeader().getMessageId(),
-                        ExceptionType.InvalidMessage,
-                        null,
-                        null);
-                return;
-            }
-            message = messageByReference.get();
-
-            Optional<Recipient> recipient = message.getHeader().getRecipientsList().stream()
-                    .filter(r -> r.getRecipientId().equals(recipientIdByReference.get()))
-                    .findFirst();
-
-            if (!recipient.isPresent()) {
-                //Strange situation: the reference id makes reference to a recipient
-                //that doesn't belong to the message it also makes reference... 
-                //We should never reach this point... But you never know.
-                logger.debug("The recipient {} referenced by the reference id {} doesn't match the message {} referenced by the same reference id. Routing FlowFile {} to {}.", new Object[]{recipientIdByReference.get(), reference, message.getHeader().getMessageId(), flowFile, REL_FAILURE});
-                UCSCreateException.routeFlowFileToException(
-                        context,
-                        session,
-                        logger,
-                        flowFile,
-                        REL_FAILURE,
-                        null,
-                        "The recipient "+recipientIdByReference.get()+" referenced by the reference id "+reference+" doesn't match the message referenced by the same reference id ",
-                        ExceptionType.InvalidContext,
-                        null,
-                        null);
-                return;
-            }
-
-            DeliveryStatus deliveryStatus = new DeliveryStatus();
-            deliveryStatus.setTimestamp(new Date());
-            deliveryStatus.setRecipient(recipient.get());
-            deliveryStatus.setAddress(recipient.get().getDeliveryAddress());
-            deliveryStatus.setAction(action);
-            deliveryStatus.setStatus(status);
-
-            //TODO: this part is no thread safe!
-            List<DeliveryStatus> deliveryStatusList = message.getHeader().getDeliveryStatusList();
-            if (deliveryStatusList == null) {
-                deliveryStatusList = new ArrayList<>();
-                message.getHeader().setDeliveryStatusList(deliveryStatusList);
-            }
-            deliveryStatusList.add(deliveryStatus);
-
-            ucsService.saveMessage(message);
-            
-            logger.debug("New Delivery Status for message {} added. Recipient: '{}', Address: '{}', Action: '{}', Status: '{}'", new Object[]{
-                message.getHeader().getMessageId(),
-                recipient.get().getRecipientId(),
-                recipient.get().getDeliveryAddress(),
-                action,
-                status
-            });
-        }
-
-        //do we need to serialize the updated message as the content of the outgoing
-        //FlowFile?
-        if (writeContent && message != null) {
-            Message finalMessage = message;
-            final ObjectHolder<Throwable> errorHolder = new ObjectHolder<>(null);
-
-            flowFile = session.write(flowFile, new OutputStreamCallback() {
-                @Override
-                public void process(final OutputStream out) throws IOException {
-                    try {
-                        out.write(MessageSerializer.serializeMessageWrapper(new MessageWrapper(finalMessage)).getBytes());
-                    } catch (MessageSerializationException ex) {
-                        //should never happen
-                        errorHolder.set(ex);
-                    }
+                if (!messageByReference.isPresent() || !recipientIdByReference.isPresent()) {
+                    logger.debug("No message or recipient matching the reference id '{}'. Routing FlowFile {} to {}.", new Object[]{ref, flowFile, REL_NO_MATCH});
+                    session.transfer(flowFile, REL_NO_MATCH);
+                    session.getProvenanceReporter().route(flowFile, REL_NO_MATCH);
+                    return;
                 }
-            });
 
-            if (errorHolder.get() != null) {
-                logger.error(errorHolder.get().getMessage(), errorHolder.get());
-                UCSCreateException.routeFlowFileToException(
-                        context,
-                        session,
-                        logger,
-                        flowFile,
-                        REL_FAILURE,
-                        null,
-                        "Error serializing message '"+finalMessage+"': "+errorHolder.get().getMessage(),
-                        ExceptionType.InvalidMessage,
-                        null,
-                        null);
-                return;
+                if (message != null && !(message.getHeader().getMessageId().equals(messageByReference.get().getHeader().getMessageId()))) {
+                    //all the references should belong to a single message
+                    UCSCreateException.routeFlowFileToException(
+                            context,
+                            session,
+                            logger,
+                            flowFile,
+                            REL_FAILURE,
+                            null,
+                            "All reference must belong to the same message! " + message.getHeader().getMessageId() + " != " + messageByReference.get().getHeader().getMessageId(),
+                            ExceptionType.InvalidMessage,
+                            null,
+                            null);
+                    return;
+                }
+                message = messageByReference.get();
+
+                Optional<Recipient> recipient = message.getHeader().getRecipientsList().stream()
+                        .filter(r -> r.getRecipientId().equals(recipientIdByReference.get()))
+                        .findFirst();
+
+                if (!recipient.isPresent()) {
+                    //Strange situation: the reference id makes reference to a recipient
+                    //that doesn't belong to the message it also makes reference... 
+                    //We should never reach this point... But you never know.
+                    logger.debug("The recipient {} referenced by the reference id {} doesn't match the message {} referenced by the same reference id. Routing FlowFile {} to {}.", new Object[]{recipientIdByReference.get(), reference, message.getHeader().getMessageId(), flowFile, REL_FAILURE});
+                    UCSCreateException.routeFlowFileToException(
+                            context,
+                            session,
+                            logger,
+                            flowFile,
+                            REL_FAILURE,
+                            null,
+                            "The recipient " + recipientIdByReference.get() + " referenced by the reference id " + reference + " doesn't match the message referenced by the same reference id ",
+                            ExceptionType.InvalidContext,
+                            null,
+                            null);
+                    return;
+                }
+
+                DeliveryStatus deliveryStatus = new DeliveryStatus();
+                deliveryStatus.setTimestamp(new Date());
+                deliveryStatus.setRecipient(recipient.get());
+                deliveryStatus.setAddress(recipient.get().getDeliveryAddress());
+                deliveryStatus.setAction(action);
+                deliveryStatus.setStatus(status);
+
+                //TODO: this part is no thread safe!
+                List<DeliveryStatus> deliveryStatusList = message.getHeader().getDeliveryStatusList();
+                if (deliveryStatusList == null) {
+                    deliveryStatusList = new ArrayList<>();
+                    message.getHeader().setDeliveryStatusList(deliveryStatusList);
+                }
+                deliveryStatusList.add(deliveryStatus);
+
+                ucsService.saveMessage(message);
+
+                logger.debug("New Delivery Status for message {} added. Recipient: '{}', Address: '{}', Action: '{}', Status: '{}'", new Object[]{
+                    message.getHeader().getMessageId(),
+                    recipient.get().getRecipientId(),
+                    recipient.get().getDeliveryAddress(),
+                    action,
+                    status
+                });
             }
 
-            session.getProvenanceReporter().modifyContent(flowFile, "Content updated with Message's latest version.");
-        }
+            //do we need to serialize the updated message as the content of the outgoing
+            //FlowFile?
+            if (writeContent && message != null) {
+                Message finalMessage = message;
+                final ObjectHolder<Throwable> errorHolder = new ObjectHolder<>(null);
 
-        //route FlowFile to SUCCESS
-        logger.debug("Delivery Status updated. Routing FlowFile {} to {}.", new Object[]{flowFile, REL_SUCCESS});
-        session.transfer(flowFile, REL_SUCCESS);
-        session.getProvenanceReporter().route(flowFile, REL_SUCCESS);
+                flowFile = session.write(flowFile, new OutputStreamCallback() {
+                    @Override
+                    public void process(final OutputStream out) throws IOException {
+                        try {
+                            out.write(MessageSerializer.serializeMessageWrapper(new MessageWrapper(finalMessage)).getBytes());
+                        } catch (MessageSerializationException ex) {
+                            //should never happen
+                            errorHolder.set(ex);
+                        }
+                    }
+                });
+
+                if (errorHolder.get() != null) {
+                    logger.error(errorHolder.get().getMessage(), errorHolder.get());
+                    UCSCreateException.routeFlowFileToException(
+                            context,
+                            session,
+                            logger,
+                            flowFile,
+                            REL_FAILURE,
+                            null,
+                            "Error serializing message '" + finalMessage + "': " + errorHolder.get().getMessage(),
+                            ExceptionType.InvalidMessage,
+                            null,
+                            null);
+                    return;
+                }
+
+                session.getProvenanceReporter().modifyContent(flowFile, "Content updated with Message's latest version.");
+            }
+
+            //route FlowFile to SUCCESS
+            logger.debug("Delivery Status updated. Routing FlowFile {} to {}.", new Object[]{flowFile, REL_SUCCESS});
+            session.transfer(flowFile, REL_SUCCESS);
+            session.getProvenanceReporter().route(flowFile, REL_SUCCESS);
+        } else {
+            //route FlowFile to SUCCESS
+            logger.debug("No Reference found. Routing FlowFile {} to {}.", new Object[]{flowFile, REL_SUCCESS});
+            session.transfer(flowFile, REL_SUCCESS);
+            session.getProvenanceReporter().route(flowFile, REL_SUCCESS);
+        }
     }
 }

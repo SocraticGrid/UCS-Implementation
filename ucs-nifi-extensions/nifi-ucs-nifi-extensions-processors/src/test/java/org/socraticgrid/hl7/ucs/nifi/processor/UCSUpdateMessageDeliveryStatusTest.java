@@ -40,7 +40,57 @@ import org.socraticgrid.hl7.ucs.nifi.common.util.MessageBuilder;
 public class UCSUpdateMessageDeliveryStatusTest extends UCSControllerServiceBasedTest {
 
     @Test
-    public void testNoReference() throws MessageSerializationException {
+    public void testNoReferenceOk() throws MessageSerializationException {
+
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.REFERENCE_ATTRIBUTE_NAME, "ref");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.DELIVERY_STATUS_ACTION, "Deliver");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.DELIVERY_STATUS, "OK");
+        
+        Map<String, String> attributes = new HashMap<>();
+        
+        testRunner.enqueue(new byte[]{}, attributes);
+        testRunner.run();
+        
+        testRunner.assertAllFlowFilesTransferred(UCSUpdateMessageDeliveryStatus.REL_SUCCESS, 1);
+    }
+    
+    @Test
+    public void testNoReferenceFail() throws MessageSerializationException {
+
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.REFERENCE_ATTRIBUTE_NAME, "ref");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.DELIVERY_STATUS_ACTION, "Deliver");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.DELIVERY_STATUS, "OK");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.ALLOW_EMPTY_REFERENCES, "false");
+        
+        Map<String, String> attributes = new HashMap<>();
+        
+        testRunner.enqueue(new byte[]{}, attributes);
+        testRunner.run();
+        
+        testRunner.assertAllFlowFilesTransferred(UCSUpdateMessageDeliveryStatus.REL_FAILURE, 1);
+    }
+    
+    @Test
+    public void testInvalidReference1() throws MessageSerializationException {
+
+        String reference = UUID.randomUUID().toString();
+        
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.REFERENCE_ATTRIBUTE_NAME, "ref");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.DELIVERY_STATUS_ACTION, "Deliver");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.DELIVERY_STATUS, "OK");
+        testRunner.setProperty(UCSUpdateMessageDeliveryStatus.ALLOW_EMPTY_REFERENCES, "false");
+        
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("ref", reference);
+        
+        testRunner.enqueue(new byte[]{}, attributes);
+        testRunner.run();
+        
+        testRunner.assertAllFlowFilesTransferred(UCSUpdateMessageDeliveryStatus.REL_NO_MATCH, 1);
+    }
+    
+    @Test
+    public void testInvalidReference2() throws MessageSerializationException {
 
         String reference = UUID.randomUUID().toString();
         
