@@ -60,7 +60,7 @@ limitations under the License.
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.cognitivemedicine</groupId>
+            <groupId>org.socraticgrid</groupId>
             <artifactId>config-utils</artifactId>
         </dependency>
         <dependency>

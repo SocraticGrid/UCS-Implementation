@@ -44,7 +44,7 @@ limitations under the License.
         <ucs.version>0.1.0-SNAPSHOT</ucs.version>
         <nifi.version>0.3.0</nifi.version>
         <smack.version>3.1.0</smack.version>
-        <config.utils.version>0.0.1-SNAPSHOT</config.utils.version>
+        <config.utils.version>0.1.2</config.utils.version>
     </properties>
 
     <dependencyManagement> 
@@ -125,7 +125,7 @@ limitations under the License.
                 <version>1.3.1</version>
             </dependency>
             <dependency>
-                <groupId>com.cognitivemedicine</groupId>
+                <groupId>org.socraticgrid</groupId>
                 <artifactId>config-utils</artifactId>
                 <version>${config.utils.version}</version>
             </dependency>
