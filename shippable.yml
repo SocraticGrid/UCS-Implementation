@@ -1,0 +1,10 @@
+# language setting
+language: java
+
+# jdk tag
+jdk:
+   - oraclejdk8
+
+after_success:
+#   - mvn clean cobertura:cobertura
+   - mvn test -Dshippable.build=true

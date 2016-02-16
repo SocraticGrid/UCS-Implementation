@@ -4,6 +4,9 @@
 
 This is the home repository for the UCS implementation using NiFi workflow processor (https://nifi.incubator.apache.org/).
 
+[![Build](https://img.shields.io/shippable/56c2dfb41895ca4474741acc.svg)](https://app.shippable.com/projects/56c2dfb41895ca4474741acc)
+[![License](https://img.shields.io/badge/license-apache%202.0-ff69b4.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
 ## How to run UCS server
 
 ### 1.- NiFi Server

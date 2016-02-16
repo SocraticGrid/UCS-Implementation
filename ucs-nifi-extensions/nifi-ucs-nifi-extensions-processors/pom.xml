@@ -29,6 +29,10 @@ limitations under the License.
 	<artifactId>nifi-ucs-nifi-extensions-processors</artifactId>
 	<packaging>jar</packaging>
 
+        <properties>
+            <root.dir>../..</root.dir>
+        </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.nifi</groupId>
