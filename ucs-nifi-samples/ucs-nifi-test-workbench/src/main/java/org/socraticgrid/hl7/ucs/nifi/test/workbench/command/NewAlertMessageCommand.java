@@ -21,20 +21,24 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
-import org.apache.commons.io.IOUtils;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.socraticgrid.hl7.services.uc.model.AlertMessage;
+import org.socraticgrid.hl7.services.uc.model.AlertStatus;
 import org.socraticgrid.hl7.services.uc.model.MessageModel;
 import org.socraticgrid.hl7.ucs.nifi.common.model.MessageWrapper;
+import org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializationException;
 import org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializer;
-import org.stringtemplate.v4.ST;
+import org.socraticgrid.hl7.ucs.nifi.common.util.AlertMessageBuilder;
+import org.socraticgrid.hl7.ucs.nifi.common.util.MessageBuilder;
 
 /**
  *
  * @author esteban
  */
 public class NewAlertMessageCommand implements Command {
-    private String message;
+    private AlertMessage message;
 
     public static class Recipient {
         public String to;
@@ -91,22 +95,26 @@ public class NewAlertMessageCommand implements Command {
                 finalProperties.add(p);
             }
             
-            String template = IOUtils.toString(NewAlertMessageCommand.class
-                    .getResourceAsStream("/templates/alert-message-sample.tpl"));
             
-            ST st = new ST(template, '$', '$');
-            st.add("messageId", UUID.randomUUID().toString());
-            st.add("from", from);
-            st.add("conversationId", conversationId);
-            st.add("subject", subject);
-            st.add("body", body);
-            st.add("status", status);
-            st.add("recipients", finalRecipients);
-            st.add("properties", finalProperties);
+            AlertMessageBuilder messageBuilder = (AlertMessageBuilder) new AlertMessageBuilder()
+                    .withStatus(AlertStatus.valueOf(status))
+                    .withMessageId(UUID.randomUUID().toString())
+                    .withSender(from)
+                    .withConversationId(conversationId)
+                    .withSubject(subject)
+                    .withBody(body);
+                    
             
-            this.message = st.render();
+            for (Recipient finalRecipient : finalRecipients) {
+                messageBuilder.addRecipient(new MessageBuilder.Recipient(finalRecipient.getTo(), finalRecipient.getType()));
+            }
             
-        } catch (IOException ex) {
+            for (Property finalProperty : finalProperties) {
+                messageBuilder.addProperty(finalProperty.key, finalProperty.value);
+            }
+            
+            this.message = messageBuilder.buildMessage();
+        } catch (IOException | MessageSerializationException ex) {
             throw new IllegalArgumentException("Error preparing New Alert Message Command", ex);
         }
     }
@@ -114,10 +122,7 @@ public class NewAlertMessageCommand implements Command {
     @Override
     public JsonObject execute() {
         try {
-            MessageWrapper messageWrapper = MessageSerializer.deserializeMessageWrapper(message);
-            
-            CreateUCSSessionCommand.getLastSession().getNewClient().sendMessage(new MessageModel(messageWrapper.getMessage()));
-        
+            CreateUCSSessionCommand.getLastSession().getNewClient().sendMessage(new MessageModel(message));
             return new JsonObject();
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error executing New Alert Message Command: "+ex.getMessage(), ex);

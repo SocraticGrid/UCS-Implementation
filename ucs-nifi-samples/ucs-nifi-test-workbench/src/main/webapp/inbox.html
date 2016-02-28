@@ -180,6 +180,7 @@
                         <table id="inboxTable" class="table table-condensed table-hover">
                             <thead>
                                 <tr>
+                                    <th>Time</th>
                                     <th>Status</th>
                                     <th>Subject</th>
                                     <th>Properties</th>
@@ -676,7 +677,7 @@
                     });
                 }
                 
-                return '<td>' + m.status + '</td><td>' + m.subject + '</td><td>' + propertiesAsString + '</td><td><a href="javascript:ackAlert(\'' + m.messageId + '\');">ACK</a>&nbsp;<a href="javascript:cancelAlert(\'' + m.messageId + '\');">CANCEL</a></td>';
+                return '<td>' + m.timestamp + '</td><td>' + m.status + '</td><td>' + m.subject + '</td><td>' + propertiesAsString + '</td><td><a href="javascript:ackAlert(\'' + m.messageId + '\');">ACK</a>&nbsp;<a href="javascript:cancelAlert(\'' + m.messageId + '\');">CANCEL</a></td>';
             }
 
         </script>

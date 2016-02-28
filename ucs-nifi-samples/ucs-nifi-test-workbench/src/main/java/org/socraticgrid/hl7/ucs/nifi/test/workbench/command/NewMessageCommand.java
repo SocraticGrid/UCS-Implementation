@@ -22,18 +22,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.apache.commons.io.IOUtils;
+import org.socraticgrid.hl7.services.uc.model.Message;
 import org.socraticgrid.hl7.services.uc.model.MessageModel;
 import org.socraticgrid.hl7.ucs.nifi.common.model.MessageWrapper;
+import org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializationException;
 import org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializer;
-import org.stringtemplate.v4.ST;
+import org.socraticgrid.hl7.ucs.nifi.common.util.MessageBuilder;
 
 /**
  *
  * @author esteban
  */
 public class NewMessageCommand implements Command {
-    private String message;
+    private Message message;
 
     public static class Recipient {
         public String to;
@@ -68,20 +69,20 @@ public class NewMessageCommand implements Command {
                 finalRecipients.add(r);
             }
             
-            String template = IOUtils.toString(NewMessageCommand.class
-                    .getResourceAsStream("/templates/message-sample.tpl"));
+            MessageBuilder messageBuilder = new MessageBuilder()
+                    .withMessageId(UUID.randomUUID().toString())
+                    .withSender(from)
+                    .withConversationId(conversationId)
+                    .withSubject(subject)
+                    .withBody(body);
+                    
             
-            ST st = new ST(template, '$', '$');
-            st.add("messageId", UUID.randomUUID().toString());
-            st.add("from", from);
-            st.add("conversationId", conversationId);
-            st.add("subject", subject);
-            st.add("body", body);
-            st.add("recipients", finalRecipients);
+            for (Recipient finalRecipient : finalRecipients) {
+                messageBuilder.addRecipient(new MessageBuilder.Recipient(finalRecipient.getTo(), finalRecipient.getType()));
+            }
             
-            this.message = st.render();
-            
-        } catch (IOException ex) {
+            this.message = messageBuilder.buildMessage();
+        } catch (IOException | MessageSerializationException ex) {
             throw new IllegalArgumentException("Error preparing New Message Command", ex);
         }
     }
@@ -89,9 +90,7 @@ public class NewMessageCommand implements Command {
     @Override
     public JsonObject execute() {
         try {
-            MessageWrapper messageWrapper = MessageSerializer.deserializeMessageWrapper(message);
-            
-            CreateUCSSessionCommand.getLastSession().getNewClient().sendMessage(new MessageModel(messageWrapper.getMessage()));
+            CreateUCSSessionCommand.getLastSession().getNewClient().sendMessage(new MessageModel(message));
         
             return new JsonObject();
         } catch (Exception ex) {
