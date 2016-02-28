@@ -238,6 +238,8 @@ public class UCSResolveRecipientAddresses extends AbstractProcessor {
                 //replace recipient's address
                 r.getDeliveryAddress().setAddress(resolvedAddress);
             }
+            
+            //TODO: check if the final message has at least 1 resolvedAddress!
 
             String serializedMessage;
             try {

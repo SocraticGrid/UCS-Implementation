@@ -18,6 +18,7 @@ package org.socraticgrid.hl7.ucs.nifi.common.util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.socraticgrid.hl7.services.uc.model.AlertMessage;
 import org.socraticgrid.hl7.services.uc.model.AlertStatus;

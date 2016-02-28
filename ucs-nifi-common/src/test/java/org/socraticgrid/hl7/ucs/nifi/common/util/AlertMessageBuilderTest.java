@@ -15,9 +15,10 @@
  */
 package org.socraticgrid.hl7.ucs.nifi.common.util;
 
-import org.socraticgrid.hl7.ucs.nifi.common.util.AlertMessageBuilder;
-import org.socraticgrid.hl7.ucs.nifi.common.util.MessageBuilder;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -93,5 +94,36 @@ public class AlertMessageBuilderTest {
         assertThat(properties.getProperty("property-1"), is("value-1"));
         assertThat(properties.getProperty("property-2"), is("value-2"));
         
+    }
+    
+    @Test
+    public void testDates() throws IOException, MessageSerializationException{
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        
+        Date created = new Date(System.currentTimeMillis()+120000);
+        Date modified = new Date(System.currentTimeMillis()+240000);
+        
+        String messageW = new AlertMessageBuilder()
+                .withStatus(AlertStatus.Acknowledged)
+                .withConversationId("testC")    
+                .withSender("eafry")
+                .withSubject("Some Subject")
+                .withBody("Some Body")
+                .addRecipient(new MessageBuilder.Recipient("ealivert", "EMAIL"))
+                .withCreatedDate(created)
+                .withLastModifiedDate(modified)
+                .buildSerializedMessageWrapper();
+        
+        System.out.println("\nMessage:\n"+messageW+"\n");
+        
+        MessageWrapper mw = MessageSerializer.deserializeMessageWrapper(messageW);
+        
+        System.out.println("MessageW: "+mw);
+        
+        assertThat(mw.getMessage(), is(instanceOf(AlertMessage.class)));
+        assertThat(((AlertMessage)mw.getMessage()).getHeader().getAlertStatus(), is(AlertStatus.Acknowledged));
+        assertThat(((AlertMessage)mw.getMessage()).getHeader().getProperties().size(), is(0));
+        assertThat(dateFormat.format(mw.getMessage().getHeader().getCreated()), is(dateFormat.format(created)));
+        assertThat(dateFormat.format(mw.getMessage().getHeader().getLastModified()), is(dateFormat.format(modified)));
     }
 }

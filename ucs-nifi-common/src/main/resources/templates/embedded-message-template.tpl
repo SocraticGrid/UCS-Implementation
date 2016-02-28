@@ -33,8 +33,8 @@ $
     }
     $
     <model:subject>$subject$</model:subject>
-    <model:created>2015-02-26T14:54:19.740+01:00</model:created>
-    <model:lastModified>2015-02-26T14:54:19.739+01:00</model:lastModified>
+    <model:created>$created$</model:created>
+    <model:lastModified>$lastModified$</model:lastModified>
     <model:deliveryGuarantee>BestEffort</model:deliveryGuarantee>
     <model:dynamics>Asynchronous</model:dynamics>
     <model:priority>0</model:priority>

@@ -43,7 +43,7 @@ public class MOCKUserContactInfoResolverControllerImpl extends AbstractControlle
 
     public MOCKUserContactInfoResolverControllerImpl() {
         //create some MOCK UserContactInfo
-        data.put("eafry", this.mockUserContactInfo("eafry", "eafry@cognitivemedicine.com","18583957317", "eafry@socraticgrid.org", "18583957317"));
+        data.put("eafry", this.mockUserContactInfo("eafry", "eafry@cognitivemedicine.com","19717130576", "eafry@socraticgrid.org", "19717130576"));
         data.put("jhughes", this.mockUserContactInfo("jhughes", "jhughes@cognitivemedicine.com","000000000", "jhughes@socraticgrid.org","000000000"));
         data.put("ealiverti", this.mockUserContactInfo("ealiverti", "ealiverti@cognitivemedicine.com","491623342171", "ealiverti@socraticgrid.org","+4981614923621"));
     }

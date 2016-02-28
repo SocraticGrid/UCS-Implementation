@@ -16,7 +16,11 @@
 package org.socraticgrid.hl7.ucs.nifi.common.util;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -98,6 +102,8 @@ public class MessageBuilder {
         }
         
     }
+    
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SZ");
 
     private final String messageTemplate;
     private final String standaloneMessageTemplate;
@@ -111,6 +117,8 @@ public class MessageBuilder {
     private boolean receiptNotification;
     private List<Body> bodies = new ArrayList<>();
     private int respondBy = 0;
+    private String createdDate;
+    private String lastModifiedDate;
     private final List<Recipient> recipients = new ArrayList<>();
     private final List<MessageBuilder> onNoResponseAll = new ArrayList<>();
     private final List<MessageBuilder> onNoResponseAny = new ArrayList<>();
@@ -129,6 +137,10 @@ public class MessageBuilder {
         
         embeddedMessageTemplate = IOUtils.toString(MessageBuilder.class
                 .getResourceAsStream("/templates/embedded-message-template.tpl"));
+        
+        Date now = new Date();
+        createdDate = dateFormat.format(now);
+        lastModifiedDate = dateFormat.format(now);
     }
 
     public MessageBuilder withMessageId(String messageId) {
@@ -179,6 +191,20 @@ public class MessageBuilder {
     
     public MessageBuilder withReceiptNotification(boolean receiptNotification) {
         this.receiptNotification = receiptNotification;
+        return this;
+    }
+    
+    public MessageBuilder withCreatedDate(Date createdDate){
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(createdDate);
+        this.createdDate = javax.xml.bind.DatatypeConverter.printDateTime(cal);
+        return this;
+    }
+    
+    public MessageBuilder withLastModifiedDate(Date lastModifiedDate){
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(lastModifiedDate);
+        this.lastModifiedDate = javax.xml.bind.DatatypeConverter.printDateTime(cal);
         return this;
     }
 
@@ -263,6 +289,8 @@ public class MessageBuilder {
         st.add("respondBy", respondBy);
         st.add("recipients", recipients);
         st.add("receiptNotification", receiptNotification);
+        st.add("created", createdDate);
+        st.add("lastModified", lastModifiedDate);
         
         st.add("onNoResponseAll",
             onNoResponseAll.stream()
