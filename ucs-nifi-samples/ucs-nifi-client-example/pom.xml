@@ -20,7 +20,7 @@ limitations under the License.
     <parent>
         <artifactId>ucs-nifi-samples</artifactId>
         <groupId>org.socraticgrid.hl7</groupId>
-        <version>0.4.Final</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>ucs-nifi-client-example</artifactId>

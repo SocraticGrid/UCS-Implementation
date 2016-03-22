@@ -25,7 +25,7 @@ limitations under the License.
     
     <groupId>org.socraticgrid.hl7</groupId>
     <artifactId>ucs-nifi-parent</artifactId>
-    <version>0.4.Final</version>
+    <version>0.5-SNAPSHOT</version>
     
     <name>UCS :: NiFi Parent</name>
     <packaging>pom</packaging>
