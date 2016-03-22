@@ -44,7 +44,7 @@ limitations under the License.
         
         <root.dir>..</root.dir>
         
-        <ucs.version>0.1.0-SNAPSHOT</ucs.version>
+        <ucs.version>0.1.1-SNAPSHOT</ucs.version>
         <nifi.version>0.3.0</nifi.version>
         <smack.version>3.1.0</smack.version>
         <config.utils.version>0.1.2</config.utils.version>
