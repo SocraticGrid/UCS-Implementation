@@ -111,7 +111,7 @@ public class UCSPrepareSMSTest extends UCSControllerServiceBasedTest{
                 .withBody("This is the content of the test message")
                 .addRecipient(new MessageBuilder.Recipient("491623342171", "SMS"))
                 .addRecipient(new MessageBuilder.Recipient("ealiverti@cognitivemedicine.com", "EMAIL"))
-                .addRecipient(new MessageBuilder.Recipient("18583957317", "SMS"))
+                .addRecipient(new MessageBuilder.Recipient("19717130576", "SMS"))
                 .addRecipient(new MessageBuilder.Recipient("eafry@cognitivemedicine.com", "EMAIL"))
                 .buildSerializedMessageWrapper();
 
@@ -136,7 +136,7 @@ public class UCSPrepareSMSTest extends UCSControllerServiceBasedTest{
                 .map(ff -> ff.getAttribute(referenceAttributeKey))
                 .collect(Collectors.toSet());
         
-        assertThat(phoneNumbers, containsInAnyOrder("18583957317", "491623342171"));
+        assertThat(phoneNumbers, containsInAnyOrder("19717130576", "491623342171"));
         assertThat(text, contains("This is the content of the test message"));
         assertThat(references, hasSize(2));
     }
@@ -160,7 +160,7 @@ public class UCSPrepareSMSTest extends UCSControllerServiceBasedTest{
                 .withBody("This is the content of the test message")
                 .addRecipient(new MessageBuilder.Recipient("491623342171", "SMS-Service"))
                 .addRecipient(new MessageBuilder.Recipient("ealiverti@cognitivemedicine.com", "EMAIL"))
-                .addRecipient(new MessageBuilder.Recipient("18583957317", "SMS-Service"))
+                .addRecipient(new MessageBuilder.Recipient("19717130576", "SMS-Service"))
                 .addRecipient(new MessageBuilder.Recipient("eafry@cognitivemedicine.com", "EMAIL"))
                 .buildSerializedMessageWrapper();
 
@@ -181,7 +181,7 @@ public class UCSPrepareSMSTest extends UCSControllerServiceBasedTest{
                 .map(ff -> ff.getAttribute(referenceAttributeKey))
                 .collect(Collectors.toSet());
         
-        assertThat(phoneNumbers, containsInAnyOrder("18583957317", "491623342171"));
+        assertThat(phoneNumbers, containsInAnyOrder("19717130576", "491623342171"));
         assertThat(text, contains("This is the content of the test message"));
         assertThat(references, hasSize(2));
     }

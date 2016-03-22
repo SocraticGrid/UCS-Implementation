@@ -265,7 +265,7 @@ public class UCSPrepareEmailTest extends UCSControllerServiceBasedTest {
                         new MessageBuilder.Recipient(
                                 "eafry@cognitivemedicine.com", "EMAIL"))
                 .addRecipient(
-                        new MessageBuilder.Recipient("18583957317", "SMS"))
+                        new MessageBuilder.Recipient("19717130576", "SMS"))
                 .buildSerializedMessageWrapper();
 
         testRunner.enqueue(message.getBytes());

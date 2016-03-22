@@ -62,7 +62,7 @@ public class UCSResolveRecipientAddressesTest extends UCSControllerServiceBasedT
             m.getHeader().getRecipientsList().stream()
                 .map(r -> r.getDeliveryAddress().getPhysicalAddress().getAddress())
                 .collect(Collectors.toList())
-            , containsInAnyOrder("18583957317","491623342171"));
+            , containsInAnyOrder("19717130576","491623342171"));
     }
     
     @Test
@@ -93,7 +93,7 @@ public class UCSResolveRecipientAddressesTest extends UCSControllerServiceBasedT
         assertThat(addresses.keySet(), containsInAnyOrder("SMS","EMAIL"));
         
         assertThat(addresses.get("SMS"), hasSize(1));
-        assertThat(addresses.get("SMS").get(0).getAddress(), is("18583957317"));
+        assertThat(addresses.get("SMS").get(0).getAddress(), is("19717130576"));
         
         assertThat(addresses.get("EMAIL"), hasSize(1));
         assertThat(addresses.get("EMAIL").get(0).getAddress(), is("ealiverti@cognitivemedicine.com"));

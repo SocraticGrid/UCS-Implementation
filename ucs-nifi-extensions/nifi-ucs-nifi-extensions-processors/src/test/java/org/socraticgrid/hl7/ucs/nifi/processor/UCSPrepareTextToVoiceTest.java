@@ -114,7 +114,7 @@ public class UCSPrepareTextToVoiceTest extends UCSControllerServiceBasedTest{
                 .withBody("This is the content of the test message")
                 .addRecipient(new MessageBuilder.Recipient("+4981614923621", "TEXT-TO-VOICE"))
                 .addRecipient(new MessageBuilder.Recipient("ealiverti@cognitivemedicine.com", "EMAIL"))
-                .addRecipient(new MessageBuilder.Recipient("18583957317", "TEXT-TO-VOICE"))
+                .addRecipient(new MessageBuilder.Recipient("19717130576", "TEXT-TO-VOICE"))
                 .addRecipient(new MessageBuilder.Recipient("eafry@cognitivemedicine.com", "EMAIL"))
                 .buildSerializedMessageWrapper();
 
@@ -139,7 +139,7 @@ public class UCSPrepareTextToVoiceTest extends UCSControllerServiceBasedTest{
                 .map(ff -> ff.getAttribute(referenceAttributeKey))
                 .collect(Collectors.toSet());
         
-        assertThat(phoneNumbers, containsInAnyOrder("18583957317", "+4981614923621"));
+        assertThat(phoneNumbers, containsInAnyOrder("19717130576", "+4981614923621"));
         assertThat(text, contains("This is the content of the test message"));
         assertThat(references, hasSize(2));
     }

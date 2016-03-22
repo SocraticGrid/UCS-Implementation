@@ -46,7 +46,7 @@ limitations under the License.
             <model:recipientId>Recipient 2</model:recipientId>
             <model:deliveryAddress>
                <model:physicaladdress>
-                  <model:address>18583957317</model:address>
+                  <model:address>19717130576</model:address>
                   <model:serviceId>SMS</model:serviceId>
                </model:physicaladdress>
             </model:deliveryAddress>
