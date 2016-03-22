@@ -38,26 +38,6 @@ public class Configuration {
      * must be accessible by ucs-nifi.
      */
     private String clientHost;
-    /**
-     * Port that ucs-nifi will use to communicate to the client interface in the
-     * client side.
-     */
-    private int clientPort;
-    /**
-     * Port that ucs-nifi will use to communicate to the alerting interface
-     * in the client side.
-     */
-    private int alertingPort;
-    /**
-     * Port that ucs-nifi will use to communicate to the management interface
-     * in the client side.
-     */
-    private int managementPort;
-    /**
-     * Port that ucs-nifi will use to communicate to the conversation interface
-     * in the client side.
-     */
-    private int conversationPort;
 
     public String getNifiHost() {
         return nifiHost;
@@ -89,38 +69,6 @@ public class Configuration {
 
     public void setClientHost(String clientHost) {
         this.clientHost = clientHost;
-    }
-
-    public int getClientPort() {
-        return clientPort;
-    }
-
-    public void setClientPort(int clientPort) {
-        this.clientPort = clientPort;
-    }
-
-    public int getAlertingPort() {
-        return alertingPort;
-    }
-
-    public void setAlertingPort(int alertingPort) {
-        this.alertingPort = alertingPort;
-    }
-
-    public int getManagementPort() {
-        return managementPort;
-    }
-
-    public void setManagementPort(int managementPort) {
-        this.managementPort = managementPort;
-    }
-
-    public int getConversationPort() {
-        return conversationPort;
-    }
-
-    public void setConversationPort(int conversationPort) {
-        this.conversationPort = conversationPort;
     }
     
 }

@@ -43,10 +43,6 @@ public class GetInitialConfigurationCommand implements Command {
         
         
         String clientHost = config.getString(ConfigConstants.UCS_CLIENT_HOST_DEFAULT_KEY);
-        String clientClientPort = config.getString(ConfigConstants.UCS_CLIENT_CLIENT_PORT_DEFAULT_KEY);
-        String clientAlertingPort = config.getString(ConfigConstants.UCS_CLIENT_ALERTING_PORT_DEFAULT_KEY);
-        String clientManagementPort = config.getString(ConfigConstants.UCS_CLIENT_MANAGEMENT_PORT_DEFAULT_KEY);
-        String clientConversationPort = config.getString(ConfigConstants.UCS_CLIENT_CONVERSATION_PORT_DEFAULT_KEY);
         
         JsonObject result = new JsonObject();
         result.addProperty("serverHost", serverHost);
@@ -57,10 +53,6 @@ public class GetInitialConfigurationCommand implements Command {
         result.addProperty("serverConversationPort", serverConversationPort);
         
         result.addProperty("clientHost", clientHost);
-        result.addProperty("clientClientPort", clientClientPort);
-        result.addProperty("clientAlertingPort", clientAlertingPort);
-        result.addProperty("clientManagementPort", clientManagementPort);
-        result.addProperty("clientConversationPort", clientConversationPort);
         
         return result;
     }

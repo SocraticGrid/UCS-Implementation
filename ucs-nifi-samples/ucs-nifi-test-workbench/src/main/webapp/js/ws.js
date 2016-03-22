@@ -91,7 +91,7 @@ var ucsWS = {
             type: "getInitialConfiguration"
         }, callback);
     },
-    "sendCreateUCSSessionCommand": function(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort, callback){
+    "sendCreateUCSSessionCommand": function(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, callback){
         return this.sendCommand({
             type: "createUCSSession",
             nifiHost: nifiHost,                                         //host where NiFi is deployed
@@ -100,11 +100,7 @@ var ucsWS = {
             nifiManagementCommandPort: nifiManagementCommandPort,       //port on NiFi host where the Management Command Interface is listening.
             nifiConversationCommandPort: nifiConversationCommandPort,   //port on NiFi host where the Conversation Command Interface is listening.
             nifiSendMessagePort: nifiSendMessagePort,                   //port on NiFi host whre the Send Command processor is listening.
-            clientsHost: clientsHost,                                   //host where the client will listeng for callback from NiFi's UCS interfaces (like UCSClient and UCSAlerting).
-            clientPort: clientPort,                                     //port on the Client host (clientsHost) that will listen for callbacks from UCSClient Interface and Client Interface
-            alertingPort: alertingPort,                                 //port on the Client host (clientsHost) that will listen for callbacks from UCSAlerting Interface and Alerting Interface
-            managementPort: managementPort,                             //port on the Client host (clientsHost) that will listen for callbacks from Management Interface
-            conversationPort: conversationPort                          //port on the Client host (clientsHost) that will listen for callbacks from Conversation Interface
+            clientsHost: clientsHost                                    //host where the client will listeng for callback from NiFi's UCS interfaces (like UCSClient and UCSAlerting).
         }, callback);
     },
     "sendPingUCSSessionStatusCommand": function(callback){

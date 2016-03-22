@@ -3,9 +3,5 @@
     "nifiClientCommandPort":    8889,
     "nifiAlertingCommandPort":  8890,
     
-    "clientHost":               "172.18.0.1",
-    "clientPort":               7500,
-    "alertingPort":             7501,
-    "managementPort":           7502,
-    "conversationPort":         7503
+    "clientHost":               "172.18.0.1"
 }

@@ -44,23 +44,18 @@ import org.socraticgrid.hl7.ucs.nifi.test.workbench.converter.ToJSONConverter;
 public class CreateUCSSessionCommand implements Command {
 
     private final static Logger LOG = LoggerFactory.getLogger(CreateUCSSessionCommand.class);
-    
+
     private static final Object lastUCSSessionLock = new Object();
     private static UCSNiFiSession lastSession;
 
     private String nifiHost;
+    private int nifiSendMessageCommandPort;
     private int nifiClientCommandPort;
     private int nifiAlertingCommandPort;
     private int nifiManagementCommandPort;
     private int nifiConversationCommandPort;
-    private int nifiSendMessagePort;
-    
-    
+
     private String clientsHost;
-    private int clientPort;
-    private int alertingPort;
-    private int managementPort;
-    private int conversationPort;
 
     @Override
     public void init(JsonObject config) {
@@ -69,14 +64,9 @@ public class CreateUCSSessionCommand implements Command {
         nifiAlertingCommandPort = config.get("nifiAlertingCommandPort").getAsInt();
         nifiManagementCommandPort = config.get("nifiManagementCommandPort").getAsInt();
         nifiConversationCommandPort = config.get("nifiConversationCommandPort").getAsInt();
-        nifiSendMessagePort = config.get("nifiSendMessagePort").getAsInt();
+        nifiSendMessageCommandPort = config.get("nifiSendMessagePort").getAsInt();
 
-        
         clientsHost = config.get("clientsHost").getAsString();
-        clientPort = config.get("clientPort").getAsInt();
-        alertingPort = config.get("alertingPort").getAsInt();
-        managementPort = config.get("managementPort").getAsInt();
-        conversationPort = config.get("conversationPort").getAsInt();
     }
 
     @Override
@@ -93,87 +83,80 @@ public class CreateUCSSessionCommand implements Command {
 
             try {
                 lastSession = new UCSNiFiSession.UCSNiFiSessionBuilder()
-                        .withClientCommandURL("http://" + nifiHost + ":" + nifiClientCommandPort + "/contentListener")
-                        .withAlertingCommandURL("http://" + nifiHost + ":" + nifiAlertingCommandPort + "/contentListener")
-                        .withManagementCommandURL("http://" + nifiHost + ":" + nifiManagementCommandPort + "/contentListener")
-                        .withConversationCommandURL("http://" + nifiHost + ":" + nifiConversationCommandPort + "/contentListener")
-                        .withNifiSendMessageURL("http://" + nifiHost + ":" + nifiSendMessagePort + "/contentListener")
-                        .withUCSClientHost(clientsHost)
-                        .withUCSClientPort(clientPort)
-                        .withUCSClientListener(new UCSClientIntf() {
-                            
-                            @Override
-                            public boolean callReady(Conversation conversation, String callHandle, String serverId) {
-                                return false;
-                            }
-                            
-                            @Override
-                            public <T extends Message> boolean handleException(MessageModel<T> messageModel, DeliveryAddress sender, DeliveryAddress receiver, ProcessingException exp, String serverId) {
-                                JsonObject exception = new JsonObject();
-                                exception.add("message", ToJSONConverter.toJsonObject(messageModel.getMessageType()));
-                                exception.add("sender", ToJSONConverter.toJsonObject(sender));
-                                exception.add("receiver", ToJSONConverter.toJsonObject(receiver));
-                                exception.add("exception", ToJSONConverter.toJsonObject(exp));
-                                exception.addProperty("serverId", serverId);
-                                
-                                UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.EXCEPTION, exception);
-                                
-                                return true;
-                            }
-                            
-                            @Override
-                            public <T extends Message> boolean handleNotification(MessageModel<T> messageModel, String serverId) {
-                                return false;
-                            }
-                            
-                            @Override
-                            public <T extends Message> MessageModel<T> handleResponse(MessageModel<T> messageModel, String serverId) throws InvalidMessageException, InvalidContentException, MissingBodyTypeException, BadBodyException, ServiceAdapterFaultException, UndeliverableMessageException, FeatureNotSupportedException {
-                                JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
-                                UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.RESPONSE, message);
-                                return null;
-                            }
-                            
-                            @Override
-                            public <T extends Message> boolean receiveMessage(MessageModel<T> messageModel, String serverId) {
-                                JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
-                                UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.MESSAGE, message);
-                                return false;
-                            }
-                        })
-                        .withUCSAlertingHost(clientsHost)
-                        .withUCSAlertingPort(alertingPort)
-                        .withUCSAlertingListener(new UCSAlertingIntf() {
+                    .withNifiHost(nifiHost)
+                    .withNifiClientCommandPort(nifiClientCommandPort)
+                    .withNifiAlertingCommandPort(nifiAlertingCommandPort)
+                    .withNifiManagementCommandPort(nifiManagementCommandPort)
+                    .withNifiConversationCommandPort(nifiConversationCommandPort)
+                    .withNifiSendMessageCommandPort(nifiSendMessageCommandPort)
+                    .withUCSClientListener(new UCSClientIntf() {
 
-                            @Override
-                            public <T extends Message> boolean receiveAlertMessage(MessageModel<T> messageModel, List<String> localReceivers, String serverId) {
-                                JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
-                                UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.ALERT_NEW, message);
-                                return false;
-                            }
+                        @Override
+                        public boolean callReady(Conversation conversation, String callHandle, String serverId) {
+                            return false;
+                        }
 
-                            @Override
-                            public <T extends Message> boolean updateAlertMessage(MessageModel<T> newMessageModel, MessageModel<T> oldMessageModel, List<String> localReceivers, String serverId) {
-                                JsonObject message = ToJSONConverter.toJsonObject(newMessageModel.getMessageType());
-                                UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.ALERT_UPDATED, message);
-                                return false;
-                            }
+                        @Override
+                        public <T extends Message> boolean handleException(MessageModel<T> messageModel, DeliveryAddress sender, DeliveryAddress receiver, ProcessingException exp, String serverId) {
+                            JsonObject exception = new JsonObject();
+                            exception.add("message", ToJSONConverter.toJsonObject(messageModel.getMessageType()));
+                            exception.add("sender", ToJSONConverter.toJsonObject(sender));
+                            exception.add("receiver", ToJSONConverter.toJsonObject(receiver));
+                            exception.add("exception", ToJSONConverter.toJsonObject(exp));
+                            exception.addProperty("serverId", serverId);
 
-                            @Override
-                            public <T extends Message> boolean cancelAlertMessage(MessageModel<T> messageModel, List<String> localReceivers, String serverId) {
-                                JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
-                                UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.ALERT_CANCELED, message);
-                                return false;
-                            }
-                            
-                        })
-                        .withManagementHost(clientsHost)
-                        .withManagementPort(managementPort)
-                        .withConversationHost(clientsHost)
-                        .withConversationPort(conversationPort)
-                        .build();
-                
+                            UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.EXCEPTION, exception);
+
+                            return true;
+                        }
+
+                        @Override
+                        public <T extends Message> boolean handleNotification(MessageModel<T> messageModel, String serverId) {
+                            return false;
+                        }
+
+                        @Override
+                        public <T extends Message> MessageModel<T> handleResponse(MessageModel<T> messageModel, String serverId) throws InvalidMessageException, InvalidContentException, MissingBodyTypeException, BadBodyException, ServiceAdapterFaultException, UndeliverableMessageException, FeatureNotSupportedException {
+                            JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
+                            UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.RESPONSE, message);
+                            return null;
+                        }
+
+                        @Override
+                        public <T extends Message> boolean receiveMessage(MessageModel<T> messageModel, String serverId) {
+                            JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
+                            UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.MESSAGE, message);
+                            return false;
+                        }
+                    })
+                    .withUCSAlertingListener(new UCSAlertingIntf() {
+
+                        @Override
+                        public <T extends Message> boolean receiveAlertMessage(MessageModel<T> messageModel, List<String> localReceivers, String serverId) {
+                            JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
+                            UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.ALERT_NEW, message);
+                            return false;
+                        }
+
+                        @Override
+                        public <T extends Message> boolean updateAlertMessage(MessageModel<T> newMessageModel, MessageModel<T> oldMessageModel, List<String> localReceivers, String serverId) {
+                            JsonObject message = ToJSONConverter.toJsonObject(newMessageModel.getMessageType());
+                            UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.ALERT_UPDATED, message);
+                            return false;
+                        }
+
+                        @Override
+                        public <T extends Message> boolean cancelAlertMessage(MessageModel<T> messageModel, List<String> localReceivers, String serverId) {
+                            JsonObject message = ToJSONConverter.toJsonObject(messageModel.getMessageType());
+                            UCSClientWS.broadcast(UCSClientWS.MESSAGE_TYPE.ALERT_CANCELED, message);
+                            return false;
+                        }
+
+                    })
+                    .build();
+
                 return new JsonObject();
-                
+
             } catch (Exception ex) {
                 throw new IllegalStateException("Exception creating UCS Session", ex);
             }

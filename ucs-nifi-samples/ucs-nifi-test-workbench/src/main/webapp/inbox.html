@@ -77,33 +77,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="ucsSession_clientsHost" class="col-sm-2 control-label">Clients Host</label>
+                                <label for="ucsSession_clientsHost" class="col-sm-2 control-label">Client Host</label>
                                 <div class="col-lg-2">
                                     <input type="text" class="form-control" id="ucsSession_clientsHost" value="${ucs.clien.host}"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="ucsSession_clientPort" class="col-sm-2 control-label">Client Port</label>
-                                <div class="col-sm-1">
-                                    <input type="text" class="form-control" id="ucsSession_clientPort" value="8500"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="ucsSession_alertingPort" class="col-sm-2 control-label">Alerting Port</label>
-                                <div class="col-sm-1">
-                                    <input type="text" class="form-control" id="ucsSession_alertingPort" value="8501"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="ucsSession_managementPort" class="col-sm-2 control-label">Management Port</label>
-                                <div class="col-sm-1">
-                                    <input type="text" class="form-control" id="ucsSession_managementPort" value="8502"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="ucsSession_conversationPort" class="col-sm-2 control-label">Conversation Port</label>
-                                <div class="col-sm-1">
-                                    <input type="text" class="form-control" id="ucsSession_conversationPort" value="8503"/>
                                 </div>
                             </div>
                         </form>
@@ -376,12 +352,8 @@
                     var nifiSendMessagePort = $("#ucsSession_nifiSendMessagePort").val();
 
                     var clientsHost = $("#ucsSession_clientsHost").val();
-                    var clientPort = $("#ucsSession_clientPort").val();
-                    var alertingPort = $("#ucsSession_alertingPort").val();
-                    var managementPort = $("#ucsSession_managementPort").val();
-                    var conversationPort = $("#ucsSession_conversationPort").val();
 
-                    createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort);
+                    createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost);
                 });
 
                 $("#btnsendMessageModal_recipient_add").on('click', function () {
@@ -468,16 +440,12 @@
                     $("#ucsSession_nifiSendMessagePort").val(r.result.serverSendMessagePort);
 
                     $("#ucsSession_clientsHost").val(r.result.clientHost);
-                    $("#ucsSession_clientPort").val(r.result.clientClientPort);
-                    $("#ucsSession_alertingPort").val(r.result.clientAlertingPort);
-                    $("#ucsSession_managementPort").val(r.result.clientManagementPort);
-                    $("#ucsSession_conversationPort").val(r.result.clientConversationPort);
 
                 });
             }
 
-            function createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort) {
-                ucsWS.sendCreateUCSSessionCommand(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, clientPort, alertingPort, managementPort, conversationPort, function () {
+            function createUCSSession(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost) {
+                ucsWS.sendCreateUCSSessionCommand(nifiHost, nifiClientCommandPort, nifiAlertingCommandPort, nifiManagementCommandPort, nifiConversationCommandPort, nifiSendMessagePort, clientsHost, function () {
                     refreshUCSSessionStatus();
                     refreshMessages();
                     refreshConversations();

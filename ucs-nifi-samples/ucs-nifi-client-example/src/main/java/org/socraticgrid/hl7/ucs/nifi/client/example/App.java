@@ -94,23 +94,11 @@ public class App {
     
     public void start(Configuration config) throws IOException{
         
-        String nifiHost = "http://"+config.getNifiHost();
-        
-        String alertingCommandURL = nifiHost+":"+config.getNifiAlertingCommandPort()+"/contentListener";
-        String clientCommandURL = nifiHost+":"+config.getNifiClientCommandPort()+"/contentListener";
-        
-        
         LOG.debug("UCSNotifier Configuration:");
-        LOG.debug("\tnifiHost: {}", nifiHost);
-        LOG.debug("\talertingCommandURL: {}", alertingCommandURL);
-        LOG.debug("\tclientCommandURL: {}", clientCommandURL);
-        //LOG.debug("\tmanagementCommandURL: {}", managementCommandURL);
-        //LOG.debug("\tconversationCommandURL: {}", conversationCommandURL);
-        //LOG.debug("\tsendMessageURL: {}", sendMessageURL);
+        LOG.debug("\tnifiHost: {}", config.getNifiHost());
+        LOG.debug("\tnifiAlertingCommandPort: {}", config.getNifiAlertingCommandPort());
+        LOG.debug("\tnifiClientCommandPort: {}", config.getNifiClientCommandPort());
         LOG.debug("\tClient Host: {}", config.getClientHost());
-        LOG.debug("\tClient Port: {}", config.getClientPort());
-        LOG.debug("\tManagement Port: {}", config.getManagementPort());
-        LOG.debug("\tConversation Port: {}", config.getConversationPort());
         
         //The communication between a client and UCS-Nifi is done thourgh HTTP.
         //This requires the client to start an internal HTTP server that will be 
@@ -127,18 +115,12 @@ public class App {
         try {
             LOG.debug("Creating Nifi Session");
             session = new UCSNiFiSession.UCSNiFiSessionBuilder()
-                    .withAlertingCommandURL(alertingCommandURL)
-                    .withClientCommandURL(clientCommandURL)
-                    .withUCSClientHost(config.getClientHost())
-                    .withUCSClientPort(config.getClientPort())
-                    .withUCSAlertingHost(config.getClientHost())
-                    .withUCSAlertingPort(config.getAlertingPort())
-                    .withManagementHost(config.getClientHost())
-                    .withManagementPort(config.getManagementPort())
-                    .withConversationHost(config.getClientHost())
-                    .withConversationPort(config.getConversationPort())
-                    .withUCSClientListener(new UCSClientAdapter(System.out))
-                    .withUCSAlertingListener(new UCSAlertingAdapter(System.out)).build();
+                .withNifiHost(config.getNifiHost())
+                .withNifiAlertingCommandPort(config.getNifiAlertingCommandPort())
+                .withNifiClientCommandPort(config.getNifiClientCommandPort())
+                .withClientHost(config.getClientHost())
+                .withUCSClientListener(new UCSClientAdapter(System.out))
+                .withUCSAlertingListener(new UCSAlertingAdapter(System.out)).build();
             LOG.debug("Nifi Session Created");
             
             LOG.debug("Starting UCS Client");

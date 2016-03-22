@@ -15,7 +15,7 @@ After a clean install, we need to build an executable jar that we can then execu
 
 `mvn package assembly:single`
 
-This will generate a file named `ucs-nifi-client-example-0.4-SNAPSHOT-jar-with-dependencies.jar` under the `target` directory. 
+This will generate a file named `ucs-nifi-client-example-0.5-SNAPSHOT-jar-with-dependencies.jar` under the `target` directory. 
 ## Executing this project
 If we have followed the steps in the previous section, we will already have an executable **jar** ready to be started. But before we can actually launch the application, we will need 2 additional steps:
 
@@ -43,24 +43,25 @@ If everything went fine, we should now see Statuses and Supported Channels infor
     "nifiClientCommandPort":    8889,
     "nifiAlertingCommandPort":  8890,
     
-    "clientHost":               "172.18.0.1",
-    "clientPort":               7500,
-    "alertingPort":             7501,
-    "managementPort":           7502,
-    "conversationPort":         7503
+    "clientHost":               "172.18.0.1"
     }
     
 The format of the configuration file, as we can see, is JSON. 
 The first 3 configuration elements refer to where **UCS-Nifi** is running. Because **UCS-Nifi** docker image exposes its ports in the host computer, we can access it through **localhost**. **8889** and **8890** are the default ports where **UCS-Nifi** is waiting for new commands to arrive.
 
-Because all the communication between a client and **UCS-Nifi** happens using **HTTP**, the client code will automatically start an internal HTTP server so that **UCS-Nifi** can communicate back with the client. This mechanism is used, among other things, to start asynchronous communications between **UCS-Nifi** and the client. The last 5 configuration options in the configuration file are exactly that. The important thing to notice is that the value for **clientHost** must be a host that **UCS-Nifi** can access. Because **UCS-Nifi** is running inside a docker container, **localhost** is not a valid option here. 
+Because all the communication between a client and **UCS-Nifi** happens using **HTTP**, 
+the client code will automatically start an internal HTTP server so that **UCS-Nifi** can 
+communicate back with the client. This mechanism is used, among other things, to 
+start asynchronous communications between **UCS-Nifi** and the client. 
+The important thing to notice is that the value for **clientHost** must be a host that **UCS-Nifi** can access. 
+If **UCS-Nifi** is running inside a docker container, **localhost** is not a valid option here. 
 
 In order to run our client application, we will need to make a copy of [here](src/test/resources/sample-config.json). and tweak whatever configuration option is required (unless conflicts with the client ports exist, the only configuration that has to be modified is the **clientHost**).
 
 ### Executing the command-line client
 Now that we have everything in place, we can start our simple command-line client. From the command-line, navigate to the directory where this project is (this directoy!) and execute the following command:
 
-`java -jar target/ucs-nifi-client-example-0.4-SNAPSHOT-jar-with-dependencies.jar -cf src/test/resources/sample-config.json`
+`java -jar target/ucs-nifi-client-example-0.5-SNAPSHOT-jar-with-dependencies.jar -cf src/test/resources/sample-config.json`
 
 Please note that the **-cf** argument specifies which configuration file we want to use. In this particular case, we are using the same configuration file that comes in the test resources of this project. There is another argument, **-cs**, that we can use to provide the configuration options as a JSON String instead of as a file.
 
