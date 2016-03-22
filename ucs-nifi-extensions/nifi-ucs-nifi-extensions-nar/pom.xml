@@ -21,7 +21,7 @@ limitations under the License.
     <parent>
         <groupId>org.socraticgrid.hl7</groupId>
         <artifactId>ucs-nifi-extensions</artifactId>
-        <version>0.4-SNAPSHOT</version>
+        <version>0.4.Final</version>
     </parent>
 
     <name>UCS :: NiFi Extensions Nar</name>
@@ -32,7 +32,7 @@ limitations under the License.
         <dependency>
             <groupId>org.socraticgrid.hl7</groupId>
             <artifactId>nifi-ucs-nifi-extensions-processors</artifactId>
-            <version>0.4-SNAPSHOT</version>
+            <version>0.4.Final</version>
         </dependency>
     </dependencies>
 
