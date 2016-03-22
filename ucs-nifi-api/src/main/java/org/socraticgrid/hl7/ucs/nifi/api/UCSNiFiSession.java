@@ -16,7 +16,6 @@
 package org.socraticgrid.hl7.ucs.nifi.api;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,43 +37,81 @@ public class UCSNiFiSession {
     
     public static class UCSNiFiSessionBuilder {
         
-
+        
         private UCSNiFiSession instance = new UCSNiFiSession();
-        
 
-        public UCSNiFiSessionBuilder withNifiSendMessageURL(URL nifiSendMessageURL) {
-            instance.nifiSendMessageURL = nifiSendMessageURL;
+        /****
+         * Nifi related properties
+         ***/ 
+        
+        public UCSNiFiSessionBuilder withNifiScheme(String nifiScheme) {
+            instance.nifiScheme = nifiScheme;
             return this;
         }
         
-        public UCSNiFiSessionBuilder withNifiSendMessageURL(String nifiSendMessageURL) {
-            try {
-                return this.withNifiSendMessageURL(new URL(nifiSendMessageURL));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException("Invalid URL: "+nifiSendMessageURL);
-            }
-        }
-
-        public UCSNiFiSessionBuilder withClientCommandURL(URL clientCommandURL) {
-            instance.clientCommandURL = clientCommandURL;
+        public UCSNiFiSessionBuilder withNifiHost(String nifiHost) {
+            instance.nifiHost = nifiHost;
             return this;
         }
         
-        public UCSNiFiSessionBuilder withClientCommandURL(String clientCommandURL) {
-            try {
-                return this.withClientCommandURL(new URL(clientCommandURL));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException("Invalid URL: "+clientCommandURL);
-            }
-        }
-
-        public UCSNiFiSessionBuilder withUCSClientHost(String sessionUCSClientHost) {
-            instance.sessionUCSClientHost = sessionUCSClientHost;
+        public UCSNiFiSessionBuilder withNifiCommandContext(String nifiCommandContext) {
+            instance.nifiCommandContext = nifiCommandContext;
             return this;
         }
         
-        public UCSNiFiSessionBuilder withUCSClientPort(int sessionUCSClientPort) {
-            instance.sessionUCSClientPort = sessionUCSClientPort;
+        public UCSNiFiSessionBuilder withNifiSendMessageCommandPort(int nifiSendMessageCommandPort) {
+            instance.nifiSendMessageCommandPort = nifiSendMessageCommandPort;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withNifiClientCommandPort(int nifiClientCommandPort) {
+            instance.nifiClientCommandPort = nifiClientCommandPort;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withNifiAlertingCommandPort(int nifiAlertingCommandPort) {
+            instance.nifiAlertingCommandPort = nifiAlertingCommandPort;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withNifiManagementCommandPort(int nifiManagementCommandPort) {
+            instance.nifiManagementCommandPort = nifiManagementCommandPort;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withNifiConversationCommandPort(int nifiConversationCommandPort) {
+            instance.nifiConversationCommandPort = nifiConversationCommandPort;
+            return this;
+        }
+        
+        
+        
+        /****
+         * Client related properties
+         ***/
+
+        public UCSNiFiSessionBuilder withClientHost(String clientHost) {
+            instance.clientHost = clientHost;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withClientCallbackPort(int clientCallbackPort) {
+            instance.clientCallbackPort = clientCallbackPort;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withClientAlertingCallbackPort(int clientAlertingCallbackPort) {
+            instance.clientAlertingCallbackPort = clientAlertingCallbackPort;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withClientManagementCallbackPort(int clientManagementCallbackPort) {
+            instance.clientManagementCallbackPort = clientManagementCallbackPort;
+            return this;
+        }
+        
+        public UCSNiFiSessionBuilder withClientConversationCallbackPort(int clientConversationCallbackPort) {
+            instance.clientConversationCallbackPort = clientConversationCallbackPort;
             return this;
         }
         
@@ -83,80 +120,11 @@ public class UCSNiFiSession {
             return this;
         }
         
-        public UCSNiFiSessionBuilder withAlertingCommandURL(URL alertingCommandURL) {
-            instance.alertingCommandURL = alertingCommandURL;
-            return this;
-        }
-        
-        public UCSNiFiSessionBuilder withAlertingCommandURL(String alertingCommandURL) {
-            try {
-                return this.withAlertingCommandURL(new URL(alertingCommandURL));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException("Invalid URL: "+alertingCommandURL);
-            }
-        }
-
-        public UCSNiFiSessionBuilder withUCSAlertingHost(String sessionUCSAlertingHost) {
-            instance.sessionUCSAlertingHost = sessionUCSAlertingHost;
-            return this;
-        }
-        
-        public UCSNiFiSessionBuilder withUCSAlertingPort(int sessionUCSAlertingPort) {
-            instance.sessionUCSAlertingPort = sessionUCSAlertingPort;
-            return this;
-        }
-        
         public UCSNiFiSessionBuilder withUCSAlertingListener(UCSAlertingIntf listener) {
             instance.ucsAlertingListener = listener;
             return this;
         }
         
-        public UCSNiFiSessionBuilder withManagementCommandURL(URL managementCommandURL) {
-            instance.managementCommandURL = managementCommandURL;
-            return this;
-        }
-        
-        public UCSNiFiSessionBuilder withManagementCommandURL(String managementCommandURL) {
-            try {
-                return this.withManagementCommandURL(new URL(managementCommandURL));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException("Invalid URL: "+managementCommandURL);
-            }
-        }
-
-        public UCSNiFiSessionBuilder withManagementHost(String sessionManagementHost) {
-            instance.sessionManagementHost = sessionManagementHost;
-            return this;
-        }
-        
-        public UCSNiFiSessionBuilder withManagementPort(int sessionManagementPort) {
-            instance.sessionManagementPort = sessionManagementPort;
-            return this;
-        }
-        
-        public UCSNiFiSessionBuilder withConversationCommandURL(URL conversationCommandURL) {
-            instance.conversationCommandURL = conversationCommandURL;
-            return this;
-        }
-        
-        public UCSNiFiSessionBuilder withConversationCommandURL(String conversationCommandURL) {
-            try {
-                return this.withConversationCommandURL(new URL(conversationCommandURL));
-            } catch (MalformedURLException ex) {
-                throw new IllegalStateException("Invalid URL: "+conversationCommandURL);
-            }
-        }
-
-        public UCSNiFiSessionBuilder withConversationHost(String sessionConversationHost) {
-            instance.sessionConversationHost = sessionConversationHost;
-            return this;
-        }
-        
-        public UCSNiFiSessionBuilder withConversationPort(int sessionConversationPort) {
-            instance.sessionConversationPort = sessionConversationPort;
-            return this;
-        }
-
         public UCSNiFiSession build() throws IOException, InterruptedException {
             return instance;
         }
@@ -171,25 +139,30 @@ public class UCSNiFiSession {
     
     private STATUS status = STATUS.NOT_INITIALIZED;
 
-    private URL nifiSendMessageURL;
+    /**
+     * NiFi scheme, host and ports (and their default values)
+     */
+    private String nifiScheme = "http";
+    private String nifiHost = "localhost";
+    private String nifiCommandContext = "/contentListener";
+    private int nifiSendMessageCommandPort = 8888;
+    private int nifiClientCommandPort = 8889;
+    private int nifiAlertingCommandPort = 8890;
+    private int nifiManagementCommandPort = 8891;
+    private int nifiConversationCommandPort = 8892;
     
-    private URL clientCommandURL;
-    private int sessionUCSClientPort = 8899;
-    private String sessionUCSClientHost = "localhost";
+    /**
+     * Client host and ports (and their default values)
+     */
+    private String clientHost = "localhost";
+    private int clientCallbackPort = 0;
+    private int clientAlertingCallbackPort = 0;
+    private int clientManagementCallbackPort = 0;
+    private int clientConversationCallbackPort = 0;
+    
     private UCSClientIntf ucsClientListener;
-    
-    private URL alertingCommandURL;
-    private int sessionUCSAlertingPort = 8897;
-    private String sessionUCSAlertingHost = "localhost";
     private UCSAlertingIntf ucsAlertingListener;
     
-    private URL managementCommandURL;
-    private int sessionManagementPort = 8900;
-    private String sessionManagementHost = "localhost";
-    
-    private URL conversationCommandURL;
-    private int sessionConversationPort = 8901;
-    private String sessionConversationHost = "localhost";
     
     private NiFiHTTPBroker niFiHTTPBroker;
 
@@ -217,12 +190,14 @@ public class UCSNiFiSession {
     protected synchronized void init() throws IOException, InterruptedException{
         LOG.debug("Starting UCSNifiSession instance: {}", this.toString());
         
+        String nifiURL = this.nifiScheme+"://"+this.nifiHost+":{port}"+this.nifiCommandContext;
+        
         this.niFiHTTPBroker = new NiFiHTTPBroker(
-                nifiSendMessageURL, 
-                new NiFiHTTPBroker.ClientEndpointWithListener(clientCommandURL, sessionUCSClientHost, sessionUCSClientPort, ucsClientListener),
-                new NiFiHTTPBroker.ClientEndpointWithListener(alertingCommandURL, sessionUCSAlertingHost, sessionUCSAlertingPort, ucsAlertingListener),
-                new NiFiHTTPBroker.ClientEndpoint(managementCommandURL, sessionManagementHost, sessionManagementPort),
-                new NiFiHTTPBroker.ClientEndpoint(conversationCommandURL, sessionConversationHost, sessionConversationPort)
+                new URL(nifiURL.replace("{port}", String.valueOf(this.nifiSendMessageCommandPort))), 
+                new NiFiHTTPBroker.ClientEndpointWithListener(new URL(nifiURL.replace("{port}", String.valueOf(this.nifiClientCommandPort))), this.clientHost, this.clientCallbackPort, ucsClientListener),
+                new NiFiHTTPBroker.ClientEndpointWithListener(new URL(nifiURL.replace("{port}", String.valueOf(this.nifiAlertingCommandPort))), this.clientHost, this.clientAlertingCallbackPort, ucsAlertingListener),
+                new NiFiHTTPBroker.ClientEndpoint(new URL(nifiURL.replace("{port}", String.valueOf(this.nifiManagementCommandPort))), this.clientHost, this.clientManagementCallbackPort),
+                new NiFiHTTPBroker.ClientEndpoint(new URL(nifiURL.replace("{port}", String.valueOf(this.nifiConversationCommandPort))), this.clientHost, this.clientConversationCallbackPort)
         );
         this.niFiHTTPBroker.start();
     }
@@ -249,7 +224,7 @@ public class UCSNiFiSession {
 
     @Override
     public String toString() {
-        return "UCSNiFiSession{" + "nifiSendMessageURL=" + nifiSendMessageURL + ", clientCommandURL=" + clientCommandURL + ", sessionUCSClientPort=" + sessionUCSClientPort + ", sessionUCSClientHost=" + sessionUCSClientHost + ", ucsClientListener=" + ucsClientListener + ", alertingCommandURL=" + alertingCommandURL + ", sessionUCSAlertingPort=" + sessionUCSAlertingPort + ", sessionUCSAlertingHost=" + sessionUCSAlertingHost + ", ucsAlertingListener=" + ucsAlertingListener + ", niFiHTTPBroker=" + niFiHTTPBroker + '}';
+        return "UCSNiFiSession{" + "status=" + status + ", nifiScheme=" + nifiScheme + ", nifiHost=" + nifiHost + ", nifiCommandContext=" + nifiCommandContext + ", nifiSendMessageCommandPort=" + nifiSendMessageCommandPort + ", nifiClientCommandPort=" + nifiClientCommandPort + ", nifiAlertingCommandPort=" + nifiAlertingCommandPort + ", nifiManagementCommandPort=" + nifiManagementCommandPort + ", nifiConversationCommandPort=" + nifiConversationCommandPort + ", clientHost=" + clientHost + ", clientCallbackPort=" + clientCallbackPort + ", clientAlertingCallbackPort=" + clientAlertingCallbackPort + ", clientManagementCallbackPort=" + clientManagementCallbackPort + ", clientConversationCallbackPort=" + clientConversationCallbackPort + ", niFiHTTPBroker=" + niFiHTTPBroker + '}';
     }
 
 }

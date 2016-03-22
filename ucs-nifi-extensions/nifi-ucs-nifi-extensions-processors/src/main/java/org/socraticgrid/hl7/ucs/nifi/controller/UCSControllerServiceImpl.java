@@ -17,6 +17,7 @@ package org.socraticgrid.hl7.ucs.nifi.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -112,11 +114,11 @@ public class UCSControllerServiceImpl implements UCSControllerService {
     //TODO: make this Map persistent
     private Map<String, TimedOutMessage> timeOutMessages = new ConcurrentHashMap<>();
 
-    //TODO: make this List persistent.
-    private Set<URL> ucsClientCallbacks = Collections.synchronizedSet(new HashSet<>());
+    //TODO: make this Map persistent.
+    private Map<String, URL> ucsClientCallbacks = new ConcurrentHashMap<>();
 
-    //TODO: make this List persistent.
-    private Set<URL> ucsAlertingCallbacks = Collections.synchronizedSet(new HashSet<>());
+    //TODO: make this Map persistent.
+    private Map<String, URL> ucsAlertingCallbacks = new ConcurrentHashMap<>();
 
     //TODO: make this List persistent.
     private Set<MessageWithUnreachableHandlers> messagesWithUnreachableHandlers = Collections.synchronizedSet(new HashSet<>());
@@ -271,13 +273,25 @@ public class UCSControllerServiceImpl implements UCSControllerService {
     }
 
     @Override
-    public void registerUCSClientCallback(URL callback) {
-        this.ucsClientCallbacks.add(callback);
+    public String registerUCSClientCallback(URL callback) {
+        String uuid;
+        do {
+            uuid = UUID.randomUUID().toString();
+        } while(this.ucsClientCallbacks.get(uuid) != null);
+        
+        this.ucsClientCallbacks.put(uuid, callback);
+        
+        return uuid;
     }
 
     @Override
-    public Set<URL> getUCSClientCallbacks() {
-        return Collections.unmodifiableSet(this.ucsClientCallbacks);
+    public void unregisterUCSClientCallback(String registrationId) {
+        this.ucsClientCallbacks.remove(registrationId);
+    }
+
+    @Override
+    public Collection<URL> getUCSClientCallbacks() {
+        return Collections.unmodifiableCollection(this.ucsClientCallbacks.values());
     }
 
     @Override
@@ -326,13 +340,25 @@ public class UCSControllerServiceImpl implements UCSControllerService {
     }
 
     @Override
-    public void registerUCSAlertingCallback(URL callback) {
-        this.ucsAlertingCallbacks.add(callback);
+    public String registerUCSAlertingCallback(URL callback) {
+        String uuid;
+        do {
+            uuid = UUID.randomUUID().toString();
+        } while(this.ucsAlertingCallbacks.get(uuid) != null);
+        
+        this.ucsAlertingCallbacks.put(uuid, callback);
+        
+        return uuid;
     }
 
     @Override
-    public Set<URL> getUCSAlertingCallbacks() {
-        return Collections.unmodifiableSet(this.ucsAlertingCallbacks);
+    public void unregisterUCSAlertingCallback(String registrationId) {
+        this.ucsAlertingCallbacks.remove(registrationId);
+    }
+    
+    @Override
+    public Collection<URL> getUCSAlertingCallbacks() {
+        return Collections.unmodifiableCollection(this.ucsAlertingCallbacks.values());
     }
 
     @Override

@@ -68,7 +68,7 @@ public class ConversationImpl implements ConversationIntf {
             List<String> parameters = new ArrayList<>();
             parameters.add(Base64.encodeBase64String(ConversationSerializer.serializeConversationWrapper(new ConversationWrapper(conversation)).getBytes()));
             
-            String serializedConversationWrapper = niFiHTTPBroker.sendConversationCommand("createConversation", Optional.of(parameters), true);
+            String serializedConversationWrapper = niFiHTTPBroker.sendConversationCommand("createConversation", Optional.of(parameters), true).getBody();
             
             ConversationWrapper conversationWrapper = ConversationSerializer.deserializeConversationWrapper(serializedConversationWrapper);
             
@@ -96,7 +96,7 @@ public class ConversationImpl implements ConversationIntf {
     public List<Conversation> queryConversions(String query, List<QueryFilter> filters) throws FeatureNotSupportedException, InvalidQueryException {
         try{ 
             
-            String serializedConversationWrapper = niFiHTTPBroker.sendConversationCommand("queryConversations", Optional.empty(), true);
+            String serializedConversationWrapper = niFiHTTPBroker.sendConversationCommand("queryConversations", Optional.empty(), true).getBody();
             
             XMLListWrapper<ConversationWrapper> conversationWrapper = ConversationSerializer.deserializeConversationWrappers(serializedConversationWrapper);
             
@@ -120,7 +120,7 @@ public class ConversationImpl implements ConversationIntf {
             List<String> parameters = new ArrayList<>();
             parameters.add(conversationId);
             
-            String serializedConversationInfoWrapper = niFiHTTPBroker.sendConversationCommand("retrieveConversation", Optional.of(parameters), true);
+            String serializedConversationInfoWrapper = niFiHTTPBroker.sendConversationCommand("retrieveConversation", Optional.of(parameters), true).getBody();
             
             ConversationInfoWrapper conversationInfoWrapper = ConversationInfoSerializer.deserializeConversationInfoWrapper(serializedConversationInfoWrapper);
             

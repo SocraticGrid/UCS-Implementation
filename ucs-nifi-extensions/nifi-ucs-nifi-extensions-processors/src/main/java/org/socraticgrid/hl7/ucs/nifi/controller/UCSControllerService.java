@@ -16,6 +16,7 @@
 package org.socraticgrid.hl7.ucs.nifi.controller;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -62,8 +63,9 @@ public interface UCSControllerService {
     /**
      * UCS Client interface related methods
      */
-    public void registerUCSClientCallback(URL callback);
-    public Set<URL> getUCSClientCallbacks();
+    public String registerUCSClientCallback(URL callback);
+    public void unregisterUCSClientCallback(String registrationId);
+    public Collection<URL> getUCSClientCallbacks();
     
     /*
     * Escalation and re-routing 
@@ -81,8 +83,9 @@ public interface UCSControllerService {
     /**
      * UCS Alert interface related methods
      */
-    public void registerUCSAlertingCallback(URL callback);
-    public Set<URL> getUCSAlertingCallbacks();
+    public String registerUCSAlertingCallback(URL callback);
+    public void unregisterUCSAlertingCallback(String registrationId);
+    public Collection<URL> getUCSAlertingCallbacks();
     
     /**
      * UCS Management Services related methods

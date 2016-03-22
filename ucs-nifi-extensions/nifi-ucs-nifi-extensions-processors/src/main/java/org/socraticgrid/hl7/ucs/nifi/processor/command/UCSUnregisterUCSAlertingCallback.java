@@ -15,15 +15,12 @@
  */
 package org.socraticgrid.hl7.ucs.nifi.processor.command;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
-
 import org.apache.nifi.annotation.behavior.EventDriven;
 import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.Tags;
@@ -39,12 +36,12 @@ import org.socraticgrid.hl7.ucs.nifi.controller.UCSController;
 
 /**
  *
- * @author pavan
+ * @author esteban
  */
 @EventDriven
-@Tags({"UCS", "Alert", "Command"})
-@CapabilityDescription("Registers a URL as a callback for the UCS Alert Interface.")
-public class UCSRegisterUCSAlertingCallback extends AbstractProcessor {
+@Tags({"UCS", "Alerting", "Command"})
+@CapabilityDescription("Unregisters a callback previously registered callback for the UCS Alerting Interface.")
+public class UCSUnregisterUCSAlertingCallback extends AbstractProcessor {
 
     public static final PropertyDescriptor UCS_CONTROLLER_SERVICE = new PropertyDescriptor.Builder()
             .name("UCS Controller Service")
@@ -93,31 +90,18 @@ public class UCSRegisterUCSAlertingCallback extends AbstractProcessor {
 
         UCSController ucsService = context.getProperty(UCS_CONTROLLER_SERVICE).asControllerService(UCSController.class);
 
-        String callbackURLAsString = flowFile.getAttribute("command.args"); 
-        
-        if (callbackURLAsString == null || callbackURLAsString.trim().isEmpty()) {
-            logger.error("Missing arg #1: callback URL. Routing FlowFile {} to {}.", new Object[]{flowFile, REL_FAILURE});
+        String registrationId = flowFile.getAttribute("command.args");
+
+        if (registrationId == null || registrationId.trim().isEmpty()) {
+            logger.error("Missing arg #1: RegistrationId. Routing FlowFile {} to {}.", new Object[]{flowFile, REL_FAILURE});
             session.transfer(flowFile, REL_FAILURE);
             session.getProvenanceReporter().route(flowFile, REL_FAILURE);
             return;
         }
 
-        URL url;
-        try {
-            url = new URL(callbackURLAsString);
-        } catch (MalformedURLException ex) {
-            logger.error("arg #1 (callback URL) is not a valid URL. Routing FlowFile {} to {}.", new Object[]{flowFile, REL_FAILURE}, ex);
-            session.transfer(flowFile, REL_FAILURE);
-            session.getProvenanceReporter().route(flowFile, REL_FAILURE);
-            return;
-        }
+        ucsService.unregisterUCSAlertingCallback(registrationId);
 
-        String registrationId = ucsService.registerUCSAlertingCallback(url);
-
-        logger.debug("URL Callback '{}' registered in UCSController with registrationId {}. Routing FlowFile {} to {}.", new Object[]{callbackURLAsString, registrationId, flowFile, REL_SUCCESS});
-        
-        flowFile = session.putAttribute(flowFile, "ucs.registration.id", registrationId);
-        session.getProvenanceReporter().modifyAttributes(flowFile);
+        logger.debug("URL Callback with Registration id '{}' successfully unregistered from UCSController. Routing FlowFile {} to {}.", new Object[]{registrationId, registrationId, flowFile, REL_SUCCESS});
         
         session.transfer(flowFile, REL_SUCCESS);
         session.getProvenanceReporter().route(flowFile, REL_SUCCESS);

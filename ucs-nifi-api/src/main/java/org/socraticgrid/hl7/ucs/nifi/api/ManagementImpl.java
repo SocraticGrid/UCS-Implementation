@@ -40,6 +40,7 @@ import org.socraticgrid.hl7.ucs.nifi.common.model.UCSStatus;
 import org.socraticgrid.hl7.ucs.nifi.common.model.XMLListWrapper;
 import org.socraticgrid.hl7.ucs.nifi.common.serialization.AdapterSerializer;
 import org.socraticgrid.hl7.ucs.nifi.common.serialization.UCSStatusSerializer;
+import org.socraticgrid.hl7.ucs.nifi.core.NiFiCommandResponse;
 import org.socraticgrid.hl7.ucs.nifi.core.NiFiHTTPBroker;
 
 /**
@@ -59,9 +60,9 @@ public class ManagementImpl implements ManagementIntf {
     @Override
     public List<ServiceInfo> discoverChannels() throws FeatureNotSupportedException {
         try{ 
-            String result =  niFiHTTPBroker.sendManagementCommand("discoverChannels", Optional.empty(), true);
+            NiFiCommandResponse result =  niFiHTTPBroker.sendManagementCommand("discoverChannels", Optional.empty(), true);
             
-            XMLListWrapper<Adapter> deserializedAdapters = AdapterSerializer.deserializeAdapters(result);
+            XMLListWrapper<Adapter> deserializedAdapters = AdapterSerializer.deserializeAdapters(result.getBody());
 
             List<ServiceInfo> results = new ArrayList<>();
             
@@ -91,9 +92,9 @@ public class ManagementImpl implements ManagementIntf {
     @Override
     public List<Status> getStatus(String capablityType, List<String> capabilityIds) throws InvalidMessageException, InvalidContentException, InvalidConversationException, UnknownServiceException, ServiceAdapterFaultException, FeatureNotSupportedException {
         try{ 
-            String result =  niFiHTTPBroker.sendManagementCommand("getStatus", Optional.empty(), true);
+            NiFiCommandResponse result =  niFiHTTPBroker.sendManagementCommand("getStatus", Optional.empty(), true);
             
-            UCSStatus deserializedStatus = UCSStatusSerializer.deserializeUCSStatus(result);
+            UCSStatus deserializedStatus = UCSStatusSerializer.deserializeUCSStatus(result.getBody());
 
             List<Status> results = new ArrayList<>();
             

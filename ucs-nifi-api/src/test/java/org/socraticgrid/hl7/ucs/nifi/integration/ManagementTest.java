@@ -35,7 +35,6 @@ import org.socraticgrid.hl7.services.uc.model.Status;
 public class ManagementTest extends BaseIntegrationTest {
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void discoverChannelsTest() throws Exception {
         List<ServiceInfo> discoverChannels = this.management.discoverChannels();
         
@@ -48,7 +47,6 @@ public class ManagementTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void getStatusTest() throws Exception {
         List<Status> statuses = this.management.getStatus(null, null);
         

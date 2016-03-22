@@ -32,6 +32,10 @@ limitations under the License.
         process, store and manage all the messages.
     </description>
     
+    <properties>
+        <netbeans.hint.license>apache20</netbeans.hint.license>
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>org.socraticgrid.hl7</groupId>
@@ -72,9 +76,49 @@ limitations under the License.
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.socraticgrid</groupId>
+            <artifactId>config-utils</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <netbeans.hint.license>apache20</netbeans.hint.license>
-    </properties>
+    
+    <profiles>
+        <profile>
+            <!-- Skip integration tests by default -->
+            <id>no-it</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*.class</include>
+                            </includes>
+                            <excludedGroups>org.socraticgrid.hl7.ucs.nifi.integration.IntegrationTestMarker</excludedGroups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Execute all tests (including integration tests) -->
+            <id>it</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
 </project>

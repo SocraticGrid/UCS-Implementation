@@ -17,6 +17,7 @@ package org.socraticgrid.hl7.ucs.nifi.processor;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -113,7 +114,7 @@ public class UCSGetUCSAlertingCallbacks extends AbstractProcessor {
         final String callbackAttributeName = context.getProperty(CALLBACK_ATTRIBUTE_NAME).getValue();
         final Boolean removeProtocol = context.getProperty(REMOVE_PROTOCOL_FROM_URL).asBoolean();
 
-        Set<URL> ucsAlertingCallbacks = ucsService.getUCSAlertingCallbacks();
+        Collection<URL> ucsAlertingCallbacks = ucsService.getUCSAlertingCallbacks();
 
         if (ucsAlertingCallbacks.isEmpty()) {
             logger.debug("No UCS Alerting callback registered in UCSController. Routing FlowFile {} to {}.", new Object[]{flowFile, REL_EMPTY});

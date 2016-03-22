@@ -111,9 +111,13 @@ public class UCSRegisterUCSClientCallback extends AbstractProcessor {
             return;
         }
 
-        ucsService.registerUCSClientCallback(url);
+        String registrationId = ucsService.registerUCSClientCallback(url);
 
-        logger.debug("URL Callback '{}' registered in UCSController. Routing FlowFile {} to {}.", new Object[]{callbackURLAsString, flowFile, REL_SUCCESS});
+        logger.debug("URL Callback '{}' registered in UCSController with registrationId {}. Routing FlowFile {} to {}.", new Object[]{callbackURLAsString, registrationId, flowFile, REL_SUCCESS});
+        
+        flowFile = session.putAttribute(flowFile, "ucs.registration.id", registrationId);
+        session.getProvenanceReporter().modifyAttributes(flowFile);
+        
         session.transfer(flowFile, REL_SUCCESS);
         session.getProvenanceReporter().route(flowFile, REL_SUCCESS);
 

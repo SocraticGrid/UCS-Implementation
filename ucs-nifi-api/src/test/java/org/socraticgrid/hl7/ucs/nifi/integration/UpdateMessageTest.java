@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.socraticgrid.hl7.services.uc.exceptions.UpdateException;
 import org.socraticgrid.hl7.services.uc.model.AlertMessage;
@@ -55,7 +54,6 @@ public class UpdateMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void alertStatusUpdateTest() throws Exception {
         AlertMessage alertMessage = (AlertMessage) messageWrapper.getMessage();
         alertMessage.getHeader().setAlertStatus(AlertStatus.Acknowledged);
@@ -69,7 +67,6 @@ public class UpdateMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void alertStatusDoubleUpdateTest() throws Exception {
         AlertMessage alertMessage = (AlertMessage) messageWrapper.getMessage();
         alertMessage.getHeader().setAlertStatus(AlertStatus.Acknowledged);
@@ -91,7 +88,6 @@ public class UpdateMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void alertStatusInvalidUpdateTest() throws Exception {
         AlertMessage alertMessage = (AlertMessage) messageWrapper.getMessage();
         alertMessage.getHeader().setAlertStatus(AlertStatus.Expired);
@@ -108,7 +104,6 @@ public class UpdateMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void alertStatusInvalidMessageIdTest() throws Exception {
         AlertMessage alertMessage = (AlertMessage) messageWrapper.getMessage();
         alertMessage.getHeader().setMessageId(messageId+"xxx");
@@ -127,7 +122,6 @@ public class UpdateMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void alertStatusInvalidMessageTypeTest() throws Exception {
         String newMessageId = UUID.randomUUID().toString();
         

@@ -40,7 +40,6 @@ import org.socraticgrid.hl7.ucs.nifi.common.util.AlertMessageBuilder;
 public class ConversationTest extends BaseIntegrationTest {
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void createConversationTest() throws Exception {
         
         Conversation c = new Conversation();
@@ -53,7 +52,6 @@ public class ConversationTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void createConversationWithNoIdTest() throws Exception {
         
         Conversation c = new Conversation();
@@ -66,7 +64,6 @@ public class ConversationTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void createConversationWithDuplicatedIdTest() throws Exception {
         
         String conversationId = UUID.randomUUID().toString();
@@ -85,7 +82,6 @@ public class ConversationTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void retrieveConversationTest() throws Exception {
         
         Conversation c = new Conversation();
@@ -101,7 +97,6 @@ public class ConversationTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void retrieveConversationWithMessagesTest() throws Exception {
         String message1Id = UUID.randomUUID().toString();
         String message2Id = UUID.randomUUID().toString();
@@ -143,7 +138,6 @@ public class ConversationTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void retrieveNonExistentConversationTest() throws Exception {
         
         Conversation c = new Conversation();

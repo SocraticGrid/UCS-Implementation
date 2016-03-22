@@ -52,6 +52,11 @@ public class NiFiHTTPBroker {
         private final URL commandURL;
         private final String clientHost;
         private final int clientPort;
+        /**
+         * If the clientPort was 0, this property will contain the assigned port
+         * during runtime.
+         */
+        private int assignedClientPort;
         private HttpServer callbackListener;
 
         public ClientEndpoint(URL commandURL, String clientHost, int clientPort) {
@@ -72,6 +77,14 @@ public class NiFiHTTPBroker {
             return clientPort;
         }
 
+        public void setAssignedClientPort(int assignedClientPort) {
+            this.assignedClientPort = assignedClientPort;
+        }
+        
+        public int getAssignedClientPort() {
+            return assignedClientPort;
+        }
+
         public HttpServer getCallbackListener() {
             return callbackListener;
         }
@@ -83,6 +96,7 @@ public class NiFiHTTPBroker {
     
     public static class ClientEndpointWithListener<T> extends ClientEndpoint  {
         private final T listener;
+        private String registrationId;
 
         public ClientEndpointWithListener(URL commandURL, String clientHost, int clientPort, T listener) {
             super(commandURL, clientHost, clientPort);
@@ -91,6 +105,14 @@ public class NiFiHTTPBroker {
 
         public T getListener() {
             return listener;
+        }
+
+        public String getRegistrationId() {
+            return registrationId;
+        }
+
+        public void setRegistrationId(String registrationId) {
+            this.registrationId = registrationId;
         }
         
     }
@@ -152,12 +174,16 @@ public class NiFiHTTPBroker {
         this.ucsClientEndpoint.getCallbackListener().createContext("/response", new UCSClientResponseHandler(this.ucsClientEndpoint.getListener()));
         
         this.ucsClientEndpoint.getCallbackListener().start();
+        //Update the port in case it was 0
+        this.ucsClientEndpoint.setAssignedClientPort(this.ucsClientEndpoint.getCallbackListener().getAddress().getPort());
+        LOG.debug("UCS Local Client Port is {}", this.ucsClientEndpoint.getAssignedClientPort());
     }
     
     public void startUCSClientListener() throws IOException, InterruptedException {
         try {
             //register the UCSClient in Nifi
-            this.sendClientCommand("registerUCSClientCallback", Optional.of(Arrays.asList("http://"+this.ucsClientEndpoint.getClientHost()+":"+this.ucsClientEndpoint.getClientPort())), true);
+            NiFiCommandResponse response = this.sendClientCommand("registerUCSClientCallback", Optional.of(Arrays.asList("http://"+this.ucsClientEndpoint.getClientHost()+":"+this.ucsClientEndpoint.getAssignedClientPort())), true);
+            this.ucsClientEndpoint.setRegistrationId(response.getHeaderAttributeFirstValue("Ucs.registration.id"));
         } catch (UCSException ex) {
             throw new IllegalStateException("Unable to register UCSClient listener endpoint", ex);
         }
@@ -174,13 +200,17 @@ public class NiFiHTTPBroker {
         this.ucsAlertingEndpoint.getCallbackListener().createContext("/alertMessageCancelled", new UCSAlertingMessageCanceledHandler(this.ucsAlertingEndpoint.getListener()));
         
         this.ucsAlertingEndpoint.getCallbackListener().start();
+        //Update the port in case it was 0
+        this.ucsAlertingEndpoint.setAssignedClientPort(this.ucsAlertingEndpoint.getCallbackListener().getAddress().getPort());
+        LOG.debug("UCS Local Alerting Port is {}", this.ucsAlertingEndpoint.getAssignedClientPort());
         
     }
     
     public void startUCSAlertingListener() throws IOException, InterruptedException {
         //register the UCSAlerting in Nifi
         try{
-            this.sendAlertingCommand("registerUCSAlertingCallback", Optional.of(Arrays.asList("http://"+this.ucsAlertingEndpoint.getClientHost()+":"+this.ucsAlertingEndpoint.getClientPort())), true);
+            NiFiCommandResponse response = this.sendAlertingCommand("registerUCSAlertingCallback", Optional.of(Arrays.asList("http://"+this.ucsAlertingEndpoint.getClientHost()+":"+this.ucsAlertingEndpoint.getAssignedClientPort())), true);
+            this.ucsAlertingEndpoint.setRegistrationId(response.getHeaderAttributeFirstValue("Ucs.registration.id"));
         } catch (UCSException ex) {
             throw new IllegalStateException("Unable to register UCSAlerting listener endpoint", ex);
         }
@@ -193,7 +223,9 @@ public class NiFiHTTPBroker {
         this.managementEndpoint.getCallbackListener().setExecutor(Executors.newCachedThreadPool());
         
         this.managementEndpoint.getCallbackListener().start();
-        
+        //Update the port in case it was 0
+        this.managementEndpoint.setAssignedClientPort(this.managementEndpoint.getCallbackListener().getAddress().getPort());
+        LOG.debug("UCS Local Management Port is {}", this.managementEndpoint.getAssignedClientPort());
     }
     
     public void startConversationEndpoint() throws IOException, InterruptedException {
@@ -203,6 +235,9 @@ public class NiFiHTTPBroker {
         this.conversationEndpoint.getCallbackListener().setExecutor(Executors.newCachedThreadPool());
         
         this.conversationEndpoint.getCallbackListener().start();
+        //Update the port in case it was 0
+        this.conversationEndpoint.setAssignedClientPort(this.conversationEndpoint.getCallbackListener().getAddress().getPort());
+        LOG.debug("UCS Local Conversation Port is {}", this.conversationEndpoint.getAssignedClientPort());
         
     }
     
@@ -219,12 +254,24 @@ public class NiFiHTTPBroker {
     
     public void stopClientEndpoint() throws IOException {
         if (this.ucsClientEndpoint.getCallbackListener() != null){
+            try{
+                this.sendClientCommand("unregisterUCSClientCallback", Optional.of(Arrays.asList(this.ucsClientEndpoint.getRegistrationId())), false);
+                LOG.debug("UCS Client Endpoint with RegistrationId '{}' successfully unregistered!", this.ucsClientEndpoint.getRegistrationId());
+            } catch(InterruptedException | UCSException e){
+                LOG.warn("Error stopping client endpoint.", e);
+            }
             this.ucsClientEndpoint.getCallbackListener().stop(2);
         }
     }
     
     public void stopAlertingEndpoint() throws IOException {
         if (this.ucsAlertingEndpoint.getCallbackListener() != null){
+            try{
+                this.sendAlertingCommand("unregisterUCSAlertingCallback", Optional.of(Arrays.asList(this.ucsAlertingEndpoint.getRegistrationId())), false);
+                LOG.debug("UCS Alerting Endpoint with RegistrationId '{}' successfully unregistered!", this.ucsAlertingEndpoint.getRegistrationId());
+            } catch(InterruptedException | UCSException e){
+                LOG.warn("Error stopping alerting endpoint.", e);
+            }
             this.ucsAlertingEndpoint.getCallbackListener().stop(2);
         }
     }
@@ -241,32 +288,32 @@ public class NiFiHTTPBroker {
         }
     }
     
-    public String sendClientCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
+    public NiFiCommandResponse sendClientCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
         return this.sendCommand(ucsClientEndpoint, name, args, waitForResponse);
     }
     
-    public String sendAlertingCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
+    public NiFiCommandResponse sendAlertingCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
         return this.sendCommand(ucsAlertingEndpoint, name, args, waitForResponse);
     }
     
-    public String sendManagementCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
+    public NiFiCommandResponse sendManagementCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
         return this.sendCommand(managementEndpoint, name, args, waitForResponse);
     }
     
-    public String sendConversationCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
+    public NiFiCommandResponse sendConversationCommand(String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
         return this.sendCommand(conversationEndpoint, name, args, waitForResponse);
     }
     
-    public String sendCommand(ClientEndpoint endpoint, String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
+    public NiFiCommandResponse sendCommand(ClientEndpoint endpoint, String name, Optional<List<String>> args, boolean waitForResponse) throws IOException, InterruptedException, UCSException{
         
         String commandUUID = UUID.randomUUID().toString();
         
         String host = endpoint.getClientHost();
-        String port = ""+endpoint.getClientPort();
+        String port = ""+endpoint.getAssignedClientPort();
         String context = commandUUID;
         
         final CountDownLatch latch = new CountDownLatch(1);
-        final StringBuilder response = new StringBuilder();
+        final List<NiFiCommandResponse> commandResponses = new ArrayList<>();
         final List<NiFiHTTPExceptionHandler> exceptionHandlers = new ArrayList<>();
         
         if (waitForResponse){
@@ -275,11 +322,19 @@ public class NiFiHTTPBroker {
                 exceptionHandlers.add(new NiFiHTTPExceptionHandler(he));
                 
                 //get ther response
-                response.append(IOUtils.toString(he.getRequestBody()));
-
+                String responseBody = IOUtils.toString(he.getRequestBody());
+                
                 //send OK to Nifi
                 he.sendResponseHeaders(200, 0);
                 he.close();
+                
+                NiFiCommandResponse response = new NiFiCommandResponse();
+                response.setReceivedTimestamp(System.currentTimeMillis());
+                response.setCode(he.getResponseCode());
+                response.setBody(responseBody);
+                response.setHeaders(he.getRequestHeaders());
+                
+                commandResponses.add(response);
 
                 //release the latch
                 latch.countDown();
@@ -305,6 +360,8 @@ public class NiFiHTTPBroker {
         }
         buffer.append("</command>");
         
+        
+        long now = System.currentTimeMillis();
         this.sendPOST(endpoint.getCommandURL(), buffer.toString());
         
         //wait for response
@@ -312,11 +369,14 @@ public class NiFiHTTPBroker {
             try{
                 if (latch.await(COMMAND_RESPONSE_TIMEOUT, TimeUnit.SECONDS)){
                     
+                    
+                    LOG.debug("Command '{}' roundtrip milliseconds: {}.", name, (commandResponses.get(0).getReceivedTimestamp()- now));
+                    
                     //if the response was a UCSException, throw it
                     exceptionHandlers.get(0).throwUCSException();
                     
                     //Ok, we got a response before timeout!
-                    return response.toString();
+                    return commandResponses.get(0);
                 } else {
                     //Too bad... Timeout!
                     throw new IOException("Timeout while waiting for command response");

@@ -51,6 +51,7 @@ import org.socraticgrid.hl7.ucs.nifi.common.model.MessageWrapper;
 import org.socraticgrid.hl7.ucs.nifi.common.model.XMLListWrapper;
 import org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializationException;
 import org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializer;
+import org.socraticgrid.hl7.ucs.nifi.core.NiFiCommandResponse;
 import org.socraticgrid.hl7.ucs.nifi.core.NiFiHTTPBroker;
 
 /**
@@ -100,9 +101,9 @@ public class ClientImpl implements ClientIntf {
      */
     public List<Message> listMessages() throws InvalidQueryException {
         try {
-            String result = niFiHTTPBroker.sendClientCommand("getMessages", Optional.empty(), true);
+            NiFiCommandResponse result = niFiHTTPBroker.sendClientCommand("getMessages", Optional.empty(), true);
             
-            XMLListWrapper<MessageWrapper> messageWrapper = MessageSerializer.deserializeMessageWrappers(result);
+            XMLListWrapper<MessageWrapper> messageWrapper = MessageSerializer.deserializeMessageWrappers(result.getBody());
             
             return messageWrapper.getItems().stream()
                     .map(mw -> mw.getMessage())
@@ -117,9 +118,9 @@ public class ClientImpl implements ClientIntf {
     @Override
     public List<MessageSummary> queryMessage(String query) throws InvalidQueryException {
         try {
-            String result = niFiHTTPBroker.sendClientCommand("getMessages", Optional.empty(), true);
+            NiFiCommandResponse result = niFiHTTPBroker.sendClientCommand("getMessages", Optional.empty(), true);
             
-            XMLListWrapper<MessageWrapper> messageWrapper = MessageSerializer.deserializeMessageWrappers(result);
+            XMLListWrapper<MessageWrapper> messageWrapper = MessageSerializer.deserializeMessageWrappers(result.getBody());
             
             //TODO: this is only a hack to set some kind of Subject to messages
             //without it. This MUST be removed in the future!

@@ -25,7 +25,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.socraticgrid.hl7.services.uc.exceptions.ReadOnlyException;
 import org.socraticgrid.hl7.services.uc.model.AlertMessage;
@@ -42,7 +41,6 @@ import org.socraticgrid.hl7.ucs.nifi.common.util.AlertMessageBuilder;
 public class IntegrationTest extends BaseIntegrationTest {
 
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void testSendMessageAndCheck() throws Exception {
         
         final String messageId = UUID.randomUUID().toString();
@@ -75,7 +73,6 @@ public class IntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void testMessageWithUnknownConversation() throws Exception {
         final String conversationId = "UNKNOWN";
         final String messageId = UUID.randomUUID().toString();
@@ -96,7 +93,6 @@ public class IntegrationTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void testAlertMessageAndLifeCycle1() throws Exception {
 
         final String messageId = UUID.randomUUID().toString();

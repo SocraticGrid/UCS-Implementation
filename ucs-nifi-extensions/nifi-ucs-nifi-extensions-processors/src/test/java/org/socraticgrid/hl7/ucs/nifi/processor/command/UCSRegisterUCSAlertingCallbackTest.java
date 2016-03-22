@@ -16,12 +16,16 @@
 package org.socraticgrid.hl7.ucs.nifi.processor.command;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.apache.nifi.util.MockFlowFile;
 import org.apache.nifi.util.TestRunner;
 import org.apache.nifi.util.TestRunners;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.socraticgrid.hl7.ucs.nifi.common.serialization.MessageSerializationException;
@@ -80,6 +84,10 @@ public class UCSRegisterUCSAlertingCallbackTest extends UCSControllerServiceBase
         testRunner.run();
         
         testRunner.assertAllFlowFilesTransferred(UCSRegisterUCSAlertingCallback.REL_SUCCESS);
+        
+        List<MockFlowFile> ffs = testRunner.getFlowFilesForRelationship(UCSRegisterUCSAlertingCallback.REL_SUCCESS);
+        assertThat(ffs, hasSize(1));
+        assertThat(ffs.get(0).getAttribute("ucs.registration.id"), not(nullValue()));
         
         assertThat(controller.getUCSAlertingCallbacks(), hasSize(1));
         assertThat(controller.getUCSAlertingCallbacks().iterator().next().toString(), is(url));

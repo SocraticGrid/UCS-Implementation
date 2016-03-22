@@ -17,6 +17,7 @@ package org.socraticgrid.hl7.ucs.nifi.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -167,12 +168,17 @@ public class UCSControllerServiceProxy extends AbstractControllerService impleme
     }
 
     @Override
-    public void registerUCSClientCallback(URL callback) {
-        this.service.registerUCSClientCallback(callback);
+    public String registerUCSClientCallback(URL callback) {
+        return this.service.registerUCSClientCallback(callback);
     }
 
     @Override
-    public Set<URL> getUCSClientCallbacks() {
+    public void unregisterUCSClientCallback(String registrationId) {
+        this.service.unregisterUCSClientCallback(registrationId);
+    }
+    
+    @Override
+    public Collection<URL> getUCSClientCallbacks() {
         return this.service.getUCSClientCallbacks();
     }
 
@@ -202,12 +208,17 @@ public class UCSControllerServiceProxy extends AbstractControllerService impleme
     }
 
     @Override
-    public void registerUCSAlertingCallback(URL callback) {
-        this.service.registerUCSAlertingCallback(callback);
+    public String registerUCSAlertingCallback(URL callback) {
+        return this.service.registerUCSAlertingCallback(callback);
     }
 
     @Override
-    public Set<URL> getUCSAlertingCallbacks() {
+    public void unregisterUCSAlertingCallback(String registrationId) {
+        this.service.unregisterUCSAlertingCallback(registrationId);
+    }
+    
+    @Override
+    public Collection<URL> getUCSAlertingCallbacks() {
         return this.service.getUCSAlertingCallbacks();
     }
 

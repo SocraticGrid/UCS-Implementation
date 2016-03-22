@@ -15,6 +15,7 @@
  */
 package org.socraticgrid.hl7.ucs.nifi.integration;
 
+import com.cognitivemedicine.config.utils.ConfigUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,7 @@ import static org.hamcrest.Matchers.hasSize;
 import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
+import org.junit.experimental.categories.Category;
 import org.socraticgrid.hl7.services.uc.exceptions.ProcessingException;
 import org.socraticgrid.hl7.services.uc.interfaces.AlertingIntf;
 import org.socraticgrid.hl7.services.uc.interfaces.ClientIntf;
@@ -37,11 +39,29 @@ import org.socraticgrid.hl7.ucs.nifi.util.UCSAlertingAdapter;
 import org.socraticgrid.hl7.ucs.nifi.util.UCSClientAdapter;
 
 /**
- *
+ * Subclasses of this class expect a running instance of UCS. 
+ * The default NiFi host these tests are expecting is: {@link #DEFAULT_NIFI_HOST}.
+ * The default Client host these tests are expecting is: {@link #DEFAULT_CLIENT_HOST}.
+ * 
+ * You can change these values using the following system properties (or
+ * environment variables):
+ * <ul>
+ * <li>ucs.nifi.api.nifi.host</li>
+ * <li>ucs.nifi.api.client.host</li>
+ * </ul>
+ * 
  * @author esteban
  */
+@Category(IntegrationTestMarker.class)
 public class BaseIntegrationTest {
 
+    private final static String CONFIG_UTILS_CONTEXT = "ucs.nifi.api";
+    private final static String DEFAULT_CLIENT_HOST = "172.17.0.1";
+//    private final static String DEFAULT_CLIENT_HOST = "localhost";
+    
+    private final static String DEFAULT_NIFI_HOST = "localhost";
+    private final static String DEFAULT_SLEEP_TIME = "2000";
+    
     protected List<ProcessingException> exceptions = Collections.synchronizedList(new ArrayList<>());
     protected List<AlertMessage> alertingReceivedMessages = Collections.synchronizedList(new ArrayList<>());
     protected List<AlertMessage> alertingUpdatedMessages = Collections.synchronizedList(new ArrayList<>());
@@ -52,17 +72,19 @@ public class BaseIntegrationTest {
     protected AlertingIntf alerting;
     protected ManagementIntf management;
     protected ConversationIntf conversation;
+    
+    private long sleepTime = 2000;
 
     @Before
     public void doBefore() throws IOException, InterruptedException {
+        ConfigUtils configUtils = ConfigUtils.getInstance(CONFIG_UTILS_CONTEXT);
+        String clientHost = configUtils.getString("client.host", DEFAULT_CLIENT_HOST);
+        String nifiHost = configUtils.getString("nifi.host", DEFAULT_NIFI_HOST);
+        this.sleepTime = Long.parseLong(configUtils.getString("sleep.time", DEFAULT_SLEEP_TIME));
+        
         session = new UCSNiFiSession.UCSNiFiSessionBuilder()
-                .withAlertingCommandURL("http://localhost:8890/contentListener")
-                .withClientCommandURL("http://localhost:8889/contentListener")
-                .withManagementCommandURL("http://localhost:8891/contentListener")
-                .withConversationCommandURL("http://localhost:8892/contentListener")
-                .withNifiSendMessageURL("http://localhost:8888/contentListener")
-                .withUCSClientHost("localhost")
-                .withUCSClientPort(8555)
+                .withClientHost(clientHost)
+                .withNifiHost(nifiHost)
                 .withUCSClientListener(new UCSClientAdapter() {
 
                     @Override
@@ -140,7 +162,7 @@ public class BaseIntegrationTest {
     }
 
     protected void sleep() {
-        this.sleep(2000);
+        this.sleep(sleepTime);
     }
 
     protected void sleep(long time) {

@@ -47,5 +47,7 @@ org.socraticgrid.hl7.ucs.nifi.processor.command.UCSGetServiceStatus
 org.socraticgrid.hl7.ucs.nifi.processor.command.UCSGetSupportedAdapters
 org.socraticgrid.hl7.ucs.nifi.processor.command.UCSQueryConversations
 org.socraticgrid.hl7.ucs.nifi.processor.command.UCSRegisterUCSClientCallback
+org.socraticgrid.hl7.ucs.nifi.processor.command.UCSUnregisterUCSClientCallback
 org.socraticgrid.hl7.ucs.nifi.processor.command.UCSRegisterUCSAlertingCallback
+org.socraticgrid.hl7.ucs.nifi.processor.command.UCSUnregisterUCSAlertingCallback
 org.socraticgrid.hl7.ucs.nifi.processor.command.UCSRetrieveConversation

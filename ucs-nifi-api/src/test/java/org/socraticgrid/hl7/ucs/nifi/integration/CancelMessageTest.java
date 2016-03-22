@@ -19,7 +19,6 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.socraticgrid.hl7.services.uc.exceptions.InvalidMessageException;
 import org.socraticgrid.hl7.services.uc.exceptions.ReadOnlyException;
@@ -48,7 +47,6 @@ public class CancelMessageTest extends BaseIntegrationTest {
                 .withBody("Body")
                 .withSender("ealiverti")
                 .buildMessageWrapper();
-        
         client.sendMessage(new MessageModel(messageWrapper.getMessage()));
         this.sleep();
         this.assertListsSizesAndClear(1, 0, 0, 0);
@@ -56,7 +54,6 @@ public class CancelMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void cancelAlertTest() throws Exception{
         client.cancelMessage(messageId, true);
         this.sleep();
@@ -68,7 +65,6 @@ public class CancelMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void doubleCancelAlertTest() throws Exception{
         client.cancelMessage(messageId, true);
         this.sleep();
@@ -88,7 +84,6 @@ public class CancelMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void cancelUnknownAlertIdTest() throws Exception{
         
         try{
@@ -102,7 +97,6 @@ public class CancelMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void cancelInvalidMessageTypeTest() throws Exception{
         
         String newMessageId = UUID.randomUUID().toString();
@@ -132,7 +126,6 @@ public class CancelMessageTest extends BaseIntegrationTest {
     }
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void cancelAlertAndTryToUpdateTest() throws Exception{
         client.cancelMessage(messageId, true);
         this.sleep();
@@ -164,7 +157,6 @@ public class CancelMessageTest extends BaseIntegrationTest {
     
     
     @Test
-    @Ignore("We need a running instance of NiFi here")
     public void cancelAcknowledgedAlertTest() throws Exception{
         
         //ACK the alert
