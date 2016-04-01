@@ -41,7 +41,7 @@ the projects in this repository, you need to copy the generated file
 into NiFi's directiory `$NIFI_HOME/lib`
 
 A pre-built version of the UCS-related processors can be found as part of the 
-[ucs-docker repository](https://bitbucket.org/cogmedsys/ucs-docker/raw/a3b789d0d8864eb2ce7542aba7ed8fa8a977a9f0/ucs-nifi-docker/nifi-ucs-nifi-extensions-nar-0.5-SNAPSHOT.nar).
+[ucs-docker repository](https://bitbucket.org/cogmedsys/ucs-docker/raw/d47e648df61cdefd353365448e72ca3a476121f0/ucs-nifi-docker/nifi-ucs-nifi-extensions-nar-0.5-SNAPSHOT.nar).
 
 
 ### 4.- Configure NiFi Flow
