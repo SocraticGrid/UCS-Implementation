@@ -13,10 +13,10 @@ This is the home repository for the UCS implementation using NiFi workflow proce
 
 The first thing we need in order to run UCS-NiFi server is to setup a [NiFi](https://nifi.apache.org/) instance.
 
-You can either get the binaries from [here](https://nifi.incubator.apache.org/downloads), 
+You can either get the binaries from [here](https://nifi.apache.org/download.html), 
 or build it yourself by following the instructions [here](https://nifi.apache.org/quickstart.html).
 
-The current implementation of UCS was tested with NiFi version 0.4.1.
+The current implementation of UCS was tested with NiFi version 0.6.0.
 
 Before you start NiFi server, please complete the following steps.
 
@@ -26,22 +26,22 @@ Before you start NiFi server, please complete the following steps.
 UCS-NiFi uses a set of common processors that are placed in the [nifi-extensions repository](https://bitbucket.org/cogmedsys/nifi-extensions).
 
 You need to clone this repository and build it. Then, you need to copy the file 
-`$NIFI_EXTENSIONS_HOME/nifi-cognitive-extensions/nifi-cognitive-nar/target/nifi-cognitive-nar-0.2-SNAPSHOT.nar` 
+`$NIFI_EXTENSIONS_HOME/nifi-cognitive-extensions/nifi-cognitive-nar/target/nifi-cognitive-nar-0.3-SNAPSHOT.nar` 
 into NiFi's directory `$NIFI_HOME/lib`.
 
 A pre-built version of the common processors can be found as part of the 
-[ucs-docker repository](https://bitbucket.org/cogmedsys/ucs-docker/raw/a3b789d0d8864eb2ce7542aba7ed8fa8a977a9f0/ucs-nifi-docker/nifi-cognitive-nar-0.2-SNAPSHOT.nar).
+[ucs-docker repository](https://bitbucket.org/cogmedsys/ucs-docker/raw/a3b789d0d8864eb2ce7542aba7ed8fa8a977a9f0/ucs-nifi-docker/nifi-cognitive-nar-0.3-SNAPSHOT.nar).
 
 
 ### 3.- Build this project
 
 This repository contains a NiFi-based implementation of UCS. After you build all 
 the projects in this repository, you need to copy the generated file 
-`$UCS_IMPLEMENTATION_HOME/ucs-nifi-extensions/nifi-ucs-nifi-extensions-nar/target/nifi-ucs-nifi-extensions-nar-0.4-SNAPSHOT.nar` 
+`$UCS_IMPLEMENTATION_HOME/ucs-nifi-extensions/nifi-ucs-nifi-extensions-nar/target/nifi-ucs-nifi-extensions-nar-0.5-SNAPSHOT.nar` 
 into NiFi's directiory `$NIFI_HOME/lib`
 
 A pre-built version of the UCS-related processors can be found as part of the 
-[ucs-docker repository](https://bitbucket.org/cogmedsys/ucs-docker/raw/a3b789d0d8864eb2ce7542aba7ed8fa8a977a9f0/ucs-nifi-docker/nifi-ucs-nifi-extensions-nar-0.4-SNAPSHOT.nar).
+[ucs-docker repository](https://bitbucket.org/cogmedsys/ucs-docker/raw/a3b789d0d8864eb2ce7542aba7ed8fa8a977a9f0/ucs-nifi-docker/nifi-ucs-nifi-extensions-nar-0.5-SNAPSHOT.nar).
 
 
 ### 4.- Configure NiFi Flow
