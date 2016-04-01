@@ -51,7 +51,7 @@ UCS flow).
 
 Different versions of the UCS flow can be found in 
 [ucs-nifi-extensions/nifi-ucs-nifi-extensions-processors](/ucs-nifi-extensions/nifi-ucs-nifi-extensions-processors/src/test/resources/nifi-templates)
-module. Starting from **v29**, these templates can be used in version 0.4.1 of NiFi.
+module. Starting from **v29**, these templates can be used in version 0.4.1 of NiFi (or grater).
 Previous versions of the templates are outdated and they target older versions of NiFi.
 
 In order to tell NiFi which flow we want to run, we have to select the biggest
@@ -68,8 +68,16 @@ The property we should change inside this file is *nifi.web.http.port*.
 This configuration file contains many other configuration options that we may
 want to review in case something else needs to be configured.
 
+### 6.- Configure Contact Information
 
-### 6.- Import UCS template into NiFi
+By default, UCS will resolve any contact information (phone number, email, etc.)
+using a text configuration file that must be placed in `$NIFI_HOME/conf/`. The
+name of this configuration file must be `mock-users-contact.txt` and its content
+must be a CSV of: name, email, telephone number, chat id, text to voice number.
+
+An example of this file can be obtained [here](/ucs-nifi-extensions/nifi-ucs-nifi-extensions-processors/src/test/resources/mock-users-contact.txt).
+
+### 7.- Starting NiFi
 
 From NiFi's `bin` directory, run the command `./nifi.sh start`.
 

@@ -15,10 +15,13 @@
  */
 package org.socraticgrid.hl7.ucs.nifi.controller.user;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.io.IOUtils;
 import org.apache.nifi.annotation.lifecycle.OnEnabled;
 
 import org.apache.nifi.components.PropertyDescriptor;
@@ -34,6 +37,8 @@ import org.socraticgrid.hl7.services.uc.model.UserContactInfo;
  */
 public class MOCKUserContactInfoResolverControllerImpl extends AbstractControllerService implements UserContactInfoResolverController {
     
+    public static final String MOCK_CONTACTS_FILE = "/mock-users-contact.txt";
+    
     public static final String SERVICE_TYPE_SMS = "SMS";
     public static final String SERVICE_TYPE_EMAIL = "EMAIL";
     public static final String SERVICE_TYPE_CHAT = "CHAT";
@@ -42,10 +47,28 @@ public class MOCKUserContactInfoResolverControllerImpl extends AbstractControlle
     private final Map<String, UserContactInfo> data = new HashMap<>();
 
     public MOCKUserContactInfoResolverControllerImpl() {
-        //create some MOCK UserContactInfo
-        data.put("eafry", this.mockUserContactInfo("eafry", "eafry@cognitivemedicine.com","19717130576", "eafry@socraticgrid.org", "19717130576"));
-        data.put("jhughes", this.mockUserContactInfo("jhughes", "jhughes@cognitivemedicine.com","000000000", "jhughes@socraticgrid.org","000000000"));
-        data.put("ealiverti", this.mockUserContactInfo("ealiverti", "ealiverti@cognitivemedicine.com","491623342171", "ealiverti@socraticgrid.org","+4981614923621"));
+        
+        InputStream mockContactsFile = MOCKUserContactInfoResolverControllerImpl.class.getResourceAsStream(MOCK_CONTACTS_FILE);
+        
+        if (mockContactsFile == null){
+            throw new IllegalStateException("Mock Contact file "+MOCK_CONTACTS_FILE+" couldn't be found");
+        }
+        
+        try {
+            List<String> lines = IOUtils.readLines(mockContactsFile);
+            lines.stream().map(l -> l.trim()).filter(l -> !l.isEmpty() && !l.startsWith("#")).forEach((String l) -> {
+                //The expected format is: name, email, telephone number, chat id, text to voice number.
+                String[] parts = l.split(",");
+                if (parts.length != 5){
+                    throw new IllegalArgumentException("Line '"+l+"' from "+MOCK_CONTACTS_FILE+" doesn't contain 5 elements.");
+                }
+                
+                data.put(parts[0].trim(), this.mockUserContactInfo(parts[0].trim(), parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()));
+            });
+        } catch (IOException ex) {
+            throw new IllegalStateException("Error reading information from "+MOCK_CONTACTS_FILE, ex);
+        }
+        
     }
     
     @Override

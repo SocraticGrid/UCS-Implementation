@@ -1,0 +1,4 @@
+#The expected format is: name, email, telephone number, chat id, text to voice number.
+eafry, eafry@cognitivemedicine.com, 12345678901, eafry@socraticgrid.org, 12345678901
+jhughes, jhughes@cognitivemedicine.com, 000000000, jhughes@socraticgrid.org, 000000000
+ealiverti, ealiverti@cognitivemedicine.com, 09876543212, ealiverti@socraticgrid.org, +09876543212
