@@ -89,6 +89,7 @@ public class CreateUCSSessionCommand implements Command {
                     .withNifiManagementCommandPort(nifiManagementCommandPort)
                     .withNifiConversationCommandPort(nifiConversationCommandPort)
                     .withNifiSendMessageCommandPort(nifiSendMessageCommandPort)
+                    .withClientHost(clientsHost)
                     .withUCSClientListener(new UCSClientIntf() {
 
                         @Override
