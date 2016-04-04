@@ -37,7 +37,7 @@ import org.socraticgrid.hl7.services.uc.model.UserContactInfo;
  */
 public class MOCKUserContactInfoResolverControllerImpl extends AbstractControllerService implements UserContactInfoResolverController {
     
-    public static final String MOCK_CONTACTS_FILE = "/mock-users-contact.txt";
+    public static final String MOCK_CONTACTS_FILE = "/contact/mock-users-contact.txt";
     
     public static final String SERVICE_TYPE_SMS = "SMS";
     public static final String SERVICE_TYPE_EMAIL = "EMAIL";
