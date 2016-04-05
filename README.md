@@ -71,8 +71,8 @@ want to review in case something else needs to be configured.
 ### 6.- Configure Contact Information
 
 By default, UCS will resolve any contact information (phone number, email, etc.)
-using a text configuration file that must be placed in `$NIFI_HOME/conf/`. The
-name of this configuration file must be `mock-users-contact.txt` and its content
+using a text configuration file that must be placed in `$NIFI_HOME/conf/contact/`. 
+The name of this configuration file must be `mock-users-contact.txt` and its content
 must be a CSV of: name, email, telephone number, chat id, text to voice number.
 
 An example of this file can be obtained [here](/ucs-nifi-extensions/nifi-ucs-nifi-extensions-processors/src/test/resources/mock-users-contact.txt).
